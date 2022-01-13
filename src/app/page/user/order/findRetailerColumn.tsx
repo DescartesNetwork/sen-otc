@@ -1,4 +1,5 @@
-import SelectRetailer from './selectRetailer'
+import Tier from 'app/components/tier'
+import SelectRetailer from './actionSelectRetailer'
 
 export const RETAILER_COLUMN = [
   {
@@ -10,6 +11,7 @@ export const RETAILER_COLUMN = [
     title: 'TIER',
     dataIndex: 'tier',
     key: 'tier',
+    render: (tier: number) => <Tier tier={tier} />,
   },
   {
     title: 'FEE',
@@ -30,24 +32,30 @@ export const demoData = [
     fee: 0.001,
     retailer: '0x12..aBs',
     state: 1,
-    tier: 9,
+    tier: 0,
   },
   {
     fee: 0.002,
     retailer: '0x12..aBs',
     state: 1,
-    tier: 9,
+    tier: 0,
   },
   {
     fee: 0.0015,
     retailer: '0x12..aBs',
     state: 1,
-    tier: 9,
+    tier: 2,
   },
   {
     fee: 0.0021,
     retailer: '0x12..aBs',
     state: 1,
-    tier: 9,
+    tier: 1,
+  },
+  {
+    fee: 0.0021,
+    retailer: '0x12..aBs',
+    state: 1,
+    tier: 3,
   },
 ]

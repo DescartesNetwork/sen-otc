@@ -4,7 +4,7 @@ import { AppState } from 'app/model'
 import { useSelector } from 'react-redux'
 import Confirm from './confirm'
 import FindRetailer from './findRetailer'
-import OrderSelectToken from './orderSelectToken'
+import SelectToken from './selectToken'
 
 const Order = () => {
   const { orderStep } = useSelector((state: AppState) => state.main)
@@ -21,7 +21,7 @@ const Order = () => {
       <Col span={24} />
       <Col span={10}>
         <Card bordered={false} style={{ boxShadow: 'unset' }}>
-          {orderStep === OrderStep.SelectToken && <OrderSelectToken />}
+          {orderStep === OrderStep.SelectToken && <SelectToken />}
           {orderStep === OrderStep.FindRetailer && <FindRetailer />}
           {orderStep === OrderStep.Confirm && <Confirm />}
         </Card>

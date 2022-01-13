@@ -4,7 +4,7 @@ import { Button } from 'antd'
 import { OrderStep } from 'app/constant'
 import { setOrderStep } from 'app/model/main.controller'
 
-const SelectRetailer = () => {
+const ActionSelectRetailer = () => {
   const dispatch = useDispatch()
 
   const onSelectRetailer = () => {
@@ -18,4 +18,4 @@ const SelectRetailer = () => {
   )
 }
 
-export default SelectRetailer
+export default ActionSelectRetailer
