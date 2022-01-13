@@ -128,7 +128,12 @@ const Confirm = () => {
         </Card>
       </Col>
       <Col span={24}>
-        <Button type="primary" onClick={() => {}} loading={loading} block>
+        <Button
+          type="primary"
+          onClick={() => setLoading}
+          loading={loading}
+          block
+        >
           Confirm
         </Button>
       </Col>
