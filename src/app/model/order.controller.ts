@@ -6,9 +6,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export type OrderState = {
   bidMintAddress: string
-  bidAmount: number
+  bidAmount: string
   askMintAddress: string
-  askAmount: number
+  askAmount: string
 }
 
 /**
@@ -18,9 +18,9 @@ export type OrderState = {
 const NAME = 'main'
 const initialState: OrderState = {
   bidMintAddress: '',
-  bidAmount: 0,
+  bidAmount: '',
   askMintAddress: '',
-  askAmount: 0,
+  askAmount: '',
 }
 
 /**
@@ -34,7 +34,7 @@ export const setBidMint = createAsyncThunk<Partial<OrderState>, string>(
   },
 )
 
-export const setBidAmount = createAsyncThunk<Partial<OrderState>, number>(
+export const setBidAmount = createAsyncThunk<Partial<OrderState>, string>(
   `${NAME}/setBidAmount`,
   async (bidAmount) => {
     return { bidAmount }
@@ -48,7 +48,7 @@ export const setAskMint = createAsyncThunk<Partial<OrderState>, string>(
   },
 )
 
-export const setAskAmount = createAsyncThunk<Partial<OrderState>, number>(
+export const setAskAmount = createAsyncThunk<Partial<OrderState>, string>(
   `${NAME}/setAskAmount`,
   async (askAmount) => {
     return { askAmount }

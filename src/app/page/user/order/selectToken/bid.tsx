@@ -41,7 +41,7 @@ const Bid = () => {
             />
           }
           value={bidAmount}
-          onValue={(amount) => dispatch(setBidAmount(Number(amount)))}
+          onValue={(amount) => dispatch(setBidAmount(amount))}
         />
       </Col>
       <Col>

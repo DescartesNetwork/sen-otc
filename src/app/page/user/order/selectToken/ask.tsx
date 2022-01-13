@@ -41,7 +41,7 @@ const Ask = () => {
             />
           }
           value={askAmount}
-          onValue={(val) => dispatch(setAskAmount(Number(val)))}
+          onValue={(amount) => dispatch(setAskAmount(amount))}
         />
       </Col>
       <Col>
