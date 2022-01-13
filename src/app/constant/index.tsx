@@ -5,12 +5,9 @@ export enum OrderStep {
 }
 
 export enum OrderState {
-  Uninitialized = 0,
-  Open = 1,
-  Approved = 2,
-  Done = 3,
-  Rejected = 4,
-  Canceled = 5,
+  Approved = 1,
+  Rejected = 0,
+  Pending = 2,
 }
 
 export const RETAILER_DATA_SIZE = 161

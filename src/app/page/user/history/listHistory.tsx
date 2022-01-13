@@ -9,7 +9,7 @@ const ListHistory = () => {
       dataSource={demoData}
       rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
       pagination={false}
-      rowKey={(record) => Number(record.created_day)}
+      rowKey={(record) => record.created_day}
     />
   )
 }

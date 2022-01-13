@@ -45,7 +45,7 @@ const Order = () => {
           dataSource={demoData}
           rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
           pagination={false}
-          rowKey={(record) => Number(record.order_day)}
+          rowKey={(record) => record.order_day}
         />
       </Col>
     </Row>
