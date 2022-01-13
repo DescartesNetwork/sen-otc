@@ -6,6 +6,7 @@ export const useBidTokens = () => {
   const { retailers } = useSelector((state: AppState) => state)
   const [bidTokens, setBidTokens] = useState<string[]>([])
 
+  console.log('retailers', retailers)
   // Get all 'mint_bid' in list retailers data
   const getBidTokens = useCallback(() => {
     const mapHasTokens = new Map<string, boolean>()
