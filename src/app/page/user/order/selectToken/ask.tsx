@@ -5,9 +5,10 @@ import { Col, Row, Space, Typography } from 'antd'
 import TokenSelect from 'app/components/selectTokens'
 import NumericInput from 'shared/antd/numericInput'
 
-import { useAskMints } from 'app/hooks/useAskTokens'
+import { useAskMints } from 'app/hooks/useAskMints'
 import { AppDispatch, AppState } from 'app/model'
 import { setAskAmount, setAskMint } from 'app/model/order.controller'
+import MarketPrice from './marketPrice'
 
 const Ask = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -44,15 +45,8 @@ const Ask = () => {
           onValue={(amount) => dispatch(setAskAmount(amount))}
         />
       </Col>
-      <Col>
-        <Space size={4}>
-          <Typography.Text type="secondary" className="caption">
-            Available:
-          </Typography.Text>
-          <Typography.Text type="secondary" className="caption">
-            123
-          </Typography.Text>
-        </Space>
+      <Col span={24}>
+        <MarketPrice />
       </Col>
     </Row>
   )

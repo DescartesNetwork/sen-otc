@@ -1,13 +1,15 @@
 import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Col, Row, Space, Typography } from 'antd'
 import NumericInput from 'shared/antd/numericInput'
 import TokenSelect from 'app/components/selectTokens'
 
-import { useBidMints } from 'app/hooks/useBidTokens'
-import { useDispatch, useSelector } from 'react-redux'
+import { useBidMints } from 'app/hooks/useBidMints'
 import { AppDispatch, AppState } from 'app/model'
 import { setBidAmount, setBidMint } from 'app/model/order.controller'
+import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
+import { numeric } from 'shared/util'
 
 const Bid = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -15,6 +17,7 @@ const Bid = () => {
     order: { bidAmount, bidMintAddress },
   } = useSelector((state: AppState) => state)
   const { bidMints } = useBidMints()
+  const bidAccount = useAccountBalanceByMintAddress(bidMintAddress)
 
   const selectMintDefault = useCallback(() => {
     const defaultMint = bidMints[0]
@@ -50,7 +53,7 @@ const Bid = () => {
             Available:
           </Typography.Text>
           <Typography.Text type="secondary" className="caption">
-            123
+            {numeric(bidAccount.balance).format('0,0.[00]')}
           </Typography.Text>
         </Space>
       </Col>
