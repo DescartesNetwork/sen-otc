@@ -1,5 +1,6 @@
 import { Button, Col, Divider, Row, Select, Space, Typography } from 'antd'
 import { OrderStep } from 'app/constant'
+import { useBidTokens } from 'app/hooks/useBidTokens'
 import { setOrderStep } from 'app/model/main.controller'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -14,6 +15,7 @@ const SelectToken = ({
   value?: string
   onChange?: (value: any) => void
 }) => {
+  const { bidTokens } = useBidTokens()
   return (
     <Select
       className="otc-selection"
@@ -32,11 +34,11 @@ const SelectToken = ({
           <Typography.Text>Select</Typography.Text>
         </Space>
       </Select.Option>
-      {[1, 2, 3, 4].map((token, idx) => (
-        <Select.Option key={`${token}_${idx}`}>
+      {bidTokens.map((tokenAddress) => (
+        <Select.Option key={tokenAddress}>
           <Space>
-            <MintAvatar mintAddress="2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj" />
-            <MintName mintAddress="2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj" />
+            <MintAvatar mintAddress={tokenAddress} />
+            <MintName mintAddress={tokenAddress} />
           </Space>
         </Select.Option>
       ))}
