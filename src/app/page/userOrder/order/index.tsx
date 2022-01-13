@@ -10,15 +10,16 @@ const Order = () => {
   const { orderStep } = useSelector((state: AppState) => state.main)
 
   return (
-    <Row gutter={[24, 24]} justify="center">
-      <Col span={14}>
+    <Row gutter={[8, 8]} justify="center">
+      <Col span={10}>
         <Steps current={orderStep} size="small">
-          <Steps.Step>Select token</Steps.Step>
-          <Steps.Step>Find retailer</Steps.Step>
-          <Steps.Step>Confirm</Steps.Step>
+          <Steps.Step title="Select token" />
+          <Steps.Step title="Find retailer" />
+          <Steps.Step title="Confirm" />
         </Steps>
       </Col>
-      <Col span={14}>
+      <Col span={24} />
+      <Col span={10}>
         <Card bordered={false} style={{ boxShadow: 'unset' }}>
           {orderStep === OrderStep.SelectToken && <OrderSelectToken />}
           {orderStep === OrderStep.FindRetailer && <FindRetailer />}

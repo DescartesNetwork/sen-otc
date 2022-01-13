@@ -1,9 +1,10 @@
-import { Button, Col, Row, Select, Space, Typography } from 'antd'
+import { Button, Col, Divider, Row, Select, Space, Typography } from 'antd'
 import { OrderStep } from 'app/constant'
 import { setOrderStep } from 'app/model/main.controller'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import IonIcon from 'shared/antd/ionicon'
+import { MintAvatar, MintName } from 'shared/antd/mint'
 import NumericInput from 'shared/antd/numericInput'
 
 const SelectToken = ({
@@ -14,10 +15,28 @@ const SelectToken = ({
   onChange?: (value: any) => void
 }) => {
   return (
-    <Select value={value} onChange={onChange}>
-      <Select.Option key="Select">Select</Select.Option>
+    <Select
+      value={value}
+      onChange={onChange}
+      bordered={false}
+      suffixIcon={<Divider type="vertical" />}
+    >
+      <Select.Option key="Select">
+        <Space>
+          <MintAvatar
+            mintAddress="Select"
+            icon={<IonIcon name="help-outline" />}
+          />
+          <Typography.Text>Select token</Typography.Text>
+        </Space>
+      </Select.Option>
       {[1, 2, 3, 4].map((token, idx) => (
-        <Select.Option key={`${token}_${idx}`}>Token {token}</Select.Option>
+        <Select.Option key={`${token}_${idx}`}>
+          <Space>
+            <MintAvatar mintAddress="2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj" />
+            <MintName mintAddress="2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj" />
+          </Space>
+        </Select.Option>
       ))}
     </Select>
   )
@@ -25,11 +44,11 @@ const SelectToken = ({
 
 const FieldSelectToken = ({
   label = '',
-  sub = '',
+  subLabel = '',
   subValue = '',
 }: {
   label?: string
-  sub?: string
+  subLabel?: string
   subValue?: number | string
 }) => {
   const [inputValue, setInputValue] = useState('')
@@ -42,6 +61,7 @@ const FieldSelectToken = ({
       </Col>
       <Col span={24}>
         <NumericInput
+          size="large"
           prefix={
             <SelectToken value={selectedToken} onChange={setSelectedToken} />
           }
@@ -53,7 +73,7 @@ const FieldSelectToken = ({
         <Col>
           <Space size={4}>
             <Typography.Text type="secondary" className="caption">
-              {sub}:
+              {subLabel}:
             </Typography.Text>
             <Typography.Text type="secondary" className="caption">
               {subValue}
@@ -71,19 +91,28 @@ const OrderSelectToken = () => {
     dispatch(setOrderStep(OrderStep.FindRetailer))
   }
   return (
-    <Row gutter={[16, 16]} justify="center">
+    <Row gutter={[24, 24]} justify="center">
       <Col span={24}>
-        <FieldSelectToken label="From" sub="Availabel" subValue="12 USDC" />
+        <FieldSelectToken
+          label="From"
+          subLabel="Availabel"
+          subValue="12 USDC"
+        />
       </Col>
       <Col>
         <IonIcon name="swap-vertical-outline" />
       </Col>
       <Col span={24}>
-        <FieldSelectToken
-          label="From"
-          sub="Market price"
-          subValue="1 USD = 30 SNTR"
-        />
+        <Row gutter={[8, 8]}>
+          <Col span={24}>
+            <FieldSelectToken label="To" />
+          </Col>
+          <Col span={24}>
+            <Typography.Text type="secondary">
+              Market price: 1 USDC = 39.55 SNTR
+            </Typography.Text>
+          </Col>
+        </Row>
       </Col>
       <Col span={24}>
         <Button type="primary" onClick={onFindRetailer} block>
