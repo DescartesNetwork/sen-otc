@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Row, Col, Image, Switch, Typography, Space } from 'antd'
+import { Row, Col, Image, Switch, Typography, Space, Card } from 'antd'
 import User from './user'
 import Retailer from './retailer'
 
@@ -15,8 +15,14 @@ const Page = () => {
       <Row gutter={[24, 24]} justify="center">
         <Col span={18}>
           <Row gutter={[24, 24]}>
-            <Col span={24} className="banner-otc">
-              <Image src={HeroBanner} preview={false} />
+            <Col span={24}>
+              <Card
+                bodyStyle={{ padding: 0 }}
+                className="banner-otc"
+                bordered={false}
+              >
+                <Image src={HeroBanner} preview={false} />
+              </Card>
             </Col>
             <Col span={24}>
               <Row gutter={[12, 12]}>
