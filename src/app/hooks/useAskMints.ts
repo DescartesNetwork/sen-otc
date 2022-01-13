@@ -1,10 +1,13 @@
-import { AppState } from 'app/model'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+
+import { AppState } from 'app/model'
+import { useSortedMint } from './useSortedMint'
 
 export const useAskMints = (): { askMints: string[] } => {
   const { retailers } = useSelector((state: AppState) => state)
   const [askMints, setAskMints] = useState<string[]>([])
+  const { sortedMints } = useSortedMint(askMints)
 
   // Get all 'mint_ask' in list retailers data
   const getAskMints = useCallback(() => {
@@ -23,5 +26,5 @@ export const useAskMints = (): { askMints: string[] } => {
     getAskMints()
   }, [getAskMints])
 
-  return { askMints }
+  return { askMints: sortedMints }
 }

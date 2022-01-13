@@ -1,12 +1,14 @@
-import { AppState } from 'app/model'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+
+import { AppState } from 'app/model'
+import { useSortedMint } from './useSortedMint'
 
 export const useBidMints = () => {
   const { retailers } = useSelector((state: AppState) => state)
   const [bidMints, setBidMints] = useState<string[]>([])
+  const { sortedMints } = useSortedMint(bidMints)
 
-  console.log('retailers', retailers)
   // Get all 'mint_bid' in list retailers data
   const getBidMints = useCallback(() => {
     const mapHasMints = new Map<string, boolean>()
@@ -24,5 +26,5 @@ export const useBidMints = () => {
     getBidMints()
   }, [getBidMints])
 
-  return { bidMints }
+  return { bidMints: sortedMints }
 }
