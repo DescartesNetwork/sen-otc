@@ -10,7 +10,6 @@ import './index.less'
 
 const Page = () => {
   const [checked, setChecked] = useState(false)
-
   return (
     <Row gutter={[24, 24]} justify="center">
       <Col span={18}>
