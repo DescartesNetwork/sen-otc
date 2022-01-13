@@ -2,27 +2,27 @@ import { AppState } from 'app/model'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-export const useBidTokens = () => {
+export const useBidMints = () => {
   const { retailers } = useSelector((state: AppState) => state)
-  const [bidTokens, setBidTokens] = useState<string[]>([])
+  const [bidMints, setBidMints] = useState<string[]>([])
 
   console.log('retailers', retailers)
   // Get all 'mint_bid' in list retailers data
-  const getBidTokens = useCallback(() => {
-    const mapHasTokens = new Map<string, boolean>()
-    const newBidTokens = []
+  const getBidMints = useCallback(() => {
+    const mapHasMints = new Map<string, boolean>()
+    const newBidMints = []
     for (const addr in retailers) {
       const { mint_bid } = retailers[addr]
-      if (mapHasTokens.has(mint_bid)) continue
-      newBidTokens.push(mint_bid)
-      mapHasTokens.set(mint_bid, true)
+      if (mapHasMints.has(mint_bid)) continue
+      newBidMints.push(mint_bid)
+      mapHasMints.set(mint_bid, true)
     }
-    return setBidTokens(newBidTokens)
+    return setBidMints(newBidMints)
   }, [retailers])
 
   useEffect(() => {
-    getBidTokens()
-  }, [getBidTokens])
+    getBidMints()
+  }, [getBidMints])
 
-  return { bidTokens }
+  return { bidMints }
 }

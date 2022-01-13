@@ -2,26 +2,26 @@ import { AppState } from 'app/model'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-export const useAskTokens = () => {
+export const useAskMints = (): { askMints: string[] } => {
   const { retailers } = useSelector((state: AppState) => state)
-  const [askTokens, setAskTokens] = useState<string[]>([])
+  const [askMints, setAskMints] = useState<string[]>([])
 
   // Get all 'mint_ask' in list retailers data
-  const getAskTokens = useCallback(() => {
-    const mapHasTokens = new Map<string, boolean>()
-    const newAskTokens = []
+  const getAskMints = useCallback(() => {
+    const mapHasMints = new Map<string, boolean>()
+    const newAskMints = []
     for (const addr in retailers) {
       const { mint_ask } = retailers[addr]
-      if (mapHasTokens.has(mint_ask)) continue
-      newAskTokens.push(mint_ask)
-      mapHasTokens.set(mint_ask, true)
+      if (mapHasMints.has(mint_ask)) continue
+      newAskMints.push(mint_ask)
+      mapHasMints.set(mint_ask, true)
     }
-    return setAskTokens(newAskTokens)
+    return setAskMints(newAskMints)
   }, [retailers])
 
   useEffect(() => {
-    getAskTokens()
-  }, [getAskTokens])
+    getAskMints()
+  }, [getAskMints])
 
-  return { askTokens }
+  return { askMints }
 }
