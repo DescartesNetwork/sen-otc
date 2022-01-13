@@ -1,9 +1,19 @@
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { Col, Row } from 'antd'
-import { useState } from 'react'
 import FilterHistory from './filterHistory'
 import ListHistory from './listHistory'
 
+import { fetchHistoryOTC } from 'app/model/history.controller'
+import { AppDispatch } from 'app/model'
+
 const OrderHistory = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  useEffect(() => {
+    dispatch(fetchHistoryOTC())
+  }, [dispatch])
+
   const [coin, setCoin] = useState('Select')
   const [time, setTime] = useState('Select')
   const [status, setStatus] = useState('Select')
