@@ -10,9 +10,9 @@ const FilterHistory = ({
   onSelected?: (value: string) => void
 }) => {
   return (
-    <Row>
+    <Row className="filter-history">
       <Col span={24}>
-        <Typography.Text>{label}</Typography.Text>
+        <Typography.Text type="secondary">{label}</Typography.Text>
       </Col>
       <Col span={24}>
         <Select value={value} onChange={onSelected} size="small">
