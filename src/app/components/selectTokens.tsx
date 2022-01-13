@@ -1,6 +1,6 @@
 import { Divider, Select, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
-import { MintAvatar, MintName } from 'shared/antd/mint'
+import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 const TokenSelect = ({
   tokens,
@@ -18,7 +18,7 @@ const TokenSelect = ({
       onChange={onChange}
       bordered={false}
       suffixIcon={<Divider type="vertical" />}
-      dropdownStyle={{ minWidth: 140 }}
+      dropdownStyle={{ minWidth: 170 }}
     >
       <Select.Option key="Select">
         <Space>
@@ -33,7 +33,7 @@ const TokenSelect = ({
         <Select.Option key={tokenAddress}>
           <Space>
             <MintAvatar mintAddress={tokenAddress} />
-            <MintName mintAddress={tokenAddress} />
+            <MintSymbol mintAddress={tokenAddress} />
           </Space>
         </Select.Option>
       ))}
