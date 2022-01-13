@@ -2,10 +2,9 @@ import { useState } from 'react'
 
 import { Row, Col, Image, Switch, Typography, Space } from 'antd'
 import User from './user'
-
-import './index.less'
 import Retailer from './retailer'
 
+import HeroBanner from 'app/static/images/otc-banner.svg'
 import './index.less'
 import Watcher from 'app/components/watcher'
 
@@ -17,10 +16,7 @@ const Page = () => {
         <Col span={18}>
           <Row gutter={[24, 24]}>
             <Col span={24} className="banner-otc">
-              <Image
-                src={'https://source.unsplash.com/random/?crypto?1900x600'}
-                preview={false}
-              />
+              <Image src={HeroBanner} preview={false} />
             </Col>
             <Col span={24}>
               <Row gutter={[12, 12]}>

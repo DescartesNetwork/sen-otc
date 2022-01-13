@@ -1,5 +1,4 @@
-import { Fragment, ReactNode, useState } from 'react'
-import moment from 'moment'
+import { useState } from 'react'
 
 import { Button, Col, Card, Row, Space, Typography } from 'antd'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
