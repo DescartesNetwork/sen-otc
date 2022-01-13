@@ -1,10 +1,13 @@
 import { useState } from 'react'
 
-import { Button, Col, Card, Row, Space, Typography } from 'antd'
+import { Button, Col, Row, Space, Typography } from 'antd'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 import { numeric } from 'shared/util'
 import IonIcon from 'shared/antd/ionicon'
+import { AppState } from 'app/model'
+import { useSelector } from 'react-redux'
+import OrderInfo from './orderInfo'
 
 const Content = ({
   label = '',
@@ -30,28 +33,11 @@ const Content = ({
   )
 }
 
-const TimeInfo = ({
-  label = '',
-  value = '',
-}: {
-  label?: string
-  value?: string | number
-}) => {
-  return (
-    <Row gutter={[16, 16]}>
-      <Col flex="auto">
-        <Typography.Text type="secondary">{label}</Typography.Text>
-      </Col>
-      <Col>
-        <Typography.Text>{value}</Typography.Text>
-      </Col>
-    </Row>
-  )
-}
-
 const Confirm = () => {
   const [loading, setLoading] = useState(false)
-
+  const {
+    order: { bidMintAddress, askMintAddress, bidAmount, askAmount },
+  } = useSelector((state: AppState) => state)
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
@@ -59,8 +45,8 @@ const Confirm = () => {
           <Col>
             <Content
               label="From"
-              mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-              value={`${numeric(10).format('0,0.[0000]')} LP`}
+              mintAddress={bidMintAddress}
+              value={`${numeric(bidAmount).format('0,0.[0000]')} LP`}
             />
           </Col>
           <Col>
@@ -69,37 +55,15 @@ const Confirm = () => {
           <Col>
             <Content
               label="To"
-              mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-              value={numeric(1412.1241).format('0,0.[0000]')}
+              mintAddress={askMintAddress}
+              value={numeric(askAmount).format('0,0.[0000]')}
               floatRight
             />
           </Col>
         </Row>
       </Col>
       <Col span={24}>
-        <Card
-          className="order-confirm-card"
-          bodyStyle={{ padding: 16 }}
-          bordered={false}
-        >
-          <Row gutter={[12, 12]}>
-            <Col span={24}>
-              <TimeInfo label="Market price" value={'1 USD = 39.5 SNTR'} />
-            </Col>
-            <Col span={24}>
-              <TimeInfo
-                label="Network fee"
-                value={numeric(1).format('0,0.[00]%')}
-              />
-            </Col>
-            <Col span={24}>
-              <TimeInfo
-                label="Retailer fee"
-                value={numeric(1).format('0,0.[00]%')}
-              />
-            </Col>
-          </Row>
-        </Card>
+        <OrderInfo />
       </Col>
       <Col span={24}>
         <Button

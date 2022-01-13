@@ -1,7 +1,8 @@
 import { Typography } from 'antd'
 import Tier from 'app/components/tier'
 import { shortenAddress } from 'shared/util'
-import SelectRetailer from './actionSelectRetailer'
+import { RetailerTableData } from '.'
+import ColumnAction from './columnAction'
 
 export const RETAILER_COLUMN = [
   {
@@ -21,6 +22,8 @@ export const RETAILER_COLUMN = [
   {
     title: 'ACTIONS',
     width: 100,
-    render: () => <SelectRetailer />,
+    render: (data: RetailerTableData) => (
+      <ColumnAction retailerAddress={data.address} />
+    ),
   },
 ]
