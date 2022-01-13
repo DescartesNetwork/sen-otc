@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+import { OrderStep } from 'app/constant'
+
 /**
  * Interface & Utility
  */
 
 export type MainState = {
-  orderStep: number
+  orderStep: OrderStep
 }
 
 /**
@@ -14,19 +16,20 @@ export type MainState = {
 
 const NAME = 'main'
 const initialState: MainState = {
-  orderStep: 0,
+  orderStep: OrderStep.SelectToken,
 }
 
 /**
  * Actions
  */
 
-export const setOrderStep = createAsyncThunk<MainState, number, { state: any }>(
-  `${NAME}/increaseCounter`,
-  async (step) => {
-    return { orderStep: step }
-  },
-)
+export const setOrderStep = createAsyncThunk<
+  Partial<MainState>,
+  OrderStep,
+  { state: any }
+>(`${NAME}/increaseCounter`, async (step) => {
+  return { orderStep: step }
+})
 
 /**
  * Usual procedure
