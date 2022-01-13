@@ -8,7 +8,7 @@ const FAQ = () => {
         <Typography.Title level={3}>FAQ</Typography.Title>
       </Col>
       <Col span={24}>
-        <Collapse>
+        <Collapse className="otc-faq" bordered={false}>
           {FAQ_CONTENT.map((faq, idx) => (
             <Collapse.Panel header={`${idx + 1}. ${faq.title}`} key={idx}>
               <Typography.Text>{faq.content}</Typography.Text>
