@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
-import { Row, Col, Image, Switch, Typography, Space, Tabs } from 'antd'
-import Order from './user/order'
+import { Row, Col, Image, Switch, Typography, Space } from 'antd'
+import User from './user'
 
 import './index.less'
-import OrderHistory from './user/history'
-import FAQ from './user/FAQ'
+import Retailer from './retailer'
 
 const Page = () => {
   const [checked, setChecked] = useState(false)
@@ -32,20 +31,8 @@ const Page = () => {
                   <Typography.Text>Retailer mode</Typography.Text>
                 </Space>
               </Col>
-              <Col span={24}>
-                <Tabs tabBarGutter={32}>
-                  <Tabs.TabPane key="order-otc" tab="Order OTC">
-                    <Order />
-                  </Tabs.TabPane>
-                  <Tabs.TabPane key="history-otc" tab="History">
-                    <OrderHistory />
-                  </Tabs.TabPane>
-                </Tabs>
-              </Col>
+              <Col span={24}>{checked ? <Retailer /> : <User />}</Col>
             </Row>
-          </Col>
-          <Col span={24}>
-            <FAQ />
           </Col>
         </Row>
       </Col>
