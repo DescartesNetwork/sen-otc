@@ -1,12 +1,13 @@
-import { Button, Col, Modal, Row, Space, Typography } from 'antd'
 import { useState } from 'react'
+
+import { Button, Col, Modal, Row, Space, Typography } from 'antd'
+import { OrderState } from 'app/constant'
 import IonIcon from 'shared/antd/ionicon'
-import { OrderStatus } from './orderHisotryStatus'
 
 const ActionHistory = ({ state = 0 }: { state?: number }) => {
   const [visible, setVisible] = useState(false)
 
-  if (state === OrderStatus.Pending)
+  if (state === OrderState.Pending)
     return (
       <Row>
         <Col span={24}>
@@ -49,7 +50,7 @@ const ActionHistory = ({ state = 0 }: { state?: number }) => {
         </Col>
       </Row>
     )
-  if (state === OrderStatus.Success)
+  if (state === OrderState.Approved)
     return (
       <Button size="small" type="primary" onClick={() => {}} block>
         Redeem

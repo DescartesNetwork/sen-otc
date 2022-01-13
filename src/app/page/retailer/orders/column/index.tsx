@@ -56,22 +56,22 @@ export const ORDER_COLUMN = [
 ]
 export const demoData = [
   {
-    order_day: '16 Nov, 2021 16:00',
+    order_day: '161 Nov, 2021 16:00',
     order_id: '0x12..aBs',
-    state: 4,
+    state: 0,
   },
   {
-    order_day: '16 Nov, 2021 16:00',
-    order_id: '0x12..aBs',
-    state: 1,
-  },
-  {
-    order_day: '16 Nov, 2021 16:00',
+    order_day: '162 Nov, 2021 16:00',
     order_id: '0x12..aBs',
     state: 1,
   },
   {
-    order_day: '16 Nov, 2021 16:00',
+    order_day: '163 Nov, 2021 16:00',
+    order_id: '0x12..aBs',
+    state: 1,
+  },
+  {
+    order_day: '164 Nov, 2021 16:00',
     order_id: '0x12..aBs',
     state: 2,
   },
