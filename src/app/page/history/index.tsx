@@ -1,0 +1,29 @@
+import { Col, Row } from 'antd'
+import { useState } from 'react'
+import FilterHistory from './filterHistory'
+import ListHistory from './listHistory'
+
+const OrderHistory = () => {
+  const [coin, setCoin] = useState('Select')
+  const [time, setTime] = useState('Select')
+  const [status, setStatus] = useState('Select')
+
+  return (
+    <Row gutter={[24, 24]}>
+      <Col>
+        <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
+      </Col>
+      <Col>
+        <FilterHistory label="Time" value={time} onSelected={setTime} />
+      </Col>
+      <Col>
+        <FilterHistory label="Status" value={status} onSelected={setStatus} />
+      </Col>
+      <Col span={24}>
+        <ListHistory />
+      </Col>
+    </Row>
+  )
+}
+
+export default OrderHistory

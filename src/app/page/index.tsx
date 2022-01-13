@@ -1,48 +1,45 @@
-import { useCallback, useEffect, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { createPDB } from 'shared/pdb'
+import { useState } from 'react'
 
-import { Row, Col, Typography, Button, Space } from 'antd'
-import IonIcon from 'shared/antd/ionicon'
+import { Row, Col, Image, Switch, Typography, Space, Tabs } from 'antd'
+import Order from './order'
 
-import { AppDispatch, AppState } from 'app/model'
-import { increaseCounter } from 'app/model/main.controller'
-import { useWallet } from 'senhub/providers'
-import configs from 'app/configs'
-
-const {
-  manifest: { appId },
-} = configs
+import './index.less'
+import OrderHistory from './history'
+import FAQ from './FAQ'
 
 const Page = () => {
-  const {
-    wallet: { address },
-  } = useWallet()
-  const dispatch = useDispatch<AppDispatch>()
-  const { counter } = useSelector((state: AppState) => state.main)
-
-  const pdb = useMemo(() => createPDB(address, appId), [address])
-  const increase = useCallback(() => dispatch(increaseCounter()), [dispatch])
-  useEffect(() => {
-    if (pdb) pdb.setItem('counter', counter)
-  }, [pdb, counter])
+  const [checked, setChecked] = useState(false)
 
   return (
-    <Row gutter={[24, 24]} align="middle">
-      <Col span={24}>
-        <Space align="center">
-          <IonIcon name="newspaper-outline" />
-          <Typography.Title level={4}>Page</Typography.Title>
-        </Space>
+    <Row gutter={[24, 24]}>
+      <Col span={24} className="banner-otc">
+        <Image
+          src={'https://source.unsplash.com/random/?crypto?1900x600'}
+          preview={false}
+        />
       </Col>
       <Col span={24}>
-        <Typography.Text>Address: {address}</Typography.Text>
+        <Row gutter={[12, 12]}>
+          <Col span={24}>
+            <Space>
+              <Switch checked={checked} onChange={setChecked} size="small" />
+              <Typography.Text>Retailer mode</Typography.Text>
+            </Space>
+          </Col>
+          <Col span={24}>
+            <Tabs>
+              <Tabs.TabPane key="order-otc" tab="Order OTC">
+                <Order />
+              </Tabs.TabPane>
+              <Tabs.TabPane key="history-otc" tab="History">
+                <OrderHistory />
+              </Tabs.TabPane>
+            </Tabs>
+          </Col>
+        </Row>
       </Col>
-      <Col>
-        <Typography.Text>Counter: {counter}</Typography.Text>
-      </Col>
-      <Col>
-        <Button onClick={increase}>Increase</Button>
+      <Col span={24}>
+        <FAQ />
       </Col>
     </Row>
   )

@@ -4,8 +4,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
  * Interface & Utility
  */
 
-export type State = {
-  counter: number
+export type MainState = {
+  orderStep: number
 }
 
 /**
@@ -13,21 +13,18 @@ export type State = {
  */
 
 const NAME = 'main'
-const initialState: State = {
-  counter: 0,
+const initialState: MainState = {
+  orderStep: 0,
 }
 
 /**
  * Actions
  */
 
-export const increaseCounter = createAsyncThunk<State, void, { state: any }>(
+export const setOrderStep = createAsyncThunk<MainState, number, { state: any }>(
   `${NAME}/increaseCounter`,
-  async (_, { getState }) => {
-    const {
-      main: { counter },
-    } = getState()
-    return { counter: counter + 1 }
+  async (step) => {
+    return { orderStep: step }
   },
 )
 
@@ -41,7 +38,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder.addCase(
-      increaseCounter.fulfilled,
+      setOrderStep.fulfilled,
       (state, { payload }) => void Object.assign(state, payload),
     ),
 })
