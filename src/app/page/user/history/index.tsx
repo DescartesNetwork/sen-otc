@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd'
 import { useState } from 'react'
-import FilterHistory from './filterHistory'
+import FilterHistory from '../../../components/filterHistory'
 import ListHistory from './listHistory'
 
 const OrderHistory = () => {
@@ -9,7 +9,7 @@ const OrderHistory = () => {
   const [status, setStatus] = useState('Select')
 
   return (
-    <Row gutter={[24, 24]}>
+    <Row gutter={[12, 24]}>
       <Col>
         <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
       </Col>
