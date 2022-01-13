@@ -3,3 +3,9 @@ export enum OrderStep {
   FindRetailer,
   Confirm,
 }
+export enum TierLevel {
+  Brozen,
+  Silver,
+  Gold,
+  Platinum,
+}

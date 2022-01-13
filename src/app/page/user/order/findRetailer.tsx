@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import { demoData, RETAILER_COLUMN } from './retailerTableColumn'
+import { demoData, RETAILER_COLUMN } from './findRetailerColumn'
 
 const FindRetailer = () => {
   return (
