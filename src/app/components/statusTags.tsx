@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { Tag } from 'antd'
 import { OrderState } from 'app/constant'
@@ -7,29 +7,22 @@ const STATUS_COLOR: Record<string, number[]> = {
   approved: [10, 151, 155],
   pending: [212, 177, 6],
   reject: [215, 35, 17],
+  unknown: [0, 0, 0],
 }
 
 const StatusTag = ({ state }: { state: number }) => {
-  const [text, setText] = useState('Unknown')
+  const statusText = useMemo(() => {
+    if (state === OrderState.Approved) return 'approved'
 
-  const getColor = useMemo(() => {
-    if (state === OrderState.Approved) {
-      setText('Approved')
-      return STATUS_COLOR['approved']
-    }
-    if (state === OrderState.Rejected) {
-      setText('Rejected')
-      return STATUS_COLOR['reject']
-    }
-    if (state === OrderState.Pending) {
-      setText('Pending')
-      return STATUS_COLOR['pending']
-    }
-    return [0, 0, 0]
+    if (state === OrderState.Rejected) return 'reject'
+
+    if (state === OrderState.Pending) return 'pending'
+
+    return 'unknown'
   }, [state])
 
   const setTagColor = (opacity?: number) => {
-    const color = getColor as number[]
+    const color = STATUS_COLOR[statusText]
     if (opacity)
       return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`
     return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${1})`
@@ -45,7 +38,7 @@ const StatusTag = ({ state }: { state: number }) => {
       }}
       color={setTagColor(0.1)}
     >
-      {text}
+      {statusText}
     </Tag>
   )
 }
