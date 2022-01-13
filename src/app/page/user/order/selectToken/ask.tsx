@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Col, Row, Space, Typography } from 'antd'
+import { Col, Row, Typography } from 'antd'
 import TokenSelect from 'app/components/selectTokens'
 import NumericInput from 'shared/antd/numericInput'
 
