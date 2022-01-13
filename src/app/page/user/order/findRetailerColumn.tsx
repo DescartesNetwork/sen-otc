@@ -1,11 +1,13 @@
 import { Typography } from 'antd'
 import Tier from 'app/components/tier'
+import { shortenAddress } from 'shared/util'
 import SelectRetailer from './actionSelectRetailer'
 
 export const RETAILER_COLUMN = [
   {
     title: 'RETAILER',
     dataIndex: 'owner',
+    render: (owner: string) => shortenAddress(owner),
   },
   {
     title: 'TIER',
