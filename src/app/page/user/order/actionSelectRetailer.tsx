@@ -12,7 +12,7 @@ const ActionSelectRetailer = () => {
   }
 
   return (
-    <Button type="primary" onClick={onSelectRetailer}>
+    <Button size="small" type="primary" onClick={onSelectRetailer}>
       Select
     </Button>
   )
