@@ -6,6 +6,8 @@ import User from './user'
 import './index.less'
 import Retailer from './retailer'
 
+import './index.less'
+
 const Page = () => {
   const [checked, setChecked] = useState(false)
 

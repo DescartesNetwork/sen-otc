@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { devTools, bigintSerializationMiddleware } from 'shared/devTools'
 
 import main from 'app/model/main.controller'
+import retailers from 'app/model/retailers.controller'
 
 /**
  * Isolated store
@@ -12,6 +13,7 @@ const model = configureStore({
   devTools: devTools('myapp'),
   reducer: {
     main,
+    retailers,
   },
 })
 
