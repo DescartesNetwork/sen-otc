@@ -2,10 +2,10 @@ import { useState } from 'react'
 
 import { Row, Col, Image, Switch, Typography, Space, Tabs } from 'antd'
 import Order from './user/order'
-
-import './index.less'
 import OrderHistory from './user/history'
 import FAQ from './user/FAQ'
+
+import './index.less'
 
 const Page = () => {
   const [checked, setChecked] = useState(false)

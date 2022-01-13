@@ -16,6 +16,7 @@ const SelectToken = ({
 }) => {
   return (
     <Select
+      className="otc-selection"
       value={value}
       onChange={onChange}
       bordered={false}
