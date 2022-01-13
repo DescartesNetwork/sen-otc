@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AccountInfo, PublicKey } from '@solana/web3.js'
-import { RetailerData } from '@senswap/sen-js'
+import { account, RetailerData } from '@senswap/sen-js'
 
 import configs from 'app/configs'
 import { RETAILER_DATA_SIZE } from 'app/constant'
@@ -48,6 +48,15 @@ export const getRetailers = createAsyncThunk<RetailerState>(
   },
 )
 
+export const upsetRetailer = createAsyncThunk<
+  RetailerState,
+  { address: string; data: RetailerData }
+>(`${NAME}/upsetRetailer`, async ({ address, data }) => {
+  if (!account.isAddress(address)) throw new Error('Invalid retailer address')
+  if (!data) throw new Error('Data is empty')
+  return { [address]: data }
+})
+
 /**
  * Usual procedure
  */
@@ -57,10 +66,15 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    void builder.addCase(
-      getRetailers.fulfilled,
-      (state, { payload }) => void Object.assign(state, payload),
-    ),
+    void builder
+      .addCase(
+        getRetailers.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        upsetRetailer.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      ),
 })
 
 export default slice.reducer

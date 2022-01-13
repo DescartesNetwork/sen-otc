@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Col, Row } from 'antd'
-import FilterHistory from './filterHistory'
+import FilterHistory from '../../../components/filterHistory'
 import ListHistory from './listHistory'
 
 import { fetchHistoryOTC } from 'app/model/history.controller'
@@ -19,7 +19,7 @@ const OrderHistory = () => {
   const [status, setStatus] = useState('Select')
 
   return (
-    <Row gutter={[24, 24]}>
+    <Row gutter={[12, 24]}>
       <Col>
         <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
       </Col>
