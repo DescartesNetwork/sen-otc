@@ -3,3 +3,5 @@ export enum OrderStep {
   FindRetailer,
   Confirm,
 }
+
+export const RETAILER_DATA_SIZE = 161
