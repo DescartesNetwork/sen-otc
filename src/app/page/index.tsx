@@ -9,7 +9,7 @@ import Retailer from './retailer'
 import './index.less'
 
 const Page = () => {
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   return (
     <Row gutter={[24, 24]} justify="center">
       <Col span={18}>
