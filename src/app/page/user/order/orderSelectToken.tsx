@@ -20,6 +20,7 @@ const SelectToken = ({
       onChange={onChange}
       bordered={false}
       suffixIcon={<Divider type="vertical" />}
+      dropdownStyle={{ minWidth: 140 }}
     >
       <Select.Option key="Select">
         <Space>
@@ -27,7 +28,7 @@ const SelectToken = ({
             mintAddress="Select"
             icon={<IonIcon name="help-outline" />}
           />
-          <Typography.Text>Select token</Typography.Text>
+          <Typography.Text>Select</Typography.Text>
         </Space>
       </Select.Option>
       {[1, 2, 3, 4].map((token, idx) => (
