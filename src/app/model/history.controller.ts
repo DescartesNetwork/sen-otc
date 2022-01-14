@@ -40,8 +40,8 @@ export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
     let history: HistoryState = {}
     value.forEach(({ pubkey, account: { data: buf } }) => {
       const address = pubkey.toBase58()
-      const data = purchasing.parseOrderData(buf)
-      if (data.owner !== owner) history[address] = data
+      const orderData = purchasing.parseOrderData(buf)
+      if (orderData.owner !== owner) history[address] = orderData
     })
     return history
   },

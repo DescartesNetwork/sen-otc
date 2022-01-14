@@ -1,6 +1,6 @@
 import { Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
-import ColumnStatus from '../../../../components/columnStatus'
+import ColumnStatus from 'app/components/columnStatus'
 
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 import { shortenAddress } from 'shared/util'
