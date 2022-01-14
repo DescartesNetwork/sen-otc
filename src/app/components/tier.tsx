@@ -11,20 +11,30 @@ const TIER_ICON = {
   platinum: tierGold,
 }
 
-const Tier = ({ tier = 0, size = 24 }: { tier?: number; size?: number }) => {
-  const level = useMemo(() => {
-    if (tier === TierLevel.Brozen) return 'bronze'
-    if (tier === TierLevel.Silver) return 'silver'
-    if (tier === TierLevel.Gold) return 'gold'
+const Tier = ({
+  level = 0,
+  size = 24,
+  label = true,
+}: {
+  level?: number
+  size?: number
+  label?: boolean
+}) => {
+  const tierLevel = useMemo(() => {
+    if (level === TierLevel.Brozen) return 'bronze'
+    if (level === TierLevel.Silver) return 'silver'
+    if (level === TierLevel.Gold) return 'gold'
     return 'platinum'
-  }, [tier])
+  }, [level])
 
   return (
     <Space size={12}>
-      <Avatar src={TIER_ICON[level]} size={size} />
-      <Typography.Text style={{ textTransform: 'capitalize' }}>
-        {level}
-      </Typography.Text>
+      <Avatar src={TIER_ICON[tierLevel]} size={size} />
+      {label && (
+        <Typography.Text style={{ textTransform: 'capitalize' }}>
+          {tierLevel}
+        </Typography.Text>
+      )}
     </Space>
   )
 }

@@ -9,6 +9,7 @@ export type OrderState = {
   bidAmount: string
   askMintAddress: string
   askAmount: string
+  retailerAddress: string
 }
 
 /**
@@ -21,6 +22,7 @@ const initialState: OrderState = {
   bidAmount: '',
   askMintAddress: '',
   askAmount: '',
+  retailerAddress: '',
 }
 
 /**
@@ -55,6 +57,13 @@ export const setAskAmount = createAsyncThunk<Partial<OrderState>, string>(
   },
 )
 
+export const setRetailerAddress = createAsyncThunk<Partial<OrderState>, string>(
+  `${NAME}/retailerAddress`,
+  async (retailerAddress) => {
+    return { retailerAddress }
+  },
+)
+
 /**
  * Usual procedure
  */
@@ -79,6 +88,10 @@ const slice = createSlice({
       )
       .addCase(
         setAskAmount.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        setRetailerAddress.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       ),
 })
