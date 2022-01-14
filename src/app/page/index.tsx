@@ -9,7 +9,7 @@ import './index.less'
 import Watcher from 'app/components/watcher'
 
 const Page = () => {
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   return (
     <Watcher>
       <Row gutter={[24, 24]} justify="center" style={{ paddingBottom: 12 }}>
