@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Table } from 'antd'
-import { AppState } from 'app/model'
-import { useSelector } from 'react-redux'
 import { HISTORY_COLUMN } from './historyColumn'
+
+import { AppState } from 'app/model'
 
 const ListHistory = () => {
   const { history } = useSelector((state: AppState) => state)
