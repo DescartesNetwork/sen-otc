@@ -10,13 +10,13 @@ import { AppDispatch } from 'app/model'
 
 const OrderHistory = () => {
   const dispatch = useDispatch<AppDispatch>()
-  useEffect(() => {
-    dispatch(fetchHistoryOTC())
-  }, [dispatch])
-
   const [coin, setCoin] = useState('Select')
   const [time, setTime] = useState('Select')
   const [status, setStatus] = useState('Select')
+  
+  useEffect(() => {
+    dispatch(fetchHistoryOTC())
+  }, [dispatch])
 
   return (
     <Row gutter={[12, 24]}>
