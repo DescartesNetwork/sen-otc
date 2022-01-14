@@ -13,15 +13,6 @@ const {
  * Interface & Utility
  */
 
-export type HistoryOTC = {
-  created_day: string
-  approved_day?: string
-  order_id: string
-  price: string
-  state: number
-  action: number
-}
-
 export type HistoryState = Record<string, OrderData>
 
 /**
@@ -50,7 +41,7 @@ export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
     value.forEach(({ pubkey, account: { data: buf } }) => {
       const address = pubkey.toBase58()
       const data = purchasing.parseOrderData(buf)
-      if (data.owner === owner) history[address] = data
+      if (data.owner !== owner) history[address] = data
     })
     return history
   },

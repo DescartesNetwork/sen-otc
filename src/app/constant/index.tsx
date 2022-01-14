@@ -10,12 +10,22 @@ export enum TierLevel {
   Platinum,
 }
 
+export const ORDER_STATE_CODE = {
+  PENDING: 1,
+  APPROVED: 2,
+  DONE: 3,
+  REJECTED: 4,
+  CANCELED: 5,
+  UNKNOWN: 6,
+}
+
 export enum OrderState {
-  Open = 1,
-  Approved = 2,
-  Done = 3,
-  Rejected = 4,
-  Canceled = 5,
+  Pending = 'pending',
+  Approved = 'approved',
+  Done = 'done',
+  Rejected = 'rejected',
+  Canceled = 'canceled',
+  Unknown = 'unknown',
 }
 
 export const RETAILER_DATA_SIZE = 161

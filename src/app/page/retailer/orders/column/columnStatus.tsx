@@ -4,7 +4,7 @@ import { Button, Modal, Typography } from 'antd'
 import ConfirmOrder from './confrimOrder'
 import IonIcon from 'shared/antd/ionicon'
 
-import { OrderState } from 'app/constant'
+import { ORDER_STATE_CODE } from 'app/constant'
 import StatusTag from 'app/components/statusTags'
 
 const ColumnStatus = ({
@@ -15,7 +15,7 @@ const ColumnStatus = ({
   orderData: any
 }) => {
   const [visible, setVisible] = useState(false)
-  if (state === OrderState.Open)
+  if (state === ORDER_STATE_CODE.PENDING)
     return (
       <Fragment>
         <Button size="small" type="primary" onClick={() => setVisible(true)}>
