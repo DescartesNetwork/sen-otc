@@ -28,6 +28,7 @@ const Price = ({ orderId }: { orderId: string }) => {
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData.retailer]
+  
   return (
     <Space>
       <PriceCell
