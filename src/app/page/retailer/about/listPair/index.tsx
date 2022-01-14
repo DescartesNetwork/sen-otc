@@ -1,15 +1,14 @@
-import { Table } from 'antd'
-import { PAIR_COLUMN, demoData } from './column'
+import { Col, Row } from 'antd'
+import ItemPair from './itemPair'
 const ListPair = () => {
   return (
-    <Table
-      className="scrollbar"
-      columns={PAIR_COLUMN}
-      dataSource={demoData}
-      rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
-      pagination={false}
-      rowKey={(record) => record.key}
-    />
+    <Row gutter={[24, 24]}>
+      {[1, 2, 3].map((pair) => (
+        <Col span={6} key={pair}>
+          <ItemPair />
+        </Col>
+      ))}
+    </Row>
   )
 }
 
