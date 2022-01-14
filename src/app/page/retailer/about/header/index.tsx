@@ -1,10 +1,13 @@
 import { Button, Card, Col, Divider, Row } from 'antd'
+import { useState } from 'react'
 import IonIcon from 'shared/antd/ionicon'
 import NewPair from '../newPair'
 import Info from './info'
 import Overview from './overview'
 
 const Header = () => {
+  const [visible, setVisible] = useState(false)
+
   return (
     <Card className="header-about" bordered={false}>
       <Row gutter={[24, 24]}>
@@ -16,7 +19,7 @@ const Header = () => {
             <Col>
               <Divider
                 type="vertical"
-                style={{ color: '#7D89D9', height: 48 }}
+                style={{ color: ' #D3D3D6', height: 48 }}
               />
             </Col>
             <Col>
@@ -26,15 +29,15 @@ const Header = () => {
         </Col>
         <Col span={24} style={{ textAlign: 'right' }}>
           <Button
-            className="text-title"
-            type="ghost"
+            type="primary"
             icon={<IonIcon name="add-outline" />}
+            onClick={() => setVisible(true)}
           >
             New Pair
           </Button>
         </Col>
       </Row>
-      <NewPair />
+      <NewPair visible={visible} onClose={setVisible} />
     </Card>
   )
 }

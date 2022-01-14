@@ -1,12 +1,20 @@
+import { useMemo, useState } from 'react'
 import { useAccount } from '@senhub/providers'
+
 import { Button, Col, Modal, Row, Space, Typography } from 'antd'
-import { useSortedMint } from 'app/hooks/useSortedMint'
-import React, { useMemo, useState } from 'react'
 import IonIcon from 'shared/antd/ionicon'
 import NumericInput from 'shared/antd/numericInput'
 import SelectTokens from './selectTokens'
 
-const NewPair = () => {
+import { useSortedMint } from 'app/hooks/useSortedMint'
+
+const NewPair = ({
+  visible,
+  onClose,
+}: {
+  visible: boolean
+  onClose: (visible: boolean) => void
+}) => {
   const [valueFrom, setValueFrom] = useState('Select')
   const [valueTo, setValueTo] = useState('Select')
   const [fee, setFee] = useState('')
@@ -20,10 +28,11 @@ const NewPair = () => {
 
   return (
     <Modal
-      visible={true}
+      visible={visible}
       title={<Typography.Title level={5}>New pair</Typography.Title>}
       closeIcon={<IonIcon name="close-outline" />}
       footer={null}
+      onCancel={() => onClose(false)}
     >
       <Row gutter={[24, 24]}>
         <Col span={24}>
