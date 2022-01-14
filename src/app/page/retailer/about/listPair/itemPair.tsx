@@ -1,5 +1,4 @@
 import { Button, Card, Col, Row, Space, Typography } from 'antd'
-import React from 'react'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
