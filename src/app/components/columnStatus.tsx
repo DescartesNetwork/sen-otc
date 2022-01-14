@@ -15,6 +15,7 @@ const ColumnStatus = ({
   orderData: any
 }) => {
   const [visible, setVisible] = useState(false)
+  
   if (state === ORDER_STATE_CODE.PENDING)
     return (
       <Fragment>
