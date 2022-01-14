@@ -4,7 +4,7 @@ import Orders from './orders'
 
 const Retailer = () => {
   return (
-    <Tabs activeKey="order-list" tabBarGutter={32}>
+    <Tabs tabBarGutter={32}>
       <Tabs.TabPane key="about" tab="About">
         <About />
       </Tabs.TabPane>

@@ -57,6 +57,16 @@ const ConfirmOrder = ({
               <Row>
                 <Col flex="auto">
                   <Typography.Text type="secondary">
+                    Approve day
+                  </Typography.Text>
+                </Col>
+                <Typography.Text>15/12/2021</Typography.Text>
+              </Row>
+            </Col>
+            <Col span={24}>
+              <Row>
+                <Col flex="auto">
+                  <Typography.Text type="secondary">
                     Market price
                   </Typography.Text>
                 </Col>

@@ -9,7 +9,7 @@ export const RETAILER_COLUMN = [
   },
   {
     title: 'TIER',
-    render: () => <Tier tier={0} />,
+    render: () => <Tier level={0} />,
   },
   {
     title: 'FEE',
