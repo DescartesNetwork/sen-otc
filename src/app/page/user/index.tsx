@@ -6,7 +6,7 @@ import Order from './order'
 const User = () => {
   return (
     <Row gutter={[24, 24]} justify="center">
-      <Col>
+      <Col span={24}>
         <Tabs tabBarGutter={32}>
           <Tabs.TabPane key="order-otc" tab="Order OTC">
             <Order />
@@ -16,7 +16,8 @@ const User = () => {
           </Tabs.TabPane>
         </Tabs>
       </Col>
-      <Col>
+      <Col span={24} style={{ height: 80 }} /> {/* Safe spacing */}
+      <Col span={24}>
         <FAQ />
       </Col>
     </Row>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Col, Row, Space, Typography } from 'antd'
@@ -12,6 +12,7 @@ import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { numeric } from 'shared/util'
 
 const Bid = () => {
+  const [selected, setSelected] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
     order: { bidAmount, bidMintAddress },
@@ -21,12 +22,17 @@ const Bid = () => {
 
   const selectMintDefault = useCallback(() => {
     const defaultMint = bidMints[0]
-    if (!bidMintAddress && defaultMint) dispatch(setBidMint(defaultMint))
-  }, [bidMintAddress, bidMints, dispatch])
+    if (!selected && defaultMint) dispatch(setBidMint(defaultMint))
+  }, [bidMints, dispatch, selected])
 
   useEffect(() => {
     selectMintDefault()
   }, [selectMintDefault])
+
+  const onSelectToken = (mintAddress: string) => {
+    setSelected(true)
+    dispatch(setBidMint(mintAddress))
+  }
 
   return (
     <Row gutter={[8, 8]} justify="end">
@@ -40,7 +46,7 @@ const Bid = () => {
             <TokenSelect
               value={bidMintAddress}
               tokens={bidMints}
-              onChange={(mintAddress) => dispatch(setBidMint(mintAddress))}
+              onChange={onSelectToken}
             />
           }
           value={bidAmount}

@@ -11,7 +11,7 @@ import order from 'app/model/order.controller'
 const model = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware(bigintSerializationMiddleware),
-  devTools: devTools('myapp'),
+  devTools: devTools(process.env.REACT_APP_ID as string),
   reducer: {
     main,
     retailers,

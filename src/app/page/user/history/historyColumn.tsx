@@ -33,7 +33,7 @@ export const HISTORY_COLUMN = [
     key: 'action',
     dataIndex: 'action',
     width: 100,
-    render: (action: number) => <ActionHistory state={action} />,
+    render: (state: number) => <ActionHistory state={state} />,
   },
 ]
 export const demoData = [

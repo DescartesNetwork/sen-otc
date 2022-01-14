@@ -1,7 +1,8 @@
+import { useSelector } from 'react-redux'
+
 import { Card, Col, Row, Steps } from 'antd'
 import { OrderStep } from 'app/constant'
 import { AppState } from 'app/model'
-import { useSelector } from 'react-redux'
 import Confirm from './confirm'
 import FindRetailer from './findRetailer'
 import SelectToken from './selectToken'

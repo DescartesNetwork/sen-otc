@@ -1,7 +1,7 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Col, Row, Space, Typography } from 'antd'
+import { Col, Row, Typography } from 'antd'
 import TokenSelect from 'app/components/selectTokens'
 import NumericInput from 'shared/antd/numericInput'
 
@@ -11,6 +11,7 @@ import { setAskAmount, setAskMint } from 'app/model/order.controller'
 import MarketPrice from './marketPrice'
 
 const Ask = () => {
+  const [selected, setSelected] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
     order: { askAmount, askMintAddress },
@@ -19,12 +20,17 @@ const Ask = () => {
 
   const selectMintDefault = useCallback(() => {
     const defaultMint = askMints[0]
-    if (!askMintAddress && defaultMint) dispatch(setAskMint(defaultMint))
-  }, [askMintAddress, askMints, dispatch])
+    if (!selected && defaultMint) dispatch(setAskMint(defaultMint))
+  }, [askMints, dispatch, selected])
 
   useEffect(() => {
     selectMintDefault()
   }, [selectMintDefault])
+
+  const onSelectToken = (mintAddress: string) => {
+    setSelected(true)
+    dispatch(setAskMint(mintAddress))
+  }
 
   return (
     <Row gutter={[8, 8]} justify="end">
@@ -38,7 +44,7 @@ const Ask = () => {
             <TokenSelect
               value={askMintAddress}
               tokens={askMints}
-              onChange={(mintAddress) => dispatch(setAskMint(mintAddress))}
+              onChange={onSelectToken}
             />
           }
           value={askAmount}

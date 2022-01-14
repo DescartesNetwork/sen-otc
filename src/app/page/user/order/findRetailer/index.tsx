@@ -2,13 +2,15 @@ import { RetailerData } from '@senswap/sen-js'
 import { Table } from 'antd'
 import { useFoundRetailer } from 'app/hooks/useFoundRetailer'
 import { useMemo } from 'react'
-import { RETAILER_COLUMN } from './findRetailerColumn'
+import { RETAILER_COLUMN } from './columnConfig'
+
+export type RetailerTableData = RetailerData & { address: string }
 
 const FindRetailer = () => {
   const { foundRetailer } = useFoundRetailer()
 
   const dataTable = useMemo(() => {
-    const newDataTable: (RetailerData & { address: string })[] = []
+    const newDataTable: RetailerTableData[] = []
     for (const address in foundRetailer) {
       newDataTable.push({
         ...foundRetailer[address],
