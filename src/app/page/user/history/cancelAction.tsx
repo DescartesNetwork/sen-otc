@@ -5,10 +5,12 @@ import IonIcon from 'shared/antd/ionicon'
 
 const CancelAction = ({ onClick }: { onClick: () => void }) => {
   const [visible, setVisible] = useState(false)
+  
   const onCancel = () => {
     onClick()
     setVisible(true)
   }
+  
   return (
     <Row>
       <Col span={24}>
