@@ -5,7 +5,7 @@ import Order from './order'
 
 const User = () => {
   return (
-    <Row gutter={[24, 24]} justify="center">
+    <Row gutter={[24, 24]}>
       <Col span={24}>
         <Tabs tabBarGutter={32}>
           <Tabs.TabPane key="order-otc" tab="Order OTC">
