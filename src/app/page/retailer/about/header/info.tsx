@@ -13,20 +13,18 @@ const Info = () => {
       <Col>
         <Space direction="vertical">
           <Space size={12}>
-            <Typography.Text className="text-title">Retailer 1</Typography.Text>
-            <IonIcon className="text-title" name="open-outline" />
+            <Typography.Text>Retailer 1</Typography.Text>
+            <IonIcon name="open-outline" />
           </Space>
-          <Typography.Text className="text-secondary">
+          <Typography.Text type="secondary">
             {shortenAddress('I1s3...s923')}
           </Typography.Text>
         </Space>
       </Col>
       <Col>
         <Space direction="vertical">
-          <Typography.Title className="text-title" level={5}>
-            Gold tier
-          </Typography.Title>
-          <Typography.Text className="text-secondary">
+          <Typography.Title level={5}>Gold tier</Typography.Title>
+          <Typography.Text type="secondary">
             Update tier to create more pairs.
           </Typography.Text>
         </Space>
