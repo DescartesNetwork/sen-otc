@@ -1,6 +1,6 @@
 import { ORDER_STATE_CODE } from 'app/constant'
-import RedeemAction from 'app/components/redeemAction'
-import CancelAction from 'app/components/cancelAction'
+import CancelAction from './cancelAction'
+import RedeemAction from './redeemAction'
 
 const ActionHistory = ({ state = 0 }: { state?: number }) => {
   if (state === ORDER_STATE_CODE.PENDING)
