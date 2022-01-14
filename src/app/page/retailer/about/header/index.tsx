@@ -1,5 +1,6 @@
 import { Button, Card, Col, Divider, Row } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
+import NewPair from '../newPair'
 import Info from './info'
 import Overview from './overview'
 
@@ -33,6 +34,7 @@ const Header = () => {
           </Button>
         </Col>
       </Row>
+      <NewPair />
     </Card>
   )
 }
