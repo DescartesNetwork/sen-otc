@@ -13,7 +13,7 @@ const Price = ({ orderId }: { orderId: string }) => {
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData.retailer]
   return (
-    <Space size={6}>
+    <Space>
       <Typography.Text>
         {utils.undecimalize(BigInt(orderData.ask_amount), 0)}
       </Typography.Text>
