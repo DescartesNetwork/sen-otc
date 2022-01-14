@@ -1,15 +1,27 @@
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
+
 import { Table } from 'antd'
-import { demoData, HISTORY_COLUMN } from './historyColumn'
+import { HISTORY_COLUMN } from './historyColumn'
+
+import { AppState } from 'app/model'
 
 const ListHistory = () => {
+  const { history } = useSelector((state: AppState) => state)
+  const dataSource = useMemo(
+    () =>
+      Object.keys(history).map((addr) => ({ ...history[addr], address: addr })),
+    [history],
+  )
+
   return (
     <Table
       className="scrollbar"
       columns={HISTORY_COLUMN}
-      dataSource={demoData}
+      dataSource={dataSource}
       rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
       pagination={false}
-      rowKey={(record) => record.created_day}
+      rowKey={(record) => `${record.address}`}
     />
   )
 }
