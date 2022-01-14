@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 import { Typography } from 'antd'
-import Price from 'app/components/price'
+import Price from 'app/components/orderPrice'
 import StatusTag from 'app/components/statusTags'
 import ActionHistory from './actionHistory'
 
