@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import { usePool, useMint } from '@senhub/providers'
 
 export const useSortedMint = (rawMintAddresses: string[]) => {
