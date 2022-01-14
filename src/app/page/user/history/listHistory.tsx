@@ -5,10 +5,7 @@ import { AppState } from 'app/model'
 import { useSelector } from 'react-redux'
 import { HISTORY_COLUMN } from './historyColumn'
 
-// const ROW_PER_PAGE = 5
-
 const ListHistory = () => {
-  // const [amountRow, setAmountRow] = useState(ROW_PER_PAGE)
   const { history } = useSelector((state: AppState) => state)
   const dataSource = useMemo(
     () =>

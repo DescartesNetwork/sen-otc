@@ -6,6 +6,22 @@ import { AppState } from 'app/model'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
+const PriceCell = ({
+  amount,
+  mintAddress,
+}: {
+  amount: bigint
+  mintAddress: string
+}) => {
+  return (
+    <Space>
+      <Typography.Text>{utils.undecimalize(amount, 0)}</Typography.Text>
+      <MintSymbol mintAddress={mintAddress} />
+      <MintAvatar mintAddress={mintAddress} />
+    </Space>
+  )
+}
+
 const Price = ({ orderId }: { orderId: string }) => {
   const {
     history: { [orderId]: orderData },
@@ -14,17 +30,15 @@ const Price = ({ orderId }: { orderId: string }) => {
   const retailerData = retailers[orderData.retailer]
   return (
     <Space>
-      <Typography.Text>
-        {utils.undecimalize(BigInt(orderData.ask_amount), 0)}
-      </Typography.Text>
-      <MintSymbol mintAddress={retailerData.mint_bid} />
-      <MintAvatar mintAddress={retailerData.mint_bid} />
+      <PriceCell
+        amount={orderData.ask_amount}
+        mintAddress={retailerData.mint_ask}
+      />
       <IonIcon name="arrow-forward-outline" />
-      <Typography.Text>
-        {utils.undecimalize(BigInt(orderData.bid_amount), 0)}
-      </Typography.Text>
-      <MintSymbol mintAddress={retailerData.mint_ask} />
-      <MintAvatar mintAddress={retailerData.mint_ask} />
+      <PriceCell
+        amount={orderData.bid_amount}
+        mintAddress={retailerData.mint_bid}
+      />
     </Space>
   )
 }

@@ -1,9 +1,11 @@
+import moment from 'moment'
+
 import { Typography } from 'antd'
 import Price from 'app/components/price'
 import StatusTag from 'app/components/statusTags'
-import moment from 'moment'
-import { shortenAddress } from 'shared/util'
 import ActionHistory from './actionHistory'
+
+import { shortenAddress } from 'shared/util'
 
 export const HISTORY_COLUMN = [
   {
