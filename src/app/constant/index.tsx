@@ -11,9 +11,11 @@ export enum TierLevel {
 }
 
 export enum OrderState {
-  Approved = 1,
-  Rejected = 0,
-  Pending = 2,
+  Open = 1,
+  Approved = 2,
+  Done = 3,
+  Rejected = 4,
+  Canceled = 5,
 }
 
 export const RETAILER_DATA_SIZE = 161

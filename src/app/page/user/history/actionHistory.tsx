@@ -7,7 +7,7 @@ import IonIcon from 'shared/antd/ionicon'
 const ActionHistory = ({ state = 0 }: { state?: number }) => {
   const [visible, setVisible] = useState(false)
 
-  if (state === OrderState.Pending)
+  if (state === OrderState.Open)
     return (
       <Row>
         <Col span={24}>

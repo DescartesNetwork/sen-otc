@@ -5,9 +5,10 @@ import { OrderState } from 'app/constant'
 
 const STATUS_COLOR: Record<string, number[]> = {
   approved: [10, 151, 155],
-  pending: [212, 177, 6],
+  open: [212, 177, 6],
   reject: [215, 35, 17],
-  unknown: [0, 0, 0],
+  done: [0, 0, 0],
+  cancel: [0, 0, 0],
 }
 
 const StatusTag = ({ state }: { state: number }) => {
@@ -16,7 +17,11 @@ const StatusTag = ({ state }: { state: number }) => {
 
     if (state === OrderState.Rejected) return 'reject'
 
-    if (state === OrderState.Pending) return 'pending'
+    if (state === OrderState.Canceled) return 'cancel'
+
+    if (state === OrderState.Done) return 'done'
+
+    if (state === OrderState.Open) return 'open'
 
     return 'unknown'
   }, [state])

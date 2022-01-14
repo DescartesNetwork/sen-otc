@@ -1,4 +1,7 @@
+import { Typography } from 'antd'
+import Price from 'app/components/price'
 import StatusTag from 'app/components/statusTags'
+import moment from 'moment'
 import ActionHistory from './actionHistory'
 
 export const HISTORY_COLUMN = [
@@ -6,6 +9,13 @@ export const HISTORY_COLUMN = [
     title: 'CREATED DAY',
     dataIndex: 'created_day',
     key: 'created_day',
+    render: (time: string) => {
+      return (
+        <Typography.Text>
+          {moment(Number(time) * 1000).format('MMM DD, YYYY HH:mm')}
+        </Typography.Text>
+      )
+    },
   },
   {
     title: 'APPROVED DAY',
@@ -16,14 +26,22 @@ export const HISTORY_COLUMN = [
     title: 'ORDER ID',
     dataIndex: 'order_id',
     key: 'order_id',
+    render: (orderId: string) => (
+      <>
+        {orderId.substring(0, 4) +
+          '...' +
+          orderId.substring(orderId.length - 4, orderId.length)}
+      </>
+    ),
   },
   {
     title: 'PRICE',
     dataIndex: 'price',
     key: 'price',
+    render: (orderId: string) => <Price orderId={orderId} />,
   },
   {
-    title: 'STAUTS',
+    title: 'STATUS',
     dataIndex: 'state',
     key: 'state',
     render: (state: number) => <StatusTag state={state} />,

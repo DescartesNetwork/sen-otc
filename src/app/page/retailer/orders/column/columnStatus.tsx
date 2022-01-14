@@ -15,7 +15,7 @@ const ColumnStatus = ({
   orderData: any
 }) => {
   const [visible, setVisible] = useState(false)
-  if (state === OrderState.Pending)
+  if (state === OrderState.Open)
     return (
       <Fragment>
         <Button size="small" type="primary" onClick={() => setVisible(true)}>

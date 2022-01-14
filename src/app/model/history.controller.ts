@@ -13,6 +13,15 @@ const {
  * Interface & Utility
  */
 
+export type HistoryOTC = {
+  created_day: string
+  approved_day?: string
+  order_id: string
+  price: string
+  state: number
+  action: number
+}
+
 export type HistoryState = Record<string, OrderData>
 
 /**
@@ -29,7 +38,7 @@ const initialState: HistoryState = {}
 export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
   `${NAME}/fetchHistoryOTC`,
   async () => {
-    console.log('12')
+    const owner = await window.sentre.wallet?.getAddress()
     const value: Array<{ pubkey: PublicKey; account: AccountInfo<Buffer> }> =
       await purchasing.connection.getProgramAccounts(
         purchasing.purchasingProgramId,
@@ -37,12 +46,11 @@ export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
           filters: [{ dataSize: HISTORY_DATA_SIZE }],
         },
       )
-    console.log('23', value)
     let history: HistoryState = {}
     value.forEach(({ pubkey, account: { data: buf } }) => {
       const address = pubkey.toBase58()
       const data = purchasing.parseOrderData(buf)
-      history[address] = data
+      if (data.owner !== owner) history[address] = data
     })
     return history
   },
