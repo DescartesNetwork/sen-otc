@@ -1,5 +1,6 @@
-import { Button, Card, Col, Divider, Row } from 'antd'
 import { useState } from 'react'
+
+import { Button, Card, Col, Divider, Row } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import NewPair from '../newPair'
 import Info from './info'
