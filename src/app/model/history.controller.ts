@@ -37,7 +37,7 @@ export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
           filters: [{ dataSize: HISTORY_DATA_SIZE }],
         },
       )
-    let history: HistoryState = {}
+    const history: HistoryState = {}
     value.forEach(({ pubkey, account: { data: buf } }) => {
       const address = pubkey.toBase58()
       const orderData = purchasing.parseOrderData(buf)
