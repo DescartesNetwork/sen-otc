@@ -1,20 +1,39 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Button, Col, Modal, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 
-const CancelAction = ({ onClick }: { onClick: () => void }) => {
+import { notifyError } from 'app/helper'
+import configs from 'app/configs'
+import { AppDispatch } from 'app/model'
+import { updateHistoryOTC } from 'app/model/history.controller'
+
+const {
+  sol: { purchasing },
+} = configs
+
+const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
+  const dispatch = useDispatch<AppDispatch>()
   const [visible, setVisible] = useState(false)
-  
-  const onCancel = () => {
-    onClick()
-    setVisible(true)
+
+  const wallet = window.sentre.wallet
+  const onCancel = async () => {
+    try {
+      if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
+      await purchasing.cancelOrder(orderAddress, wallet)
+      dispatch(updateHistoryOTC({ orderAddress }))
+    } catch (er) {
+      notifyError({ message: 'Locked time is not open' })
+    } finally {
+      setVisible(false)
+    }
   }
-  
+
   return (
     <Row>
       <Col span={24}>
-        <Button size="small" onClick={onCancel} block>
+        <Button size="small" onClick={() => setVisible(true)} block>
           Cancel
         </Button>
         <Modal
@@ -43,7 +62,7 @@ const CancelAction = ({ onClick }: { onClick: () => void }) => {
             <Col>
               <Space>
                 <Button onClick={() => setVisible(false)}>No</Button>
-                <Button type="primary" onClick={() => {}}>
+                <Button type="primary" onClick={onCancel}>
                   Yes
                 </Button>
               </Space>

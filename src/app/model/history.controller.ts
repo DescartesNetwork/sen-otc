@@ -41,11 +41,20 @@ export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
     value.forEach(({ pubkey, account: { data: buf } }) => {
       const address = pubkey.toBase58()
       const orderData = purchasing.parseOrderData(buf)
-      if (orderData.owner !== owner) history[address] = orderData
+      if (orderData.owner === owner) history[address] = orderData
     })
     return history
   },
 )
+
+export const updateHistoryOTC = createAsyncThunk<
+  HistoryState,
+  { orderAddress: string }
+>(`${NAME}/updateHistoryOTC`, async ({ orderAddress }) => {
+  const orderData = await purchasing.getOrderData(orderAddress)
+  console.log(orderData, 'ssss')
+  return { orderAddress: orderData }
+})
 
 /**
  * Usual procedure
@@ -56,10 +65,15 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    void builder.addCase(
-      fetchHistoryOTC.fulfilled,
-      (state, { payload }) => void Object.assign(state, payload),
-    ),
+    void builder
+      .addCase(
+        fetchHistoryOTC.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        updateHistoryOTC.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      ),
 })
 
 export default slice.reducer
