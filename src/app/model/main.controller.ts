@@ -8,6 +8,7 @@ import { OrderStep } from 'app/constant'
 
 export type MainState = {
   orderStep: OrderStep
+  retailerMode?: boolean
 }
 
 /**
@@ -17,6 +18,7 @@ export type MainState = {
 const NAME = 'main'
 const initialState: MainState = {
   orderStep: OrderStep.SelectToken,
+  retailerMode: false,
 }
 
 /**
@@ -31,6 +33,14 @@ export const setOrderStep = createAsyncThunk<
   return { orderStep: step }
 })
 
+export const setRetailerMode = createAsyncThunk<
+  Partial<MainState>,
+  boolean,
+  { state: any }
+>(`${NAME}/setRetailerMode`, async (mode) => {
+  return { retailerMode: mode }
+})
+
 /**
  * Usual procedure
  */
@@ -40,10 +50,15 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    void builder.addCase(
-      setOrderStep.fulfilled,
-      (state, { payload }) => void Object.assign(state, payload),
-    ),
+    void builder
+      .addCase(
+        setOrderStep.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        setRetailerMode.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      ),
 })
 
 export default slice.reducer
