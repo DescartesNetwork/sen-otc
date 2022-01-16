@@ -6,7 +6,7 @@ import RedeemAction from './redeemAction'
 import { ORDER_STATE_CODE } from 'app/constant'
 import { AppState } from 'app/model'
 
-const ActionHistory = ({ address = '' }: { address?: string }) => {
+const ActionHistory = ({ address }: { address: string }) => {
   const {
     history: {
       [address]: { state },

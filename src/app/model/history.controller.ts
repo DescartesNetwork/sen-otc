@@ -52,7 +52,6 @@ export const updateHistoryOTC = createAsyncThunk<
   { orderAddress: string }
 >(`${NAME}/updateHistoryOTC`, async ({ orderAddress }) => {
   const orderData = await purchasing.getOrderData(orderAddress)
-  console.log(orderData, 'ssss')
   return { orderAddress: orderData }
 })
 
