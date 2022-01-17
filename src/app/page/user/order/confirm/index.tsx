@@ -1,17 +1,21 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { utils } from '@senswap/sen-js'
 
 import { Button, Col, Row } from 'antd'
 
 import { numeric } from 'shared/util'
 import IonIcon from 'shared/antd/ionicon'
-import { AppState } from 'app/model'
-import OrderInfo from './orderInfo'
-import configs from 'app/configs'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
-import { utils } from '@senswap/sen-js'
 import MintInfo from './mintInfo'
+import OrderInfo from './orderInfo'
+
+import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { AppDispatch, AppState } from 'app/model'
 import { notifyError, notifySuccess } from 'app/helper'
+import { setOrderStep } from 'app/model/main.controller'
+import configs from 'app/configs'
+import { setAskAmount, setBidAmount } from 'app/model/order.controller'
+import useNextOrderIndex from 'app/hooks/useNextOrderIndex'
 
 const {
   sol: { purchasing },
@@ -19,6 +23,7 @@ const {
 
 const Confirm = () => {
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch<AppDispatch>()
   const {
     order: {
       bidMintAddress,
@@ -28,7 +33,7 @@ const Confirm = () => {
       retailerAddress,
     },
   } = useSelector((state: AppState) => state)
-
+  const index = useNextOrderIndex(retailerAddress)
   const bidDecimals = useMintDecimals(bidMintAddress)
   const askDecimals = useMintDecimals(askMintAddress)
 
@@ -39,7 +44,6 @@ const Confirm = () => {
       if (!wallet) throw new Error('Please connect wallet')
       if (!bidDecimals || !askDecimals) throw new Error('Invalid mint decimals')
 
-      const index = 2
       const lockTime = BigInt(86400)
       const bidValue = utils.decimalize(bidAmount, bidDecimals)
       const askValue = utils.decimalize(askAmount, askDecimals)
@@ -53,11 +57,18 @@ const Confirm = () => {
         wallet,
       )
       notifySuccess('Place order', txId)
+      return onClearFormOrder()
     } catch (er) {
       notifyError(er)
     } finally {
       setLoading(false)
     }
+  }
+
+  const onClearFormOrder = () => {
+    dispatch(setOrderStep(0))
+    dispatch(setBidAmount(''))
+    dispatch(setAskAmount(''))
   }
 
   return (

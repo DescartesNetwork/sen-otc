@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import { usePool, useMint } from '@senhub/providers'
 
 export const useSortedMint = (rawMintAddresses: string[]) => {
@@ -16,18 +15,18 @@ export const useSortedMint = (rawMintAddresses: string[]) => {
         const tokenInfo = await tokenProvider.findByAddress(mintAddress)
         const data = {
           address: mintAddress,
-          checked: Boolean(tokenInfo) || lpMintAddresses.includes(mintAddress),
+          checked: Boolean(tokenInfo)
+            ? 2
+            : lpMintAddresses.includes(mintAddress)
+            ? 1
+            : 0,
         }
         return data
       }),
     )
     // Sort mint addresses by checking flags
     const sortedMintAddresses = checkedMintAddresses
-      .sort((first, second) => {
-        if (!first.checked && second.checked) return 1
-        if (first.checked && !second.checked) return -1
-        return 0
-      })
+      .sort((first, second) => second.checked - first.checked)
       .map(({ address }) => address)
     // Return
     return setSortedMints(sortedMintAddresses)

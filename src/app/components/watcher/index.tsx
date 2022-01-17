@@ -1,4 +1,5 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, Fragment } from 'react'
+import OrderWatcher from './orderWatcher'
 import RetailerWatcher from './retailerWatcher'
 
 const Watcher = ({
@@ -8,7 +9,14 @@ const Watcher = ({
   children: JSX.Element
   style?: CSSProperties
 }) => {
-  return <RetailerWatcher style={style}>{children}</RetailerWatcher>
+  return (
+    <RetailerWatcher style={style}>
+      <Fragment>
+        {children}
+        <OrderWatcher />
+      </Fragment>
+    </RetailerWatcher>
+  )
 }
 
 export default Watcher

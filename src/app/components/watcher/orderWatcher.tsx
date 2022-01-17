@@ -1,13 +1,11 @@
-import { CSSProperties, useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { account } from '@senswap/sen-js'
 import { useWallet } from '@senhub/providers'
 
-import { Spin } from 'antd'
-
 import { notifyError } from 'app/helper'
 import { AppDispatch } from 'app/model'
-import { getRetailers, upsetRetailer } from 'app/model/retailers.controller'
+import { getOrders, upsetOrder } from 'app/model/orders.controller'
 import configs from 'app/configs'
 
 const {
@@ -17,14 +15,7 @@ const {
 // Watch id
 let watchId = 0
 
-const RetailerWatcher = ({
-  children,
-  style = {},
-}: {
-  children: JSX.Element
-  style?: CSSProperties
-}) => {
-  const [loading, setLoading] = useState(false)
+const OrderWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
   const {
     wallet: { address: walletAddress },
@@ -33,25 +24,21 @@ const RetailerWatcher = ({
   // First-time fetching
   const fetchData = useCallback(async () => {
     try {
-      setLoading(true)
       if (!account.isAddress(walletAddress)) return
-      await dispatch(getRetailers()).unwrap()
+      await dispatch(getOrders({ owner: walletAddress })).unwrap()
     } catch (er) {
       await notifyError(er)
-    } finally {
-      setLoading(false)
     }
   }, [dispatch, walletAddress])
-
   // Watch account changes
   const watchData = useCallback(async () => {
     if (watchId) return console.warn('Already watched')
     const callback = (er: string | null, re: any) => {
       if (er) return console.error(er)
       const { address, data } = re
-      return dispatch(upsetRetailer({ address, data }))
+      return dispatch(upsetOrder({ address, data }))
     }
-    const filters = [{ dataSize: 161 }]
+    const filters = [{ dataSize: 105 }]
     watchId = purchasing.watch(callback, filters)
   }, [dispatch])
 
@@ -69,11 +56,7 @@ const RetailerWatcher = ({
     }
   }, [fetchData, watchData])
 
-  return (
-    <Spin spinning={loading} style={style}>
-      {children}
-    </Spin>
-  )
+  return <Fragment />
 }
 
-export default RetailerWatcher
+export default OrderWatcher
