@@ -11,7 +11,7 @@ const ItemPair = () => {
     >
       <Row gutter={[12, 12]}>
         <Col span={24}>
-          <Row>
+          <Row align="middle">
             <Col flex="auto">
               <Space>
                 <MintAvatar
@@ -25,7 +25,7 @@ const ItemPair = () => {
             </Col>
             <Col>
               <Button
-                icon={<IonIcon style={{ fontSize: 24 }} name="trash-outline" />}
+                icon={<IonIcon style={{ fontSize: 16 }} name="trash-outline" />}
                 type="text"
               />
             </Col>
