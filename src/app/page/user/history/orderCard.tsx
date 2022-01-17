@@ -21,7 +21,7 @@ const Content = ({
   return (
     <Row>
       <Col flex="auto">
-        <Typography.Text>{label}</Typography.Text>
+        <Typography.Text type="secondary">{label}</Typography.Text>
       </Col>
       <Col>
         <Typography.Text>{value}</Typography.Text>
@@ -37,7 +37,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData.retailer]
-  const { bid_amount, ask_amount, created_at, updated_at } = orderData
+  const { bid_amount, ask_amount, created_at } = orderData
   const { mint_ask, mint_bid, state } = retailerData
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
@@ -49,7 +49,6 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
     if (activeKey) return setActiveKey(undefined)
     return setActiveKey(orderId)
   }
-  console.log(activeKey, 'active key')
 
   return (
     <Card
@@ -93,7 +92,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
                     <Col span={24}>
                       <Content
                         label="Approved Day"
-                        value={getDate(updated_at)}
+                        value={getDate(undefined)}
                       />
                     </Col>
                     <Col span={24}>
