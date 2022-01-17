@@ -9,12 +9,12 @@ const LIMIT = 10000
 
 const useNextOrderIndex = (retailerAddress: string): number => {
   const [index, setIndex] = useState(0)
-  const { history } = useSelector((state: AppState) => state)
+  const { orders } = useSelector((state: AppState) => state)
   const {
     wallet: { address: walletAddress },
   } = useWallet()
 
-  const orderAddresses = Object.keys(history)
+  const orderAddresses = Object.keys(orders)
 
   const searchIndex = useCallback(async () => {
     try {
