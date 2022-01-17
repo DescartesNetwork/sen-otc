@@ -33,10 +33,10 @@ const ModeSettings = () => {
             onChange={() => dispatch(setRetailerMode(!retailerMode))}
             size="small"
           />
-          <Space direction="vertical" size={2}>
+          <Space direction="vertical" size={0}>
             <Typography.Text>Actived: {getTitle()}</Typography.Text>
             <Typography.Text type="secondary" className="caption">
-              Switch to change to {getTitle(true)}
+              Click the toggle to switch to {getTitle(true)}
             </Typography.Text>
           </Space>
         </Space>
@@ -45,6 +45,7 @@ const ModeSettings = () => {
       visible={visible}
       onVisibleChange={setVisible}
       arrowPointAtCenter
+      placement="left"
     >
       <Button
         type="text"

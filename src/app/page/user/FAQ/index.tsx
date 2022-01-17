@@ -11,7 +11,7 @@ const FAQ = () => {
         <Collapse className="otc-faq" bordered={false}>
           {FAQ_CONTENT.map((faq, idx) => (
             <Collapse.Panel header={`${idx + 1}. ${faq.title}`} key={idx}>
-              <Typography.Text>{faq.content}</Typography.Text>
+              <Typography.Text type="secondary">{faq.content}</Typography.Text>
             </Collapse.Panel>
           ))}
         </Collapse>
