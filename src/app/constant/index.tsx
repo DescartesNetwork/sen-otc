@@ -31,3 +31,5 @@ export enum OrderState {
 export const RETAILER_DATA_SIZE = 161
 export const HISTORY_DATA_SIZE = 105
 export const FILTER_RETAILER_DATA = [{ dataSize: RETAILER_DATA_SIZE }]
+
+export const DEFAULT_RETAILER_FEE = 0.005

@@ -24,11 +24,11 @@ const PriceCell = ({
 
 const Price = ({ orderId }: { orderId: string }) => {
   const {
-    history: { [orderId]: orderData },
+    orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData.retailer]
-  
+
   return (
     <Space>
       <PriceCell

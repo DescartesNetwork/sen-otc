@@ -13,7 +13,7 @@ const Page = () => {
   return (
     <Watcher>
       <Row gutter={[24, 24]} justify="center" style={{ paddingBottom: 12 }}>
-        <Col span={18}>
+        <Col xs={24} lg={18}>
           <Row gutter={[24, 24]}>
             <Col span={24} className="otc-banner">
               <Image src={HeroBanner} preview={false} />

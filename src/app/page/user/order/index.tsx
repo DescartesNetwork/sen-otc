@@ -20,15 +20,20 @@ const Order = () => {
 
   return (
     <Row gutter={[8, 8]} justify="center">
-      <Col span={10}>
-        <Steps current={orderStep} size="small" onChange={handleStep}>
+      <Col xs={24} lg={12}>
+        <Steps
+          current={orderStep}
+          size="small"
+          onChange={handleStep}
+          direction="horizontal"
+        >
           <Steps.Step title="Select token" />
           <Steps.Step title="Find retailer" />
           <Steps.Step title="Confirm" />
         </Steps>
       </Col>
       <Col span={24} />
-      <Col span={10}>
+      <Col xs={24} lg={12}>
         <Card bordered={false} style={{ boxShadow: 'unset' }}>
           {orderStep === OrderStep.SelectToken && <SelectToken />}
           {orderStep === OrderStep.FindRetailer && <FindRetailer />}
