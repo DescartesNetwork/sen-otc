@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
-import ListHistory from './listHistory'
+import ListHistory from './listOrders'
 
 import { fetchHistoryOTC } from 'app/model/history.controller'
 import { AppDispatch } from 'app/model'

@@ -1,4 +1,5 @@
 import { Col, Row, Tabs } from 'antd'
+import ModeSettings from '../modeSettings'
 import FAQ from './FAQ'
 import OrderHistory from './history'
 import Order from './order'
@@ -7,7 +8,7 @@ const User = () => {
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
-        <Tabs tabBarGutter={32}>
+        <Tabs tabBarExtraContent={<ModeSettings />}>
           <Tabs.TabPane key="order-otc" tab="Order OTC">
             <Order />
           </Tabs.TabPane>

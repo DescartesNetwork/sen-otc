@@ -8,7 +8,7 @@ import { HISTORY_COLUMN } from './historyColumn'
 import { AppState } from 'app/model'
 import { FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
 
-const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
+const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { history, retailers } = useSelector((state: AppState) => state)
 
   const { time, status, coin } = orderFilters
@@ -57,4 +57,4 @@ const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   )
 }
 
-export default ListHistory
+export default ListOrders

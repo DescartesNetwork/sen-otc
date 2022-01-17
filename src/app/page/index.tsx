@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import { Row, Col, Image, Switch, Typography, Space } from 'antd'
+import { Row, Col, Image } from 'antd'
 import User from './user'
 import Retailer from './retailer'
 
+import Watcher from 'app/components/watcher'
+import { AppState } from 'app/model'
 import HeroBanner from 'app/static/images/otc-banner.svg'
 import './index.less'
-import Watcher from 'app/components/watcher'
 
 const Page = () => {
-  const [checked, setChecked] = useState(false)
+  const { retailerMode } = useSelector((state: AppState) => state.main)
+
   return (
     <Watcher>
       <Row gutter={[24, 24]} justify="center" style={{ paddingBottom: 12 }}>
@@ -18,21 +20,7 @@ const Page = () => {
             <Col span={24} className="otc-banner">
               <Image src={HeroBanner} preview={false} />
             </Col>
-            <Col span={24}>
-              <Row gutter={[12, 12]}>
-                <Col span={24}>
-                  <Space>
-                    <Switch
-                      checked={checked}
-                      onChange={setChecked}
-                      size="small"
-                    />
-                    <Typography.Text>Retailer mode</Typography.Text>
-                  </Space>
-                </Col>
-                <Col span={24}>{checked ? <Retailer /> : <User />}</Col>
-              </Row>
-            </Col>
+            <Col span={24}>{retailerMode ? <Retailer /> : <User />}</Col>
           </Row>
         </Col>
       </Row>

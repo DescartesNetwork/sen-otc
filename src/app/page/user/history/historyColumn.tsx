@@ -3,7 +3,7 @@ import moment from 'moment'
 import { Typography } from 'antd'
 import Price from 'app/components/orderPrice'
 import StatusTag from 'app/components/statusTags'
-import ActionHistory from './actionHistory'
+import ColumnAction from './columnAction'
 
 import { shortenAddress } from 'shared/util'
 
@@ -48,8 +48,8 @@ export const HISTORY_COLUMN = [
   {
     title: 'ACTIONS',
     key: 'action',
-    dataIndex: 'state',
+    dataIndex: 'address',
     width: 100,
-    render: (state: number) => <ActionHistory state={state} />,
+    render: (address: string) => <ColumnAction orderAddress={address} />,
   },
 ]
