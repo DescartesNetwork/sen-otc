@@ -48,6 +48,23 @@ export const getRetailers = createAsyncThunk<RetailerState>(
   },
 )
 
+export const getRetailer = createAsyncThunk<
+  RetailerState,
+  { address: string },
+  { state: any }
+>(`${NAME}/getRetailer`, async ({ address }, { getState }) => {
+  if (!account.isAddress(address)) throw new Error('Invalid retailer address')
+  const {
+    sol: { purchasing },
+  } = configs
+  const {
+    retailers: { [address]: data },
+  } = getState()
+  if (data) return { [address]: data }
+  const raw = await purchasing.getRetailerData(address)
+  return { [address]: raw }
+})
+
 export const upsetRetailer = createAsyncThunk<
   RetailerState,
   { address: string; data: RetailerData }
@@ -56,6 +73,14 @@ export const upsetRetailer = createAsyncThunk<
   if (!data) throw new Error('Data is empty')
   return { [address]: data }
 })
+
+export const deleteRetailer = createAsyncThunk(
+  `${NAME}/deleteRetailer`,
+  async ({ address }: { address: string }) => {
+    if (!account.isAddress(address)) throw new Error('Invalid retailer address')
+    return { address }
+  },
+)
 
 /**
  * Usual procedure
@@ -72,8 +97,16 @@ const slice = createSlice({
         (state, { payload }) => void Object.assign(state, payload),
       )
       .addCase(
+        getRetailer.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
         upsetRetailer.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        deleteRetailer.fulfilled,
+        (state, { payload }) => void delete state[payload.address],
       ),
 })
 
