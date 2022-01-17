@@ -4,13 +4,11 @@ import { useFoundRetailer } from 'app/hooks/useFoundRetailer'
 import { useMemo } from 'react'
 import { RETAILER_COLUMN } from './columnConfig'
 
-export type RetailerTableData = RetailerData & { address: string }
-
 const FindRetailer = () => {
   const { foundRetailer } = useFoundRetailer()
 
   const dataTable = useMemo(() => {
-    const newDataTable: RetailerTableData[] = []
+    const newDataTable: (RetailerData & { address: string })[] = []
     for (const address in foundRetailer) {
       newDataTable.push({
         ...foundRetailer[address],

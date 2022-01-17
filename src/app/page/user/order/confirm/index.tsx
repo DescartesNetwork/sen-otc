@@ -15,6 +15,7 @@ import { notifyError, notifySuccess } from 'app/helper'
 import { setOrderStep } from 'app/model/main.controller'
 import configs from 'app/configs'
 import { setAskAmount, setBidAmount } from 'app/model/order.controller'
+import useNextOrderIndex from 'app/hooks/useNextOrderIndex'
 
 const {
   sol: { purchasing },
@@ -32,7 +33,7 @@ const Confirm = () => {
       retailerAddress,
     },
   } = useSelector((state: AppState) => state)
-
+  const index = useNextOrderIndex(retailerAddress)
   const bidDecimals = useMintDecimals(bidMintAddress)
   const askDecimals = useMintDecimals(askMintAddress)
 
@@ -43,7 +44,6 @@ const Confirm = () => {
       if (!wallet) throw new Error('Please connect wallet')
       if (!bidDecimals || !askDecimals) throw new Error('Invalid mint decimals')
 
-      const index = 2
       const lockTime = BigInt(86400)
       const bidValue = utils.decimalize(bidAmount, bidDecimals)
       const askValue = utils.decimalize(askAmount, askDecimals)

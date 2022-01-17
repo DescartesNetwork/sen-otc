@@ -7,12 +7,14 @@ import { MintSymbol } from 'shared/antd/mint'
 import { AppState } from 'app/model'
 import { numeric } from 'shared/util'
 import { useMarketPrice } from 'app/hooks/useMarketPrice'
+import { useRetailerFee } from 'app/hooks/useRetailerFee'
 
 const OrderInfo = () => {
   const {
-    order: { bidMintAddress, askMintAddress },
+    order: { bidMintAddress, askMintAddress, retailerAddress },
   } = useSelector((state: AppState) => state)
   const { marketPrice } = useMarketPrice()
+  const { fee } = useRetailerFee(retailerAddress)
 
   return (
     <Row gutter={[24, 24]}>
@@ -41,14 +43,8 @@ const OrderInfo = () => {
             </Col>
             <Col span={24}>
               <RowInfo
-                label="Network fee"
-                value={numeric(1).format('0,0.[00]%')}
-              />
-            </Col>
-            <Col span={24}>
-              <RowInfo
                 label="Retailer fee"
-                value={numeric(1).format('0,0.[00]%')}
+                value={numeric(fee).format('0,0.[00]%')}
               />
             </Col>
           </Row>

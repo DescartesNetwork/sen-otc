@@ -4,19 +4,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Typography } from 'antd'
 import TokenSelect from 'app/components/selectTokens'
 import NumericInput from 'shared/antd/numericInput'
+import MarketPrice from './marketPrice'
 
 import { useAskMints } from 'app/hooks/useAskMints'
 import { AppDispatch, AppState } from 'app/model'
 import { setAskAmount, setAskMint } from 'app/model/order.controller'
-import MarketPrice from './marketPrice'
+import { useMarketPrice } from 'app/hooks/useMarketPrice'
+import { DEFAULT_RETAILER_FEE } from 'app/constant'
 
 const Ask = () => {
   const [selected, setSelected] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
-    order: { askAmount, askMintAddress },
+    order: { askAmount, askMintAddress, bidAmount },
   } = useSelector((state: AppState) => state)
   const { askMints } = useAskMints()
+  const { marketPrice } = useMarketPrice()
 
   const selectMintDefault = useCallback(() => {
     const defaultMint = askMints[0]
@@ -26,6 +29,16 @@ const Ask = () => {
   useEffect(() => {
     selectMintDefault()
   }, [selectMintDefault])
+
+  const autoFillAsk = useCallback(() => {
+    let askEstimate =
+      marketPrice * Number(bidAmount) * (1 - DEFAULT_RETAILER_FEE / 100)
+    dispatch(setAskAmount(String(askEstimate)))
+  }, [bidAmount, dispatch, marketPrice])
+
+  useEffect(() => {
+    autoFillAsk()
+  }, [autoFillAsk])
 
   const onSelectToken = (mintAddress: string) => {
     setSelected(true)
