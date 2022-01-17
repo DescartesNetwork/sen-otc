@@ -7,11 +7,12 @@ import { HISTORY_COLUMN } from './historyColumn'
 import { AppState } from 'app/model'
 
 const ListHistory = () => {
-  const { history } = useSelector((state: AppState) => state)
+  const { orders } = useSelector((state: AppState) => state)
+
   const dataSource = useMemo(
     () =>
-      Object.keys(history).map((addr) => ({ ...history[addr], address: addr })),
-    [history],
+      Object.keys(orders).map((addr) => ({ ...orders[addr], address: addr })),
+    [orders],
   )
 
   return (
