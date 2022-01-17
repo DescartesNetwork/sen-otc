@@ -1,7 +1,6 @@
 import { Col, Row, Select, Typography } from 'antd'
-import { FilterOrderSet } from 'app/page/user/history'
 
-export const TIME_FRAME = [7, 30, 90]
+import { FilterOrderSet, TIME_FRAME } from 'app/constant'
 
 const TimeFilterHistory = ({
   orderState,

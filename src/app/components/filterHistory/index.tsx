@@ -5,7 +5,7 @@ import CoinFilterHistory from './coinFilterHistory'
 import StatusFilterHistory from './statusFilter'
 import TimeFilterHistory from './timeFilterHistory'
 
-import { FilterOrderSet } from 'app/page/user/history'
+import { FilterOrderSet } from 'app/constant'
 
 const FilterHistory = ({
   onSelect = () => {},

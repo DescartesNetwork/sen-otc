@@ -8,24 +8,18 @@ import { HISTORY_DATA_SIZE } from 'app/constant'
 const {
   sol: { purchasing },
 } = configs
-
 /**
  * Interface & Utility
  */
-
 export type HistoryState = Record<string, OrderData>
-
 /**
  * Store constructor
  */
-
 const NAME = 'history'
 const initialState: HistoryState = {}
-
 /**
  * Actions
  */
-
 export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
   `${NAME}/fetchHistoryOTC`,
   async () => {
@@ -46,11 +40,9 @@ export const fetchHistoryOTC = createAsyncThunk<HistoryState>(
     return history
   },
 )
-
 /**
  * Usual procedure
  */
-
 const slice = createSlice({
   name: NAME,
   initialState,

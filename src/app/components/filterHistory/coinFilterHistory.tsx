@@ -1,15 +1,16 @@
 import { Col, Row, Select, Space, Typography } from 'antd'
+import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 import { useAskMints } from 'app/hooks/useAskMints'
 import { useBidMints } from 'app/hooks/useBidMints'
-import { FilterOrderSet } from 'app/page/user/history'
-import { MintAvatar, MintSymbol } from 'shared/antd/mint'
+
+import { FilterOrderSet } from 'app/constant'
 
 const CoinFilterHistory = ({
   orderState,
   onSelect = () => {},
 }: {
-  orderState: FilterOrderSet | undefined
+  orderState: FilterOrderSet
   onSelect: (value: FilterOrderSet) => void
 }) => {
   const { bidMints } = useBidMints()

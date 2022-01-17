@@ -4,7 +4,7 @@ import { Col, Row, Space, Typography, Table } from 'antd'
 import { ORDER_COLUMN, demoData } from './column'
 import FilterHistory from 'app/components/filterHistory'
 
-import { FilterOrderSet } from 'app/page/user/history'
+import { FilterOrderSet } from 'app/constant'
 
 const Order = () => {
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({

@@ -6,8 +6,7 @@ import { Table } from 'antd'
 import { HISTORY_COLUMN } from './historyColumn'
 
 import { AppState } from 'app/model'
-import { FilterOrderSet } from '.'
-import { ORDER_STATE_DIGIT } from 'app/constant'
+import { FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
 
 const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { history, retailers } = useSelector((state: AppState) => state)
@@ -23,7 +22,7 @@ const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
           : true
       const statusCheck =
         status !== 'ALL'
-          ? ORDER_STATE_DIGIT[history[addr].state - 1] === status
+          ? ORDER_STATE_DIGIT[history[addr].state] === status
           : true
       const timeCheck =
         Date.now() / 1000 -

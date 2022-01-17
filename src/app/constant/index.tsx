@@ -17,7 +17,6 @@ export const ORDER_STATE_CODE = {
   REJECTED: 4,
   CANCELED: 5,
   UNKNOWN: 6,
-  ALL: 7,
 }
 
 export const ORDER_STATE_DIGIT = [
@@ -43,3 +42,11 @@ export const HISTORY_DATA_SIZE = 105
 export const FILTER_RETAILER_DATA = [{ dataSize: RETAILER_DATA_SIZE }]
 
 export const DEFAULT_RETAILER_FEE = 0.005
+
+export const TIME_FRAME = [7, 30, 90]
+
+export interface FilterOrderSet {
+  coin: string
+  time: number
+  status: string
+}

@@ -7,13 +7,7 @@ import ListHistory from './listHistory'
 
 import { fetchHistoryOTC } from 'app/model/history.controller'
 import { AppDispatch } from 'app/model'
-import { OrderState } from 'app/constant'
-
-export interface FilterOrderSet {
-  coin: string
-  time: number
-  status: string
-}
+import { FilterOrderSet } from 'app/constant'
 
 const OrderHistory = () => {
   const dispatch = useDispatch<AppDispatch>()

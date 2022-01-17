@@ -1,13 +1,12 @@
 import { Col, Row, Select, Typography } from 'antd'
 
-import { ORDER_STATE_DIGIT } from 'app/constant'
-import { FilterOrderSet } from 'app/page/user/history'
+import { ORDER_STATE_DIGIT, FilterOrderSet } from 'app/constant'
 
 const StatusFilterHistory = ({
   orderState,
   onSelect = () => {},
 }: {
-  orderState: FilterOrderSet | undefined
+  orderState: FilterOrderSet
   onSelect: (value: FilterOrderSet) => void
 }) => {
   const handleOnChange = (value: string) => {
