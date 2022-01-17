@@ -48,8 +48,8 @@ export const HISTORY_COLUMN = [
   {
     title: 'ACTIONS',
     key: 'action',
-    dataIndex: 'state',
+    dataIndex: 'address',
     width: 100,
-    render: (state: number) => <ActionHistory state={state} />,
+    render: (address: string) => <ActionHistory address={address} />,
   },
 ]
