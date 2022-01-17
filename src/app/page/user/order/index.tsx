@@ -25,7 +25,7 @@ const Order = () => {
           current={orderStep}
           size="small"
           onChange={handleStep}
-          direction="horizontal"
+          responsive={false}
         >
           <Steps.Step title="Select token" />
           <Steps.Step title="Find retailer" />

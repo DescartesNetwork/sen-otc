@@ -16,7 +16,7 @@ const ColumnAction = ({ retailerAddress }: { retailerAddress: string }) => {
   }
 
   return (
-    <Button size="small" type="primary" onClick={onSelectRetailer}>
+    <Button size="small" type="primary" onClick={onSelectRetailer} block>
       Select
     </Button>
   )
