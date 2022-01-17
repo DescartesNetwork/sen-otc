@@ -17,10 +17,9 @@ const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
   const dispatch = useDispatch<AppDispatch>()
   const [visible, setVisible] = useState(false)
 
-  const wallet = window.sentre.wallet
-
   const onCancel = async () => {
     try {
+      const wallet = window.sentre.wallet
       if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
       const { txId } = await purchasing.cancelOrder(orderAddress, wallet)
       dispatch(updateHistoryOTC({ orderAddress }))
