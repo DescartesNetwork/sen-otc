@@ -4,12 +4,13 @@ import { Tag } from 'antd'
 import { OrderState, ORDER_STATE_CODE } from 'app/constant'
 
 const STATUS_COLOR: Record<OrderState, number[]> = {
-  approved: [10, 151, 155],
-  pending: [212, 177, 6],
-  rejected: [215, 35, 17],
-  done: [0, 0, 0],
-  canceled: [0, 0, 0],
-  unknown: [0, 0, 0],
+  Approved: [10, 151, 155],
+  Pending: [212, 177, 6],
+  Rejected: [215, 35, 17],
+  Done: [0, 0, 0],
+  Canceled: [0, 0, 0],
+  Unknown: [0, 0, 0],
+  All: [],
 }
 
 const StatusTag = ({ state }: { state: number }) => {

@@ -2,35 +2,41 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Col, Row } from 'antd'
-import FilterHistory from '../../../components/filterHistory'
+import FilterHistory from 'app/components/filterHistory'
 import ListHistory from './listHistory'
 
 import { fetchHistoryOTC } from 'app/model/history.controller'
 import { AppDispatch } from 'app/model'
+import { OrderState } from 'app/constant'
+
+export interface FilterOrderSet {
+  coin: string
+  time: number
+  status: string
+}
 
 const OrderHistory = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [coin, setCoin] = useState('Select')
-  const [time, setTime] = useState('Select')
-  const [status, setStatus] = useState('Select')
-  
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: 'All',
+    time: 7,
+    status: 'ALL',
+  })
+
   useEffect(() => {
     dispatch(fetchHistoryOTC())
   }, [dispatch])
 
   return (
     <Row gutter={[12, 24]}>
-      <Col>
-        <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
-      </Col>
-      <Col>
-        <FilterHistory label="Time" value={time} onSelected={setTime} />
-      </Col>
-      <Col>
-        <FilterHistory label="Status" value={status} onSelected={setStatus} />
-      </Col>
+      <FilterHistory
+        onSelect={(value) => {
+          setOrderFilter(value)
+        }}
+        filterValues={orderFilter}
+      />
       <Col span={24}>
-        <ListHistory />
+        <ListHistory orderFilters={orderFilter} />
       </Col>
     </Row>
   )

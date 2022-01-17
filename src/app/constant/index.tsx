@@ -17,15 +17,27 @@ export const ORDER_STATE_CODE = {
   REJECTED: 4,
   CANCELED: 5,
   UNKNOWN: 6,
+  ALL: 7,
 }
 
+export const ORDER_STATE_DIGIT = [
+  'PENDING',
+  'APPROVED',
+  'DONE',
+  'REJECTED',
+  'CANCELED',
+  'UNKNOWN',
+  'ALL',
+]
+
 export enum OrderState {
-  Pending = 'pending',
-  Approved = 'approved',
-  Done = 'done',
-  Rejected = 'rejected',
-  Canceled = 'canceled',
-  Unknown = 'unknown',
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Done = 'Done',
+  Rejected = 'Rejected',
+  Canceled = 'Canceled',
+  Unknown = 'Unknown',
+  All = 'All',
 }
 
 export const RETAILER_DATA_SIZE = 161
