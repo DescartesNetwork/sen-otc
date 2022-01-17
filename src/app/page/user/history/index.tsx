@@ -2,26 +2,27 @@ import { useState } from 'react'
 
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
-import ListHistory from './listHistory'
+import ListHistory from './listOrders'
+
+import { FilterOrderSet } from 'app/constant'
 
 const OrderHistory = () => {
-  const [coin, setCoin] = useState('Select')
-  const [time, setTime] = useState('Select')
-  const [status, setStatus] = useState('Select')
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: 'All',
+    time: 7,
+    status: 'ALL',
+  })
 
   return (
     <Row gutter={[12, 24]}>
-      <Col>
-        <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
-      </Col>
-      <Col>
-        <FilterHistory label="Time" value={time} onSelected={setTime} />
-      </Col>
-      <Col>
-        <FilterHistory label="Status" value={status} onSelected={setStatus} />
-      </Col>
+      <FilterHistory
+        onSelect={(value) => {
+          setOrderFilter(value)
+        }}
+        filterValues={orderFilter}
+      />
       <Col span={24}>
-        <ListHistory />
+        <ListHistory orderFilters={orderFilter} />
       </Col>
     </Row>
   )

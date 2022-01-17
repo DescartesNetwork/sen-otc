@@ -19,13 +19,22 @@ export const ORDER_STATE_CODE = {
   UNKNOWN: 6,
 }
 
+export const ORDER_STATE_DIGIT = [
+  'ALL',
+  'PENDING',
+  'APPROVED',
+  'DONE',
+  'REJECTED',
+  'CANCELED',
+]
+
 export enum OrderState {
-  Pending = 'pending',
-  Approved = 'approved',
-  Done = 'done',
-  Rejected = 'rejected',
-  Canceled = 'canceled',
-  Unknown = 'unknown',
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Done = 'Done',
+  Rejected = 'Rejected',
+  Canceled = 'Canceled',
+  Unknown = 'Unknown',
 }
 
 export const RETAILER_DATA_SIZE = 161
@@ -33,3 +42,11 @@ export const HISTORY_DATA_SIZE = 105
 export const FILTER_RETAILER_DATA = [{ dataSize: RETAILER_DATA_SIZE }]
 
 export const DEFAULT_RETAILER_FEE = 0.005
+
+export const TIME_FRAME = [7, 30, 90]
+
+export interface FilterOrderSet {
+  coin: string
+  time: number
+  status: string
+}
