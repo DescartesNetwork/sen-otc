@@ -7,7 +7,8 @@ import { HISTORY_COLUMN } from './historyColumn'
 import { AppState } from 'app/model'
 
 const ListHistory = () => {
-  const { orders } = useSelector((state: AppState) => state)
+  const { orders, history } = useSelector((state: AppState) => state)
+  console.log(history)
 
   const dataSource = useMemo(
     () =>

@@ -9,13 +9,15 @@ import { AppState } from 'app/model'
 const ActionHistory = ({ address }: { address: string }) => {
   const {
     history: {
-      [address]: { state },
+      [address]: { state: stateOrder },
     },
   } = useSelector((state: AppState) => state)
 
-  if (state === ORDER_STATE_CODE.PENDING)
+  if (!stateOrder) return null
+
+  if (stateOrder === ORDER_STATE_CODE.PENDING)
     return <CancelAction orderAddress={address} />
-  if (state === ORDER_STATE_CODE.APPROVED)
+  if (stateOrder === ORDER_STATE_CODE.APPROVED)
     return <RedeemAction orderAddress={address} />
   return null
 }
