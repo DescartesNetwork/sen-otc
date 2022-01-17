@@ -7,15 +7,9 @@ import TokenSelect from 'app/components/selectTokens'
 
 import { useBidMints } from 'app/hooks/useBidMints'
 import { AppDispatch, AppState } from 'app/model'
-import {
-  setAskAmount,
-  setBidAmount,
-  setBidMint,
-} from 'app/model/order.controller'
+import { setBidAmount, setBidMint } from 'app/model/order.controller'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { numeric } from 'shared/util'
-import { DEFAULT_RETAILER_FEE } from 'app/constant'
-import { useMarketPrice } from 'app/hooks/useMarketPrice'
 
 const Bid = () => {
   const [selected, setSelected] = useState(false)
@@ -24,7 +18,6 @@ const Bid = () => {
     order: { bidAmount, bidMintAddress },
   } = useSelector((state: AppState) => state)
   const { bidMints } = useBidMints()
-  const { marketPrice } = useMarketPrice()
   const bidAccount = useAccountBalanceByMintAddress(bidMintAddress)
 
   const selectMintDefault = useCallback(() => {
@@ -41,12 +34,6 @@ const Bid = () => {
     dispatch(setBidMint(mintAddress))
   }
 
-  const onChange = (amount: string) => {
-    dispatch(setBidAmount(amount))
-    let askEstimate =
-      marketPrice * Number(amount) * (1 - DEFAULT_RETAILER_FEE / 100)
-    dispatch(setAskAmount(String(askEstimate)))
-  }
   return (
     <Row gutter={[8, 8]} justify="end">
       <Col span={24}>
@@ -63,7 +50,7 @@ const Bid = () => {
             />
           }
           value={bidAmount}
-          onValue={onChange}
+          onValue={(amount: string) => dispatch(setBidAmount(amount))}
         />
       </Col>
       <Col>
