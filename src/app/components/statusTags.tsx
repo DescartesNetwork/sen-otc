@@ -10,7 +10,6 @@ const STATUS_COLOR: Record<OrderState, number[]> = {
   Done: [0, 0, 0],
   Canceled: [0, 0, 0],
   Unknown: [0, 0, 0],
-  All: [],
 }
 
 const StatusTag = ({ state }: { state: number }) => {

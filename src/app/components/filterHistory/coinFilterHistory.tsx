@@ -1,6 +1,9 @@
-import { Col, Row, Select, Typography } from 'antd'
+import { Col, Row, Select, Space, Typography } from 'antd'
 
+import { useAskMints } from 'app/hooks/useAskMints'
+import { useBidMints } from 'app/hooks/useBidMints'
 import { FilterOrderSet } from 'app/page/user/history'
+import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 const CoinFilterHistory = ({
   orderState,
@@ -9,6 +12,10 @@ const CoinFilterHistory = ({
   orderState: FilterOrderSet | undefined
   onSelect: (value: FilterOrderSet) => void
 }) => {
+  const { bidMints } = useBidMints()
+  const { askMints } = useAskMints()
+  const coinOptions = [...bidMints, ...askMints]
+
   const handleOnChange = (value: string) => {
     if (!orderState) return
     onSelect({ ...orderState, coin: value })
@@ -20,8 +27,14 @@ const CoinFilterHistory = ({
       </Col>
       <Col span={24}>
         <Select value={orderState?.coin} onChange={handleOnChange} size="small">
-          {[1, 2, 3, 4, 5].map((item, idx) => (
-            <Select.Option key={item + idx}>Select {item}</Select.Option>
+          <Select.Option key={'All'}>All</Select.Option>
+          {coinOptions.map((item) => (
+            <Select.Option key={item}>
+              <Space>
+                <MintAvatar mintAddress={item} />
+                <MintSymbol mintAddress={item} />
+              </Space>
+            </Select.Option>
           ))}
         </Select>
       </Col>

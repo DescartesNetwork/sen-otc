@@ -11,11 +11,16 @@ import { ORDER_STATE_DIGIT } from 'app/constant'
 
 const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { history, retailers } = useSelector((state: AppState) => state)
+
   const { time, status, coin } = orderFilters
-  console.log(retailers)
 
   const filter = useCallback(
     (addr: string) => {
+      const coinCheck =
+        coin !== 'All'
+          ? retailers[history[addr].retailer].mint_ask === coin ||
+            retailers[history[addr].retailer].mint_bid === coin
+          : true
       const statusCheck =
         status !== 'ALL'
           ? ORDER_STATE_DIGIT[history[addr].state - 1] === status
@@ -24,9 +29,9 @@ const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
         Date.now() / 1000 -
           Number(utils.undecimalize(history[addr].created_at, 0)) <
         time * 86400
-      return statusCheck && timeCheck
+      return statusCheck && timeCheck && coinCheck
     },
-    [history, status, time],
+    [coin, history, retailers, status, time],
   )
 
   const dataSource = useMemo(
