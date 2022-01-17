@@ -4,13 +4,13 @@ import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
 import ListHistory from './listOrders'
 
-import { FilterOrderSet } from 'app/constant'
+import { ALL, FilterOrderSet } from 'app/constant'
 
 const OrderHistory = () => {
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
-    coin: 'All',
+    coin: ALL,
     time: 7,
-    status: 'ALL',
+    status: ALL,
   })
 
   return (

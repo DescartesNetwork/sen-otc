@@ -3,8 +3,7 @@ import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 import { useAskMints } from 'app/hooks/useAskMints'
 import { useBidMints } from 'app/hooks/useBidMints'
-
-import { FilterOrderSet } from 'app/constant'
+import { FilterOrderSet, ALL } from 'app/constant'
 
 const CoinFilterHistory = ({
   orderState,
@@ -28,7 +27,7 @@ const CoinFilterHistory = ({
       </Col>
       <Col span={24}>
         <Select value={orderState?.coin} onChange={handleOnChange} size="small">
-          <Select.Option key={'All'}>All</Select.Option>
+          <Select.Option key={ALL}>All</Select.Option>
           {coinOptions.map((item) => (
             <Select.Option key={item}>
               <Space>

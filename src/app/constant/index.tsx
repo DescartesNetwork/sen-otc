@@ -28,6 +28,8 @@ export const ORDER_STATE_DIGIT = [
   'CANCELED',
 ]
 
+export const ALL = 'ALL'
+
 export enum OrderState {
   Pending = 'Pending',
   Approved = 'Approved',
