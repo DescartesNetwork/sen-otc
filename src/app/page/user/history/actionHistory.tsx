@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import CancelAction from './cancelAction'
+// import CancelAction from './cancelAction'
 import RedeemAction from './redeemAction'
 
 import { ORDER_STATE_CODE } from 'app/constant'
@@ -8,7 +8,7 @@ import { AppState } from 'app/model'
 
 const ActionHistory = ({ address }: { address: string }) => {
   const {
-    history: {
+    orders: {
       [address]: { state: stateOrder },
     },
   } = useSelector((state: AppState) => state)
@@ -16,7 +16,8 @@ const ActionHistory = ({ address }: { address: string }) => {
   if (!stateOrder) return null
 
   if (stateOrder === ORDER_STATE_CODE.PENDING)
-    return <CancelAction orderAddress={address} />
+    // return <CancelAction orderAddress={address} />
+    return <>Trarats</>
   if (stateOrder === ORDER_STATE_CODE.APPROVED)
     return <RedeemAction orderAddress={address} />
   return null

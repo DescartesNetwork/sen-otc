@@ -5,7 +5,6 @@ import { Button } from 'antd'
 import configs from 'app/configs'
 import { notifyError, notifySuccess } from 'app/helper'
 import { AppDispatch } from 'app/model'
-import { updateHistoryOTC } from 'app/model/history.controller'
 
 const {
   sol: { purchasing },
@@ -19,7 +18,7 @@ const RedeemAction = ({ orderAddress }: { orderAddress: string }) => {
     try {
       if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
       const { txId } = await purchasing.redeemOrder(orderAddress, wallet)
-      dispatch(updateHistoryOTC({ orderAddress }))
+      // dispatch(updateHistoryOTC({ orderAddress }))
       notifySuccess('Redeem', txId)
     } catch (er) {
       console.log(er)
