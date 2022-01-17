@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
-import ListHistory from './listHistory'
+import ListHistory from './listOrders'
 
 const OrderHistory = () => {
   const [coin, setCoin] = useState('Select')

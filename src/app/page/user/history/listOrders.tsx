@@ -6,7 +6,7 @@ import { HISTORY_COLUMN } from './historyColumn'
 
 import { AppState } from 'app/model'
 
-const ListHistory = () => {
+const ListOrders = () => {
   const { orders } = useSelector((state: AppState) => state)
 
   const dataSource = useMemo(
@@ -27,4 +27,4 @@ const ListHistory = () => {
   )
 }
 
-export default ListHistory
+export default ListOrders
