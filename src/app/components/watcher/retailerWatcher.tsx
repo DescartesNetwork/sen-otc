@@ -1,12 +1,12 @@
-import { CSSProperties, useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-
-import { Spin } from 'antd'
+import { account } from '@senswap/sen-js'
 
 import { notifyError } from 'app/helper'
-import configs from 'app/configs'
+import { AppDispatch } from 'app/model'
 import { getRetailers, upsetRetailer } from 'app/model/retailers.controller'
-import { FILTER_RETAILER_DATA } from 'app/constant'
+import { useWallet } from '@senhub/providers'
+import configs from 'app/configs'
 
 const {
   sol: { purchasing },
@@ -15,57 +15,48 @@ const {
 // Watch id
 let watchId = 0
 
-const RetailerWatcher = ({
-  children,
-  style = {},
-}: {
-  children: JSX.Element
-  style?: CSSProperties
-}) => {
-  const dispatch = useDispatch()
-  const [loading, setLoading] = useState(false)
+const RetailerWatcher = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
 
+  // First-time fetching
   const fetchData = useCallback(async () => {
     try {
-      setLoading(true)
-      await dispatch(getRetailers())
+      if (!account.isAddress(walletAddress)) return
+      await dispatch(getRetailers()).unwrap()
     } catch (er) {
       await notifyError(er)
-    } finally {
-      setLoading(false)
     }
-  }, [dispatch])
-
+  }, [dispatch, walletAddress])
+  // Watch account changes
   const watchData = useCallback(async () => {
     if (watchId) return console.warn('Already watched')
-
-    watchId = purchasing.watch((er, re: any) => {
+    const callback = (er: string | null, re: any) => {
       if (er) return console.error(er)
-      const { type, address, data } = re
-      if (type !== 'retailer') return
-
+      const { address, data } = re
       return dispatch(upsetRetailer({ address, data }))
-    }, FILTER_RETAILER_DATA)
+    }
+    const filters = [{ dataSize: 161 }]
+    watchId = purchasing.watch(callback, filters)
   }, [dispatch])
 
   useEffect(() => {
     fetchData()
     watchData()
+    // Unwatch (cancel socket)
     return () => {
       ;(async () => {
         try {
-          purchasing.unwatch(watchId)
+          await purchasing.unwatch(watchId)
         } catch (er) {}
       })()
       watchId = 0
     }
   }, [fetchData, watchData])
 
-  return (
-    <Spin spinning={loading} style={style}>
-      {children}
-    </Spin>
-  )
+  return <Fragment />
 }
 
 export default RetailerWatcher
