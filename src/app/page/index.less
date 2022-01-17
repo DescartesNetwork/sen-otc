@@ -107,6 +107,28 @@
     }
   }
 }
+// order card
+.order-otc-card {
+  box-shadow: unset !important;
+  border-radius: 8px !important;
+}
+// order collapse
+
+.order-collapse {
+  .sentre-collapse-header {
+    padding: 0 !important;
+    border: none !important;
+  }
+  .sentre-collapse-item {
+    border: none !important;
+  }
+  .sentre-collapse-content-box {
+    padding: 0 !important;
+  }
+  & *:not(button) {
+    background-color: transparent !important;
+  }
+}
 
 #dark {
   .sentre-table-thead > tr > th {
@@ -125,11 +147,17 @@
       box-shadow: 0px 4px 44px rgb(0 0 0 / 36%);
     }
   }
+  .order-otc-card {
+    background: #212433 !important;
+  }
 }
 #light {
   .otc-banner {
     .sentre-image {
       box-shadow: 0px 4px 40px rgb(33 36 51 / 12%);
     }
+  }
+  .order-otc-card {
+    background: #fff !important;
   }
 }
