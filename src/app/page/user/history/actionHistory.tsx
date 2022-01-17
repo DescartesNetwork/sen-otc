@@ -8,7 +8,7 @@ import { AppState } from 'app/model'
 
 const ActionHistory = ({ address }: { address: string }) => {
   const {
-    history: {
+    orders: {
       [address]: { state },
     },
   } = useSelector((state: AppState) => state)

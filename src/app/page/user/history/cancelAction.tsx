@@ -1,39 +1,43 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 
 import { Button, Col, Modal, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 
-import { notifyError } from 'app/helper'
+import { notifyError, notifySuccess } from 'app/helper'
 import configs from 'app/configs'
-import { AppDispatch } from 'app/model'
-import { updateHistoryOTC } from 'app/model/history.controller'
 
 const {
   sol: { purchasing },
 } = configs
 
 const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
-  const dispatch = useDispatch<AppDispatch>()
   const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const onCancel = async () => {
     try {
+      setLoading(true)
       const wallet = window.sentre.wallet
       if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
-      await purchasing.cancelOrder(orderAddress, wallet)
-      dispatch(updateHistoryOTC({ orderAddress }))
+      const { txId } = await purchasing.cancelOrder(orderAddress, wallet)
+      notifySuccess('Cancel', txId)
+      setVisible(false)
     } catch (er) {
       notifyError({ message: 'Locked time is not open' })
     } finally {
-      setVisible(false)
+      setLoading(false)
     }
   }
 
   return (
     <Row>
       <Col span={24}>
-        <Button size="small" onClick={() => setVisible(true)} block>
+        <Button
+          size="small"
+          onClick={() => setVisible(true)}
+          block
+          loading={loading}
+        >
           Cancel
         </Button>
         <Modal
