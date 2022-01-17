@@ -2,17 +2,22 @@ import { useUI } from '@senhub/providers'
 
 import { Col, Row, Space, Tabs } from 'antd'
 import ButtonFilterOrders from 'app/components/buttonFilterOrders'
+import { UserOrderTabs } from 'app/constant'
+import { useState } from 'react'
 import ModeSettings from '../../components/modeSettings'
 import FAQ from './FAQ'
 import OrderHistory from './history'
 import Order from './order'
 
 const User = () => {
+  const [activeTab, setActiveTab] = useState<string>(UserOrderTabs.otc)
   const {
     ui: { infix },
   } = useUI()
 
   const isMobile = infix === 'xs'
+  const activeHistory = activeTab === UserOrderTabs.history
+  const showFilter = isMobile && activeHistory
 
   return (
     <Row gutter={[24, 24]}>
@@ -20,15 +25,17 @@ const User = () => {
         <Tabs
           tabBarExtraContent={
             <Space size={2}>
-              {isMobile && <ButtonFilterOrders />}
+              {showFilter && <ButtonFilterOrders />}
               <ModeSettings />
             </Space>
           }
+          activeKey={activeTab}
+          onChange={setActiveTab}
         >
-          <Tabs.TabPane key="order-otc" tab="Order OTC">
+          <Tabs.TabPane key={UserOrderTabs.otc} tab="Order OTC">
             <Order />
           </Tabs.TabPane>
-          <Tabs.TabPane key="history-otc" tab="History">
+          <Tabs.TabPane key={UserOrderTabs.history} tab="History">
             <OrderHistory />
           </Tabs.TabPane>
         </Tabs>
