@@ -8,14 +8,12 @@ import { AppState } from 'app/model'
 
 const ColumnAction = ({ orderAddress }: { orderAddress: string }) => {
   const {
-    orders: {
-      [orderAddress]: { state },
-    },
+    orders: { [orderAddress]: orderData },
   } = useSelector((state: AppState) => state)
 
-  if (state === ORDER_STATE_CODE.PENDING)
+  if (orderData?.state === ORDER_STATE_CODE.PENDING)
     return <CancelAction orderAddress={orderAddress} />
-  if (state === ORDER_STATE_CODE.APPROVED)
+  if (orderData?.state === ORDER_STATE_CODE.APPROVED)
     return <RedeemAction orderAddress={orderAddress} />
   return null
 }

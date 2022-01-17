@@ -9,7 +9,7 @@ import { AppState } from 'app/model'
 import { FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
 
 const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
-  const { history, retailers } = useSelector((state: AppState) => state)
+  const { orders, retailers } = useSelector((state: AppState) => state)
 
   const { time, status, coin } = orderFilters
 
@@ -17,32 +17,32 @@ const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
     (addr: string) => {
       const coinCheck =
         coin !== 'All'
-          ? retailers[history[addr].retailer].mint_ask === coin ||
-            retailers[history[addr].retailer].mint_bid === coin
+          ? retailers[orders[addr].retailer].mint_ask === coin ||
+            retailers[orders[addr].retailer].mint_bid === coin
           : true
       const statusCheck =
         status !== 'ALL'
-          ? ORDER_STATE_DIGIT[history[addr].state] === status
+          ? ORDER_STATE_DIGIT[orders[addr].state] === status
           : true
       const timeCheck =
         Date.now() / 1000 -
-          Number(utils.undecimalize(history[addr].created_at, 0)) <
+          Number(utils.undecimalize(orders[addr].created_at, 0)) <
         time * 86400
       return statusCheck && timeCheck && coinCheck
     },
-    [coin, history, retailers, status, time],
+    [coin, orders, retailers, status, time],
   )
 
   const dataSource = useMemo(
     () =>
-      Object.keys(history)
+      Object.keys(orders)
         .filter((addr) => {
           return filter(addr)
         })
         .map((addr) => {
-          return { ...history[addr], address: addr }
+          return { ...orders[addr], address: addr }
         }),
-    [filter, history],
+    [filter, orders],
   )
 
   return (

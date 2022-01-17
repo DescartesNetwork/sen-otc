@@ -1,25 +1,17 @@
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useState } from 'react'
 
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
 import ListHistory from './listOrders'
 
-import { fetchHistoryOTC } from 'app/model/history.controller'
-import { AppDispatch } from 'app/model'
 import { FilterOrderSet } from 'app/constant'
 
 const OrderHistory = () => {
-  const dispatch = useDispatch<AppDispatch>()
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
     coin: 'All',
     time: 7,
     status: 'ALL',
   })
-
-  useEffect(() => {
-    dispatch(fetchHistoryOTC())
-  }, [dispatch])
 
   return (
     <Row gutter={[12, 24]}>
