@@ -24,21 +24,21 @@ const PriceCell = ({
 
 const Price = ({ orderId }: { orderId: string }) => {
   const {
-    history: { [orderId]: orderData },
+    orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
-  const retailerData = retailers[orderData.retailer]
-  
+  const retailerData = retailers[orderData?.retailer]
+
   return (
     <Space>
       <PriceCell
-        amount={orderData.ask_amount}
-        mintAddress={retailerData.mint_ask}
+        amount={orderData?.ask_amount}
+        mintAddress={retailerData?.mint_ask}
       />
       <IonIcon name="arrow-forward-outline" />
       <PriceCell
-        amount={orderData.bid_amount}
-        mintAddress={retailerData.mint_bid}
+        amount={orderData?.bid_amount}
+        mintAddress={retailerData?.mint_bid}
       />
     </Space>
   )

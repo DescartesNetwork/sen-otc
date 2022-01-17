@@ -3,9 +3,9 @@ import { devTools, bigintSerializationMiddleware } from 'shared/devTools'
 
 import main from 'app/model/main.controller'
 import retailers from 'app/model/retailers.controller'
-import history from 'app/model/history.controller'
 import order from 'app/model/order.controller'
-
+import orders from 'app/model/orders.controller'
+import history from 'app/model/history.controller'
 /**
  * Isolated store
  */
@@ -16,8 +16,9 @@ const model = configureStore({
   reducer: {
     main,
     retailers,
-    history,
     order,
+    orders,
+    history,
   },
 })
 

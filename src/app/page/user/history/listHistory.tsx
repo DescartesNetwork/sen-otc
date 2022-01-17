@@ -16,7 +16,6 @@ const ListHistory = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
 
   const filter = useCallback(
     (addr: string) => {
-      const coinCheck = coin ? retailers : true
       const statusCheck =
         status !== 'ALL'
           ? ORDER_STATE_DIGIT[history[addr].state - 1] === status
