@@ -5,7 +5,10 @@ import { AppState } from 'app/model'
 import { useSortedMint } from './useSortedMint'
 
 export const useAskMints = (): { askMints: string[] } => {
-  const { retailers } = useSelector((state: AppState) => state)
+  const {
+    retailers,
+    order: { bidMintAddress },
+  } = useSelector((state: AppState) => state)
   const [askMints, setAskMints] = useState<string[]>([])
   const { sortedMints } = useSortedMint(askMints)
 
@@ -14,13 +17,13 @@ export const useAskMints = (): { askMints: string[] } => {
     const mapHasMints = new Map<string, boolean>()
     const newAskMints = []
     for (const addr in retailers) {
-      const { mint_ask } = retailers[addr]
-      if (mapHasMints.has(mint_ask)) continue
+      const { mint_ask, mint_bid } = retailers[addr]
+      if (mapHasMints.has(mint_ask) || mint_bid !== bidMintAddress) continue
       newAskMints.push(mint_ask)
       mapHasMints.set(mint_ask, true)
     }
     return setAskMints(newAskMints)
-  }, [retailers])
+  }, [bidMintAddress, retailers])
 
   useEffect(() => {
     getAskMints()

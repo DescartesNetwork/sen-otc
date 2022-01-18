@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { AppState } from 'app/model'
 import { RetailerState } from 'app/model/retailers.controller'
+import { RETAILER_STATE } from 'app/constant/retailer'
 
 export const useFoundRetailer = () => {
   const {
@@ -17,7 +18,8 @@ export const useFoundRetailer = () => {
       const retailerData = retailers[addr]
       if (
         retailerData.mint_bid === bidMintAddress &&
-        retailerData.mint_ask === askMintAddress
+        retailerData.mint_ask === askMintAddress &&
+        retailerData.state === RETAILER_STATE.Active
       )
         newFoundRetailer[addr] = retailerData
     }
