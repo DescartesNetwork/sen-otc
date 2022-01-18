@@ -19,7 +19,7 @@ const Order = () => {
   } = useUI()
   const desktop = width > 1200
   const isMobile = infix === 'xs'
-  const colSpan = !isMobile ? 24 : undefined
+  const colSpan = isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
 
   return (
@@ -28,22 +28,21 @@ const Order = () => {
         <Row gutter={12} align="bottom">
           {!isMobile && (
             <Col flex="auto">
-              <Row gutter={12}>
-                <FilterHistory
-                  onSelect={(value) => {
-                    setOrderFilter(value)
-                  }}
-                  filterValues={orderFilter}
-                />
-              </Row>
+              <FilterHistory
+                onSelect={(value) => {
+                  setOrderFilter(value)
+                }}
+                filterValues={orderFilter}
+              />
             </Col>
           )}
-          <Col>
-            <Row>
-              <Col span={colSpan} flex={flexType}>
+          <Col span={colSpan}>
+            <Row justify="end">
+              <Col flex={flexType}>
                 <Typography.Text type="secondary">Market price</Typography.Text>
               </Col>
-              <Col span={colSpan}>
+              {!isMobile && <Col span={24} />}
+              <Col>
                 <Typography.Text>SNTR/USDC = 0.02567</Typography.Text>
               </Col>
             </Row>
