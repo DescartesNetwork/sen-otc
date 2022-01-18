@@ -1,25 +1,15 @@
-import { Divider, Select, Space, Typography } from 'antd'
+import { Select, SelectProps, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 const TokenSelect = ({
   tokens,
-  onChange,
-  value,
+  ...rest
 }: {
   tokens: string[]
-  onChange: (tokenAddress: string) => void
-  value: string
-}) => {
+} & SelectProps) => {
   return (
-    <Select
-      className="otc-selection"
-      value={value}
-      onChange={onChange}
-      bordered={false}
-      suffixIcon={<Divider type="vertical" />}
-      dropdownStyle={{ minWidth: 170 }}
-    >
+    <Select {...rest}>
       <Select.Option key="Select">
         <Space>
           <MintAvatar

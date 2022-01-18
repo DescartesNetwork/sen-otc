@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Col, Row, Space, Typography } from 'antd'
+import { Col, Divider, Row, Space, Typography } from 'antd'
 import NumericInput from 'shared/antd/numericInput'
 import TokenSelect from 'app/components/selectTokens'
 
@@ -47,6 +47,10 @@ const Bid = () => {
               value={bidMintAddress}
               tokens={bidMints}
               onChange={onSelectToken}
+              className="otc-selection"
+              bordered={false}
+              suffixIcon={<Divider type="vertical" />}
+              dropdownStyle={{ minWidth: 170 }}
             />
           }
           value={bidAmount}
