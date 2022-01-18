@@ -20,11 +20,9 @@ const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const desktop = width > 1200
 
   const dataSource = useMemo(() => {
-    return (
-      listOrderAddress?.map((addr) => {
-        return { ...orders[addr], address: addr }
-      }) || []
-    )
+    return listOrderAddress.map((addr) => {
+      return { ...orders[addr], address: addr }
+    })
   }, [listOrderAddress, orders])
 
   if (desktop)

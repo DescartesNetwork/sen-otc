@@ -3,6 +3,9 @@ import { utils } from '@senswap/sen-js'
 import { Space, Typography } from 'antd'
 import { MintSymbol } from 'shared/antd/mint'
 
+import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { numeric } from 'shared/util'
+
 const OrderPriceCell = ({
   amount,
   mintAddress,
@@ -10,9 +13,12 @@ const OrderPriceCell = ({
   amount: bigint
   mintAddress: string
 }) => {
+  const decimals = useMintDecimals(mintAddress) || 0
   return (
     <Space>
-      <Typography.Text>{utils.undecimalize(amount, 0)}</Typography.Text>
+      <Typography.Text>
+        {numeric(utils.undecimalize(amount, decimals)).format('0,0.[0000]')}
+      </Typography.Text>
       <Typography.Text type="secondary">
         <MintSymbol mintAddress={mintAddress} />
       </Typography.Text>

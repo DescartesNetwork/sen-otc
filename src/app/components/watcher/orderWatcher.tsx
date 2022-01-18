@@ -1,10 +1,10 @@
 import { Fragment, useCallback, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { account } from '@senswap/sen-js'
 import { useWallet } from '@senhub/providers'
 
 import { notifyError } from 'app/helper'
-import { AppDispatch } from 'app/model'
+import { AppDispatch, AppState } from 'app/model'
 import { getOrders, upsetOrder } from 'app/model/orders.controller'
 import configs from 'app/configs'
 
@@ -18,18 +18,40 @@ let watchId = 0
 const OrderWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
   const {
+    main: { retailerMode },
+    retailers,
+  } = useSelector((state: AppState) => state)
+  const {
     wallet: { address: walletAddress },
   } = useWallet()
+
+  // fetch user orders
+  const fetchUserOrders = useCallback(
+    () => dispatch(getOrders({ owner: walletAddress })).unwrap(),
+    [dispatch, walletAddress],
+  )
+
+  // fetch user orders
+  const fetchRetailerOrders = useCallback(async () => {
+    const myRetailersAddr = Object.keys(retailers).filter(
+      (addr) => retailers[addr].owner === walletAddress,
+    )
+    for (const addr of myRetailersAddr) {
+      await dispatch(getOrders({ retailer: addr })).unwrap()
+    }
+  }, [dispatch, retailers, walletAddress])
 
   // First-time fetching
   const fetchData = useCallback(async () => {
     try {
       if (!account.isAddress(walletAddress)) return
-      await dispatch(getOrders({ owner: walletAddress })).unwrap()
+      if (retailerMode) return fetchRetailerOrders()
+      return fetchUserOrders()
     } catch (er) {
       await notifyError(er)
     }
-  }, [dispatch, walletAddress])
+  }, [fetchRetailerOrders, fetchUserOrders, retailerMode, walletAddress])
+
   // Watch account changes
   const watchData = useCallback(async () => {
     if (watchId) return console.warn('Already watched')
