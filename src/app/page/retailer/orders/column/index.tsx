@@ -26,7 +26,7 @@ export const ORDER_COLUMN = [
     key: 'price',
     render: (text: string, record: any) => (
       <Space>
-        10{' '}
+        10
         <MintSymbol
           mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
         />
