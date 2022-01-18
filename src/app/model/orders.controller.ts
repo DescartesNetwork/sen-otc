@@ -90,10 +90,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(
-        getOrders.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
+      .addCase(getOrders.fulfilled, (state, { payload }) => payload)
       .addCase(
         getOrder.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
