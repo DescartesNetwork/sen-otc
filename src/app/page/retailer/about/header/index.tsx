@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { useUI } from '@senhub/providers'
 
 import { Button, Card, Col, Divider, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import NewPair from '../newPair'
 import Overview from './overview'
-import { useUI } from '@senhub/providers'
+
 import { shortenAddress } from 'shared/util'
 
 const Header = () => {

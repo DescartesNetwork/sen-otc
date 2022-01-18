@@ -1,11 +1,14 @@
-import { useUI } from '@senhub/providers'
-import { Space, Tabs } from 'antd'
-import ButtonFilterOrders from 'app/components/buttonFilterOrders'
-import { RetailerOrderTabs } from 'app/constant'
 import { useState } from 'react'
+import { useUI } from '@senhub/providers'
+
+import { Space, Tabs } from 'antd'
+
+import ButtonFilterOrders from 'app/components/buttonFilterOrders'
 import ModeSettings from '../../components/modeSettings'
 import About from './about'
 import Orders from './orders'
+
+import { RetailerOrderTabs } from 'app/constant'
 
 const Retailer = () => {
   const [activeTab, setActiveTab] = useState<string>(RetailerOrderTabs.about)

@@ -49,7 +49,6 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
     if (activeKey) return setActiveKey(undefined)
     return setActiveKey(orderId)
   }
-  console.log(orderId)
   return (
     <Card
       className="order-otc-card"

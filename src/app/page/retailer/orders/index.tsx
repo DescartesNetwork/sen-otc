@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { useUI } from '@senhub/providers'
 
 import { Col, Row, Typography, Table } from 'antd'
-import { ORDER_COLUMN, demoData } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
 
 import { FilterOrderSet } from 'app/constant'
+import { ORDER_COLUMN, demoData } from './column'
 
 const Order = () => {
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
