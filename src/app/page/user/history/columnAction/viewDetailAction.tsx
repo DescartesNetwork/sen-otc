@@ -13,7 +13,7 @@ const ViewDetailAction = ({ orderAddress }: { orderAddress: string }) => {
   return (
     <Row>
       <Col span={24}>
-        <Button size="small" onClick={onViewDetail} block>
+        <Button type="text" size="small" onClick={onViewDetail} block>
           Detail
         </Button>
       </Col>
