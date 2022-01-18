@@ -1,30 +1,21 @@
 import { Col, Row, Select, Typography } from 'antd'
 
-import { ORDER_STATE_DIGIT, FilterOrderSet } from 'app/constant'
+import { ORDER_STATE_DIGIT } from 'app/constant'
 
 const StatusFilterHistory = ({
-  orderState,
+  status,
   onSelect = () => {},
 }: {
-  orderState: FilterOrderSet
-  onSelect: (value: FilterOrderSet) => void
+  status: string
+  onSelect: (value: string) => void
 }) => {
-  const handleOnChange = (value: string) => {
-    if (!orderState) return
-    onSelect({ ...orderState, status: value })
-  }
-
   return (
     <Row className="filter-history">
       <Col span={24}>
         <Typography.Text type="secondary">Status</Typography.Text>
       </Col>
       <Col span={24}>
-        <Select
-          value={orderState?.status}
-          onChange={handleOnChange}
-          size="small"
-        >
+        <Select value={status} onChange={onSelect} size="small">
           {ORDER_STATE_DIGIT.map((item) => (
             <Select.Option key={item}>
               {item.charAt(0) + item.slice(1).toLowerCase()}

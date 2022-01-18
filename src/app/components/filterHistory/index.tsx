@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { Col, Row } from 'antd'
 import CoinFilterHistory from './coinFilterHistory'
 import StatusFilterHistory from './statusFilter'
@@ -12,16 +14,50 @@ const FilterHistory = ({
   onSelect: (value: FilterOrderSet) => void
   filterValues: FilterOrderSet
 }) => {
+  const { coin: propCoin, time: propTime, status: propStatus } = filterValues
+
+  const onFilterValue = useCallback(
+    ({
+      coin,
+      time,
+      status,
+    }: {
+      coin?: string
+      time?: number
+      status?: string
+    }) => {
+      let selectedFilter = {
+        coin: propCoin,
+        time: propTime,
+        status: propStatus,
+      }
+      if (coin) selectedFilter.coin = coin
+      if (time) selectedFilter.time = time
+      if (status) selectedFilter.status = status
+      onSelect(selectedFilter)
+    },
+    [onSelect, propCoin, propStatus, propTime],
+  )
+
   return (
     <Row gutter={[16, 16]}>
       <Col span={4}>
-        <CoinFilterHistory orderState={filterValues} onSelect={onSelect} />
+        <CoinFilterHistory
+          coin={propCoin}
+          onSelect={(e) => onFilterValue({ coin: e })}
+        />
       </Col>
       <Col span={4}>
-        <TimeFilterHistory orderState={filterValues} onSelect={onSelect} />
+        <TimeFilterHistory
+          time={propTime}
+          onSelect={(e) => onFilterValue({ time: e })}
+        />
       </Col>
       <Col span={4}>
-        <StatusFilterHistory orderState={filterValues} onSelect={onSelect} />
+        <StatusFilterHistory
+          status={propStatus}
+          onSelect={(e) => onFilterValue({ status: e })}
+        />
       </Col>
     </Row>
   )

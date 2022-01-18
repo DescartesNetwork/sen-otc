@@ -1,25 +1,21 @@
 import { Col, Row, Select, Typography } from 'antd'
 
-import { FilterOrderSet, TIME_FRAME } from 'app/constant'
+import { TIME_FRAME } from 'app/constant'
 
 const TimeFilterHistory = ({
-  orderState,
+  time,
   onSelect = () => {},
 }: {
-  orderState: FilterOrderSet
-  onSelect: (value: FilterOrderSet) => void
+  time: number
+  onSelect: (value: number) => void
 }) => {
-  const handleOnChange = (value: number) => {
-    if (!orderState) return
-    onSelect({ ...orderState, time: value })
-  }
   return (
     <Row className="filter-history">
       <Col span={24}>
         <Typography.Text type="secondary">Time</Typography.Text>
       </Col>
       <Col span={24}>
-        <Select value={orderState.time} onChange={handleOnChange} size="small">
+        <Select value={time} onChange={onSelect} size="small">
           {TIME_FRAME.map((item) => (
             <Select.Option key={item}>Past {item} days</Select.Option>
           ))}
