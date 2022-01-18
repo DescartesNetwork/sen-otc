@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Button, Col, Modal, Radio, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import FilterHistory from './filterHistory'
+import { FilterOrderSet } from 'app/constant'
 
 const BodyContent = ({
   label,
@@ -12,8 +13,8 @@ const BodyContent = ({
 }: {
   label: string
   value: string[] | number[]
-  selected: string
-  onSelected: (selected: string) => void
+  selected: any
+  onSelected: (selected: any) => void
 }) => {
   return (
     <Row gutter={[4, 4]}>
@@ -42,9 +43,12 @@ const BodyContent = ({
 
 const ButtonFilterOrders = () => {
   const [visible, setVisible] = useState(false)
-  const [coin, setCoin] = useState('')
-  const [time, setTime] = useState('')
-  const [status, setStatus] = useState('')
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: 'All',
+    time: 7,
+    status: 'All',
+  })
+
   return (
     <Space>
       <Button
@@ -65,14 +69,19 @@ const ButtonFilterOrders = () => {
             <Typography.Title level={4}>Filter</Typography.Title>
           </Col>
           <Col span={24}>
-            <FilterHistory label="Coin" onSelected={setCoin} value={coin} />
+            <FilterHistory
+              onSelect={setOrderFilter}
+              filterValues={orderFilter}
+            />
           </Col>
           <Col span={24}>
             <BodyContent
               label="Time"
               value={[7, 30, 90]}
-              selected={time}
-              onSelected={setTime}
+              selected={orderFilter.time}
+              onSelected={(val) =>
+                setOrderFilter({ ...orderFilter, time: val })
+              }
             />
           </Col>
           <Col span={24}>
@@ -86,8 +95,10 @@ const ButtonFilterOrders = () => {
                 'Canceled',
                 'Reject',
               ]}
-              selected={status}
-              onSelected={setStatus}
+              selected={orderFilter.status}
+              onSelected={(val) =>
+                setOrderFilter({ ...orderFilter, status: val })
+              }
             />
           </Col>
         </Row>
