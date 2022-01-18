@@ -7,16 +7,16 @@ import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
 
-import { FilterOrderSet } from 'app/constant'
+import { ALL, FilterOrderSet } from 'app/constant'
 import { useFilterOrders } from 'app/hooks/useFilter'
 import { AppState } from 'app/model'
 
 const Order = () => {
   const { orders } = useSelector((state: AppState) => state)
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
-    coin: 'All',
+    coin: ALL,
     time: 7,
-    status: 'All',
+    status: ALL,
   })
   const {
     ui: { width, infix },
@@ -26,6 +26,7 @@ const Order = () => {
   const colSpan = isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
   const listOrderAddress = useFilterOrders(orderFilter)
+
   const dataSource = useMemo(() => {
     return listOrderAddress.map((addr) => {
       return { ...orders[addr], address: addr }

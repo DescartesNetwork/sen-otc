@@ -19,22 +19,38 @@ const OrderWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
   const {
     main: { retailerMode },
+    retailers,
   } = useSelector((state: AppState) => state)
   const {
     wallet: { address: walletAddress },
   } = useWallet()
 
+  // fetch user orders
+  const fetchUserOrders = useCallback(
+    () => dispatch(getOrders({ owner: walletAddress })).unwrap(),
+    [dispatch, walletAddress],
+  )
+
+  // fetch user orders
+  const fetchRetailerOrders = useCallback(async () => {
+    const myRetailersAddr = Object.keys(retailers).filter(
+      (addr) => retailers[addr].owner === walletAddress,
+    )
+    for (const addr of myRetailersAddr) {
+      await dispatch(getOrders({ retailer: addr })).unwrap()
+    }
+  }, [dispatch, retailers, walletAddress])
+
   // First-time fetching
   const fetchData = useCallback(async () => {
     try {
       if (!account.isAddress(walletAddress)) return
-      if (retailerMode)
-        return dispatch(getOrders({ retailer: walletAddress })).unwrap()
-      return dispatch(getOrders({ owner: walletAddress })).unwrap()
+      if (retailerMode) return fetchRetailerOrders()
+      return fetchUserOrders()
     } catch (er) {
       await notifyError(er)
     }
-  }, [dispatch, retailerMode, walletAddress])
+  }, [fetchRetailerOrders, fetchUserOrders, retailerMode, walletAddress])
 
   // Watch account changes
   const watchData = useCallback(async () => {
