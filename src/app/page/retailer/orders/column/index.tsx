@@ -34,11 +34,11 @@ export const ORDER_COLUMN = [
           mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
         />
         <IonIcon name="arrow-forward-outline" />
-        3000
-        <MintSymbol
+        <MintAvatar
           mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
         />
-        <MintAvatar
+        3000
+        <MintSymbol
           mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
         />
       </Space>

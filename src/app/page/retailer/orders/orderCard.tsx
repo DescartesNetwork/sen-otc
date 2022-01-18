@@ -3,13 +3,12 @@ import { useSelector } from 'react-redux'
 import moment from 'moment'
 
 import { Button, Card, Col, Collapse, Row, Space, Typography } from 'antd'
-import StatusTag from 'app/components/statusTags'
 import OrderPriceCell from 'app/components/orderPriceCell'
-import ColumnAction from './columnAction'
 import { AppState } from 'app/model'
 import { MintAvatar } from 'shared/antd/mint'
 import IonIcon from 'shared/antd/ionicon'
 import { shortenAddress } from 'shared/util'
+import ColumnStatus from 'app/components/columnStatus'
 
 const Content = ({
   label,
@@ -74,8 +73,8 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
             </Col>
             <Col>
               <Space direction="vertical" size={16}>
-                <StatusTag state={state} />
-                <ColumnAction orderAddress={orderId} />
+                {/* <StatusTag state={state} /> */}
+                <ColumnStatus orderData={orderData} state={state} />
               </Space>
             </Col>
           </Row>
@@ -87,14 +86,9 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
                 <Collapse.Panel header={false} key={orderId} showArrow={false}>
                   <Row gutter={[6, 6]}>
                     <Col span={24}>
-                      <Content label="Create Day" value={getDate(created_at)} />
+                      <Content label="Order day" value={getDate(created_at)} />
                     </Col>
-                    <Col span={24}>
-                      <Content
-                        label="Approved Day"
-                        value={getDate(undefined)}
-                      />
-                    </Col>
+
                     <Col span={24}>
                       <Content
                         label="Order ID"
