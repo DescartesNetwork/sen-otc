@@ -9,7 +9,7 @@ const CoinFilterHistory = ({
   coin,
   onSelect = () => {},
 }: {
-  coin: string
+  coin?: string
   onSelect: (value: string) => void
 }) => {
   const { bidMints } = useBidMints()

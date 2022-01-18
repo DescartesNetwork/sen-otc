@@ -56,7 +56,7 @@ export const DEFAULT_RETAILER_FEE = 0.005
 export const TIME_FRAME = [7, 30, 90]
 
 export interface FilterOrderSet {
-  coin: string
-  time: number
-  status: string
+  coin?: string
+  time?: number
+  status?: string
 }

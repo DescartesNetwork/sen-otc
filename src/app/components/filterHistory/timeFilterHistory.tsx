@@ -6,7 +6,7 @@ const TimeFilterHistory = ({
   time,
   onSelect = () => {},
 }: {
-  time: number
+  time?: number
   onSelect: (value: number) => void
 }) => {
   return (
