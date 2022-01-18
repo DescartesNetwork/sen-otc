@@ -6,7 +6,7 @@ const StatusFilterHistory = ({
   status,
   onSelect = () => {},
 }: {
-  status: string
+  status?: string
   onSelect: (value: string) => void
 }) => {
   return (
