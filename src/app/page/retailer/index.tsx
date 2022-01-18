@@ -1,5 +1,5 @@
 import { Tabs } from 'antd'
-import ModeSettings from '../modeSettings'
+import ModeSettings from '../../components/modeSettings'
 import About from './about'
 import Orders from './orders'
 
