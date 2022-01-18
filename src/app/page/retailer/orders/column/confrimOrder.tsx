@@ -25,8 +25,8 @@ const ConfirmOrder = ({
   orderAddress: string
   setVisible: (visible: boolean) => void
 }) => {
-  const [ldApprove, setLdApprove] = useState(false)
-  const [ldReject, setLdReject] = useState(false)
+  const [approving, setApproving] = useState(false)
+  const [rejecting, setRejecting] = useState(false)
   const {
     orders: { [orderAddress]: orderData },
     retailers,
@@ -41,7 +41,7 @@ const ConfirmOrder = ({
 
   const onApprove = async () => {
     try {
-      setLdApprove(true)
+      setApproving(true)
       const wallet = window.sentre.wallet
       if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
       const { txId } = await purchasing.approveOrder(orderAddress, wallet)
@@ -49,14 +49,14 @@ const ConfirmOrder = ({
     } catch (er) {
       notifyError(er)
     } finally {
-      setLdApprove(false)
+      setApproving(false)
       setVisible(false)
     }
   }
 
   const onReject = async () => {
     try {
-      setLdReject(true)
+      setRejecting(true)
       const wallet = window.sentre.wallet
       if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
       const { txId } = await purchasing.rejectOrder(orderAddress, wallet)
@@ -64,7 +64,7 @@ const ConfirmOrder = ({
     } catch (er) {
       notifyError(er)
     } finally {
-      setLdReject(false)
+      setRejecting(false)
       setVisible(false)
     }
   }
@@ -101,7 +101,6 @@ const ConfirmOrder = ({
                 </Typography.Text>
               </Space>
               <Typography.Title level={4}>
-                {' '}
                 {numeric(utils.undecimalize(ask_amount, askDecimals)).format(
                   '0,0.[0000]',
                 )}
@@ -138,8 +137,8 @@ const ConfirmOrder = ({
                   </Typography.Text>
                 </Col>
                 <Typography.Text>
-                  <MintSymbol mintAddress={mint_bid} /> ={' '}
-                  {numeric(marketPrice).format('0,0.[00]')}{' '}
+                  <MintSymbol mintAddress={mint_bid} /> =
+                  {numeric(marketPrice).format('0,0.[00]')}
                   <MintSymbol mintAddress={mint_ask} />
                 </Typography.Text>
               </Row>
@@ -149,10 +148,10 @@ const ConfirmOrder = ({
       </Col>
       <Col span={24} style={{ textAlign: 'right' }}>
         <Space size={4}>
-          <Button onClick={onReject} loading={ldReject}>
+          <Button onClick={onReject} loading={rejecting}>
             Reject
           </Button>
-          <Button onClick={onApprove} loading={ldApprove} type="primary">
+          <Button onClick={onApprove} loading={approving} type="primary">
             Approve
           </Button>
         </Space>

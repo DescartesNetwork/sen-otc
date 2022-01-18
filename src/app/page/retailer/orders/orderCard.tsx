@@ -32,10 +32,10 @@ const Content = ({
 
 const OrderCard = ({
   orderAddress,
-}: // onClick,
-{
+  onClick,
+}: {
   orderAddress: string
-  // onClick: () => void
+  onClick: () => void
 }) => {
   const [activeKey, setActiveKey] = useState<string | undefined>()
   const {
@@ -59,8 +59,8 @@ const OrderCard = ({
     <Card
       className="order-otc-card"
       bordered={false}
-      bodyStyle={{ padding: 16 }}
-      // onClick={onClick}
+      bodyStyle={{ padding: 16, cursor: 'pointer' }}
+      onClick={onClick}
     >
       <Row gutter={[16, 16]}>
         <Col span={24}>
