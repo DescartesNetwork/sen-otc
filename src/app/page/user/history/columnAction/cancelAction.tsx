@@ -21,7 +21,6 @@ const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
       if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
       const { txId } = await purchasing.cancelOrder(orderAddress, wallet)
       notifySuccess('Cancel', txId)
-      setVisible(false)
     } catch (er) {
       notifyError({ message: 'Locked time is not open' })
       setVisible(false)
