@@ -8,7 +8,7 @@ import { ALL, FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
 export const useFilterOrders = (props: FilterOrderSet) => {
   const { coin, status, time } = props
   const { orders, retailers } = useSelector((state: AppState) => state)
-  const [orderListAddress, setOrderListAddress] = useState<string[]>()
+  const [orderListAddress, setOrderListAddress] = useState<string[]>([])
 
   const filterOrder = useCallback(
     (address: string) => {

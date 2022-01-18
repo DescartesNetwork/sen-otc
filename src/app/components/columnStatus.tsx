@@ -15,12 +15,12 @@ const ColumnStatus = ({
   orderData: any
 }) => {
   const [visible, setVisible] = useState(false)
-  
+
   if (state === ORDER_STATE_CODE.PENDING)
     return (
       <Fragment>
         <Button size="small" type="primary" onClick={() => setVisible(true)}>
-          Confirm
+          Approve
         </Button>
         <Modal
           title={<Typography.Title level={4}>Confirm order</Typography.Title>}
@@ -29,7 +29,7 @@ const ColumnStatus = ({
           onCancel={() => setVisible(false)}
           closeIcon={<IonIcon name="close" />}
         >
-          <ConfirmOrder onClose={setVisible} orderData={orderData} />
+          <ConfirmOrder setVisible={setVisible} orderData={orderData} />
         </Modal>
       </Fragment>
     )

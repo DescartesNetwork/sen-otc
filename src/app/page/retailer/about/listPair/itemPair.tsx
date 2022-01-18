@@ -1,8 +1,36 @@
+import { useSelector } from 'react-redux'
+
 import { Button, Card, Col, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
-const ItemPair = () => {
+import { useRetailerFee } from 'app/hooks/useRetailerFee'
+import { AppState } from 'app/model'
+import { numeric } from 'shared/util'
+import configs from 'app/configs'
+import { notifyError, notifySuccess } from 'app/helper'
+
+const {
+  sol: { purchasing },
+} = configs
+
+const ItemPair = ({ address }: { address: string }) => {
+  const {
+    retailers: { [address]: retailerData },
+  } = useSelector((state: AppState) => state)
+  const { fee } = useRetailerFee(address)
+
+  const onFreeze = async () => {
+    try {
+      const wallet = window.sentre.wallet
+      if (!wallet) throw new Error('Login fist')
+      const { txId } = await purchasing.freezeRetailer(address, wallet)
+      notifySuccess('Freeze', txId)
+    } catch (er) {
+      notifyError(er)
+    }
+  }
+
   return (
     <Card
       style={{ boxShadow: 'none' }}
@@ -11,22 +39,19 @@ const ItemPair = () => {
     >
       <Row gutter={[12, 12]}>
         <Col span={24}>
-          <Row>
+          <Row align="middle">
             <Col flex="auto">
               <Space>
-                <MintAvatar
-                  mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-                />
+                <MintAvatar mintAddress={retailerData.mint_bid} />
                 <IonIcon name="arrow-forward-outline" />
-                <MintAvatar
-                  mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-                />
+                <MintAvatar mintAddress={retailerData.mint_ask} />
               </Space>
             </Col>
             <Col>
               <Button
-                icon={<IonIcon style={{ fontSize: 24 }} name="trash-outline" />}
+                icon={<IonIcon style={{ fontSize: 16 }} name="trash-outline" />}
                 type="text"
+                onClick={onFreeze}
               />
             </Col>
           </Row>
@@ -34,20 +59,18 @@ const ItemPair = () => {
         <Col span={24}>
           <Typography.Title level={5}>
             <Space size={4}>
-              <MintSymbol
-                mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-              />
+              <MintSymbol mintAddress={retailerData.mint_bid} />
               -
-              <MintSymbol
-                mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-              />
+              <MintSymbol mintAddress={retailerData.mint_ask} />
             </Space>
           </Typography.Title>
         </Col>
         <Col span={24}>
           <Space size={4}>
             <Typography.Text type="secondary">Fee:</Typography.Text>
-            <Typography.Text>0.02%</Typography.Text>
+            <Typography.Text>
+              {numeric(fee).format('0,0.[00]%')}
+            </Typography.Text>
           </Space>
         </Col>
       </Row>
