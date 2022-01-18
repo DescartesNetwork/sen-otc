@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Col, Row, Typography } from 'antd'
+import { Col, Divider, Row, Typography } from 'antd'
 import TokenSelect from 'app/components/selectTokens'
 import NumericInput from 'shared/antd/numericInput'
 import MarketPrice from './marketPrice'
@@ -58,6 +58,10 @@ const Ask = () => {
               value={askMintAddress}
               tokens={askMints}
               onChange={onSelectToken}
+              className="otc-selection"
+              bordered={false}
+              suffixIcon={<Divider type="vertical" />}
+              dropdownStyle={{ minWidth: 170 }}
             />
           }
           value={askAmount}

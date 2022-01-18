@@ -1,10 +1,10 @@
 import { Fragment, useCallback, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { account } from '@senswap/sen-js'
 import { useWallet } from '@senhub/providers'
 
 import { notifyError } from 'app/helper'
-import { AppDispatch } from 'app/model'
+import { AppDispatch, AppState } from 'app/model'
 import { getOrders, upsetOrder } from 'app/model/orders.controller'
 import configs from 'app/configs'
 
@@ -18,6 +18,9 @@ let watchId = 0
 const OrderWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
   const {
+    main: { retailerMode },
+  } = useSelector((state: AppState) => state)
+  const {
     wallet: { address: walletAddress },
   } = useWallet()
 
@@ -25,11 +28,14 @@ const OrderWatcher = () => {
   const fetchData = useCallback(async () => {
     try {
       if (!account.isAddress(walletAddress)) return
-      await dispatch(getOrders({ owner: walletAddress })).unwrap()
+      if (retailerMode)
+        return dispatch(getOrders({ retailer: walletAddress })).unwrap()
+      return dispatch(getOrders({ owner: walletAddress })).unwrap()
     } catch (er) {
       await notifyError(er)
     }
-  }, [dispatch, walletAddress])
+  }, [dispatch, retailerMode, walletAddress])
+
   // Watch account changes
   const watchData = useCallback(async () => {
     if (watchId) return console.warn('Already watched')
