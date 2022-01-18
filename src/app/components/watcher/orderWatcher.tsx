@@ -1,12 +1,17 @@
-import { Fragment, useCallback, useEffect } from 'react'
+import { CSSProperties, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { account } from '@senswap/sen-js'
 import { useWallet } from '@senhub/providers'
 
 import { notifyError } from 'app/helper'
 import { AppDispatch, AppState } from 'app/model'
-import { getOrders, upsetOrder } from 'app/model/orders.controller'
+import {
+  getUserOrders,
+  getRetailerOrders,
+  upsetOrder,
+} from 'app/model/orders.controller'
 import configs from 'app/configs'
+import { Spin } from 'antd'
 
 const {
   sol: { purchasing },
@@ -15,7 +20,14 @@ const {
 // Watch id
 let watchId = 0
 
-const OrderWatcher = () => {
+const OrderWatcher = ({
+  children,
+  style = {},
+}: {
+  children: JSX.Element
+  style?: CSSProperties
+}) => {
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
     main: { retailerMode },
@@ -27,7 +39,7 @@ const OrderWatcher = () => {
 
   // fetch user orders
   const fetchUserOrders = useCallback(
-    () => dispatch(getOrders({ owner: walletAddress })).unwrap(),
+    () => dispatch(getUserOrders({ owner: walletAddress })).unwrap(),
     [dispatch, walletAddress],
   )
 
@@ -36,19 +48,20 @@ const OrderWatcher = () => {
     const myRetailersAddr = Object.keys(retailers).filter(
       (addr) => retailers[addr].owner === walletAddress,
     )
-    for (const addr of myRetailersAddr) {
-      await dispatch(getOrders({ retailer: addr })).unwrap()
-    }
+    return dispatch(getRetailerOrders({ retailers: myRetailersAddr })).unwrap()
   }, [dispatch, retailers, walletAddress])
 
   // First-time fetching
   const fetchData = useCallback(async () => {
     try {
+      setLoading(true)
       if (!account.isAddress(walletAddress)) return
-      if (retailerMode) return fetchRetailerOrders()
-      return fetchUserOrders()
+      if (retailerMode) await fetchRetailerOrders()
+      else await fetchUserOrders()
     } catch (er) {
       await notifyError(er)
+    } finally {
+      setLoading(false)
     }
   }, [fetchRetailerOrders, fetchUserOrders, retailerMode, walletAddress])
 
@@ -78,7 +91,11 @@ const OrderWatcher = () => {
     }
   }, [fetchData, watchData])
 
-  return <Fragment />
+  return (
+    <Spin spinning={loading} style={style}>
+      {children}
+    </Spin>
+  )
 }
 
 export default OrderWatcher

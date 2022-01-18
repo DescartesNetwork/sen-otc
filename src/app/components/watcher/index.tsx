@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment } from 'react'
+import { CSSProperties } from 'react'
 import OrderWatcher from './orderWatcher'
 import RetailerWatcher from './retailerWatcher'
 
@@ -11,10 +11,7 @@ const Watcher = ({
 }) => {
   return (
     <RetailerWatcher style={style}>
-      <Fragment>
-        {children}
-        <OrderWatcher />
-      </Fragment>
+      <OrderWatcher>{children}</OrderWatcher>
     </RetailerWatcher>
   )
 }

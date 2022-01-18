@@ -16,9 +16,9 @@ const initialState: State = {}
  * Actions
  */
 
-export const getOrders = createAsyncThunk(
-  `${NAME}/getOrders`,
-  async ({ owner, retailer }: { owner?: string; retailer?: string }) => {
+export const getUserOrders = createAsyncThunk(
+  `${NAME}/getUserOrders`,
+  async ({ owner }: { owner: string }) => {
     const {
       sol: { purchasing },
     } = configs
@@ -27,8 +27,7 @@ export const getOrders = createAsyncThunk(
     let opts = []
     if (account.isAddress(owner))
       opts.push({ memcmp: { bytes: owner, offset: 0 } })
-    if (account.isAddress(retailer))
-      opts.push({ memcmp: { bytes: retailer, offset: 33 } })
+
     const value: Array<{ pubkey: PublicKey; account: AccountInfo<Buffer> }> =
       await purchasing.connection.getProgramAccounts(
         purchasing.purchasingProgramId,
@@ -41,6 +40,37 @@ export const getOrders = createAsyncThunk(
       const data = purchasing.parseOrderData(buf)
       bulk[address] = data
     })
+    return bulk
+  },
+)
+
+export const getRetailerOrders = createAsyncThunk(
+  `${NAME}/getRetailerOrders`,
+  async ({ retailers }: { retailers: string[] }) => {
+    const {
+      sol: { purchasing },
+    } = configs
+    // Get all retailers with specific owner
+    let bulk: State = {}
+    await Promise.all(
+      retailers.map(async (retailer) => {
+        let opts = [{ memcmp: { bytes: retailer, offset: 33 } }]
+        const value: Array<{
+          pubkey: PublicKey
+          account: AccountInfo<Buffer>
+        }> = await purchasing.connection.getProgramAccounts(
+          purchasing.purchasingProgramId,
+          {
+            filters: [{ dataSize: 105 }, ...opts],
+          },
+        )
+        value.forEach(({ pubkey, account: { data: buf } }) => {
+          const address = pubkey.toBase58()
+          const data = purchasing.parseOrderData(buf)
+          bulk[address] = data
+        })
+      }),
+    )
     return bulk
   },
 )
@@ -90,10 +120,8 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(
-        getOrders.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
+      .addCase(getUserOrders.fulfilled, (state, { payload }) => payload)
+      .addCase(getRetailerOrders.fulfilled, (state, { payload }) => payload)
       .addCase(
         getOrder.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
