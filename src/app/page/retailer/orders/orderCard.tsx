@@ -31,15 +31,15 @@ const Content = ({
 }
 
 const OrderCard = ({
-  orderId,
+  orderAddress,
 }: // onClick,
 {
-  orderId: string
+  orderAddress: string
   // onClick: () => void
 }) => {
   const [activeKey, setActiveKey] = useState<string | undefined>()
   const {
-    orders: { [orderId]: orderData },
+    orders: { [orderAddress]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData?.retailer]
@@ -53,7 +53,7 @@ const OrderCard = ({
   }
   const onActive = () => {
     if (activeKey) return setActiveKey(undefined)
-    return setActiveKey(orderId)
+    return setActiveKey(orderAddress)
   }
   return (
     <Card
@@ -80,7 +80,7 @@ const OrderCard = ({
             </Col>
             <Col>
               <Space direction="vertical" size={16}>
-                <ColumnStatus orderId={orderId} state={state} />
+                <ColumnStatus orderAddress={orderAddress} state={state} />
               </Space>
             </Col>
           </Row>
@@ -89,7 +89,11 @@ const OrderCard = ({
           <Row justify="center">
             <Col span={24} className="order-collapse">
               <Collapse activeKey={activeKey} bordered={false}>
-                <Collapse.Panel header={false} key={orderId} showArrow={false}>
+                <Collapse.Panel
+                  header={false}
+                  key={orderAddress}
+                  showArrow={false}
+                >
                   <Row gutter={[6, 6]}>
                     <Col span={24}>
                       <Content label="Order day" value={getDate(created_at)} />
@@ -98,7 +102,7 @@ const OrderCard = ({
                     <Col span={24}>
                       <Content
                         label="Order ID"
-                        value={shortenAddress(orderId)}
+                        value={shortenAddress(orderAddress)}
                       />
                     </Col>
                   </Row>

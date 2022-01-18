@@ -83,7 +83,7 @@ const Order = () => {
           <Row gutter={[24, 24]}>
             {filterData.map((data) => (
               <Col span={24} key={data.address}>
-                <OrderCard orderId={data.address} />
+                <OrderCard orderAddress={data.address} />
               </Col>
             ))}
           </Row>
