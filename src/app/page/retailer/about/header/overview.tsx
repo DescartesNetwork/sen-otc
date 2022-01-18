@@ -1,37 +1,58 @@
-import { Col, Row, Space, Typography } from 'antd'
+import { useUI } from '@senhub/providers'
+
+import { Col, Row, Typography } from 'antd'
+
+const Content = ({
+  label,
+  value,
+}: {
+  label: string
+  value: string | number
+}) => {
+  const {
+    ui: { infix },
+  } = useUI()
+
+  const isMobile = infix === 'xs'
+  const colSpan = !isMobile ? 24 : undefined
+  const flexType = isMobile ? 'auto' : undefined
+
+  return (
+    <Row>
+      <Col span={colSpan} flex={flexType}>
+        <Typography.Text type="secondary">{label}</Typography.Text>
+      </Col>
+      <Col span={colSpan}>
+        <Typography.Title level={5}>{value}</Typography.Title>
+      </Col>
+    </Row>
+  )
+}
 
 const Overview = () => {
+  const {
+    ui: { infix },
+  } = useUI()
+
+  const isMobile = infix === 'xs'
+  const colSpan = isMobile ? 24 : undefined
+
   return (
-    <Row gutter={24}>
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Rate</Typography.Text>
-          <Typography.Title level={5}>98.01%</Typography.Title>
-        </Space>
+    <Row gutter={{ lg: 12, xl: 24 }}>
+      <Col span={colSpan}>
+        <Content label="Rate" value="98.01%" />
       </Col>
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Approved order</Typography.Text>
-          <Typography.Title level={5}>98.01%</Typography.Title>
-        </Space>
+      <Col span={colSpan}>
+        <Content label="Approved order" value={99} />
       </Col>
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Reject order</Typography.Text>
-          <Typography.Title level={5}>98.01%</Typography.Title>
-        </Space>
+      <Col span={colSpan}>
+        <Content label="Reject order" value={2} />
       </Col>
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Usable pair</Typography.Text>
-          <Typography.Title level={5}>98.01%</Typography.Title>
-        </Space>
+      <Col span={colSpan}>
+        <Content label="Usable pair" value={4} />
       </Col>
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Created pair</Typography.Text>
-          <Typography.Title level={5}>98.01%</Typography.Title>
-        </Space>
+      <Col span={colSpan}>
+        <Content label="Created pair" value={5} />
       </Col>
     </Row>
   )
