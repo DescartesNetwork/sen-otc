@@ -2,7 +2,6 @@ import { utils } from '@senswap/sen-js'
 
 import { Space, Typography } from 'antd'
 import { MintSymbol } from 'shared/antd/mint'
-
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { numeric } from 'shared/util'
 

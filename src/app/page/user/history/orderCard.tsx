@@ -36,9 +36,9 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
     orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
-  const retailerData = retailers[orderData.retailer]
+  const retailerData = retailers?.[orderData.retailer]
   const { bid_amount, ask_amount, created_at } = orderData
-  const { mint_ask, mint_bid, state } = retailerData
+  const { mint_ask, mint_bid, state } = retailerData || {}
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
   const getDate = (date?: BigInt | string) => {
