@@ -2,16 +2,18 @@ import { useState } from 'react'
 import { useUI } from '@senhub/providers'
 
 import { Col, Row, Typography, Table } from 'antd'
-import OrderCard from 'app/page/retailer/orders/orderCard'
 import { ORDER_COLUMN, demoData } from './column'
-
 import FilterHistory from 'app/components/filterHistory'
+import OrderCard from 'app/page/retailer/orders/orderCard'
+
+import { FilterOrderSet } from 'app/constant'
 
 const Order = () => {
-  const [coin, setCoin] = useState('Select')
-  const [time, setTime] = useState('Select')
-  const [status, setStatus] = useState('Select')
-
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: 'All',
+    time: 7,
+    status: 'All',
+  })
   const {
     ui: { width, infix },
   } = useUI()
@@ -19,9 +21,6 @@ const Order = () => {
   const isMobile = infix === 'xs'
   const colSpan = !isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
-
-  console.log(colSpan)
-
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -29,27 +28,12 @@ const Order = () => {
           {!isMobile && (
             <Col flex="auto">
               <Row gutter={12}>
-                <Col>
-                  <FilterHistory
-                    label="Coin"
-                    value={coin}
-                    onSelected={setCoin}
-                  />
-                </Col>
-                <Col>
-                  <FilterHistory
-                    label="Time"
-                    value={time}
-                    onSelected={setTime}
-                  />
-                </Col>
-                <Col>
-                  <FilterHistory
-                    label="Status"
-                    value={status}
-                    onSelected={setStatus}
-                  />
-                </Col>
+                <FilterHistory
+                  onSelect={(value) => {
+                    setOrderFilter(value)
+                  }}
+                  filterValues={orderFilter}
+                />
               </Row>
             </Col>
           )}

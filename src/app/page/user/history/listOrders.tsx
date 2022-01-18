@@ -6,21 +6,26 @@ import { Col, Row, Table } from 'antd'
 import { HISTORY_COLUMN } from './historyColumn'
 
 import { AppState } from 'app/model'
+import { FilterOrderSet } from 'app/constant'
+import { useFilterOrders } from 'app/hooks/useFilter'
 import OrderCard from './orderCard'
 
-const ListOrders = () => {
+const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { orders } = useSelector((state: AppState) => state)
+  const listOrderAddress = useFilterOrders(orderFilters)
   const {
     ui: { width },
   } = useUI()
 
   const desktop = width > 1200
 
-  const dataSource = useMemo(
-    () =>
-      Object.keys(orders).map((addr) => ({ ...orders[addr], address: addr })),
-    [orders],
-  )
+  const dataSource = useMemo(() => {
+    return (
+      listOrderAddress?.map((addr) => {
+        return { ...orders[addr], address: addr }
+      }) || []
+    )
+  }, [listOrderAddress, orders])
 
   if (desktop)
     return (
