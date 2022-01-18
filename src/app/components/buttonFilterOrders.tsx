@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import { Button, Col, Modal, Radio, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
-import FilterHistory from './filterHistory'
 import { FilterOrderSet } from 'app/constant'
+import CoinFilterHistory from './filterHistory/coinFilterHistory'
 
 const BodyContent = ({
   label,
@@ -54,7 +54,7 @@ const ButtonFilterOrders = () => {
       <Button
         type="text"
         size="small"
-        icon={<IonIcon name="filter-circle-outline" />}
+        icon={<IonIcon name="funnel-outline" />}
         onClick={() => setVisible(true)}
       />
       <Modal
@@ -69,9 +69,9 @@ const ButtonFilterOrders = () => {
             <Typography.Title level={4}>Filter</Typography.Title>
           </Col>
           <Col span={24}>
-            <FilterHistory
+            <CoinFilterHistory
               onSelect={setOrderFilter}
-              filterValues={orderFilter}
+              orderState={orderFilter}
             />
           </Col>
           <Col span={24}>

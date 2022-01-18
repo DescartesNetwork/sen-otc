@@ -1,6 +1,4 @@
-import { Fragment } from 'react'
-
-import { Col } from 'antd'
+import { Col, Row } from 'antd'
 import CoinFilterHistory from './coinFilterHistory'
 import StatusFilterHistory from './statusFilter'
 import TimeFilterHistory from './timeFilterHistory'
@@ -14,19 +12,18 @@ const FilterHistory = ({
   onSelect: (value: FilterOrderSet) => void
   filterValues: FilterOrderSet
 }) => {
-  // const { coin, time, status } = filterValues
   return (
-    <Fragment>
-      <Col>
+    <Row gutter={[16, 16]}>
+      <Col span={4}>
         <CoinFilterHistory orderState={filterValues} onSelect={onSelect} />
       </Col>
-      <Col>
+      <Col span={4}>
         <TimeFilterHistory orderState={filterValues} onSelect={onSelect} />
       </Col>
-      <Col>
+      <Col span={4}>
         <StatusFilterHistory orderState={filterValues} onSelect={onSelect} />
       </Col>
-    </Fragment>
+    </Row>
   )
 }
 
