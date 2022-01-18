@@ -2,8 +2,9 @@ import { useState } from 'react'
 
 import { Button, Col, Modal, Radio, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
-import { FilterOrderSet } from 'app/constant'
 import CoinFilterHistory from './filterHistory/coinFilterHistory'
+
+import { ALL } from 'app/constant'
 
 const BodyContent = ({
   label,
@@ -43,11 +44,9 @@ const BodyContent = ({
 
 const ButtonFilterOrders = () => {
   const [visible, setVisible] = useState(false)
-  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
-    coin: 'All',
-    time: 7,
-    status: 'All',
-  })
+  const [coin, setCoin] = useState(ALL)
+  const [time, setTime] = useState(7)
+  const [status, setStatus] = useState(ALL)
 
   return (
     <Space>
@@ -69,19 +68,14 @@ const ButtonFilterOrders = () => {
             <Typography.Title level={4}>Filter</Typography.Title>
           </Col>
           <Col span={24}>
-            <CoinFilterHistory
-              onSelect={setOrderFilter}
-              orderState={orderFilter}
-            />
+            <CoinFilterHistory onSelect={setCoin} coin={coin} />
           </Col>
           <Col span={24}>
             <BodyContent
               label="Time"
               value={[7, 30, 90]}
-              selected={orderFilter.time}
-              onSelected={(val) =>
-                setOrderFilter({ ...orderFilter, time: val })
-              }
+              selected={time}
+              onSelected={(val) => setTime(val)}
             />
           </Col>
           <Col span={24}>
@@ -95,10 +89,8 @@ const ButtonFilterOrders = () => {
                 'Canceled',
                 'Reject',
               ]}
-              selected={orderFilter.status}
-              onSelected={(val) =>
-                setOrderFilter({ ...orderFilter, status: val })
-              }
+              selected={status}
+              onSelected={(val) => setStatus(val)}
             />
           </Col>
         </Row>
