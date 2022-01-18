@@ -1,33 +1,29 @@
 import { useState } from 'react'
 
 import { Col, Row, Space, Typography, Table } from 'antd'
-
-import FilterHistory from 'app/components/filterHistory'
 import { ORDER_COLUMN, demoData } from './column'
+import FilterHistory from 'app/components/filterHistory'
+
+import { FilterOrderSet } from 'app/constant'
 
 const Order = () => {
-  const [coin, setCoin] = useState('Select')
-  const [time, setTime] = useState('Select')
-  const [status, setStatus] = useState('Select')
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: 'All',
+    time: 7,
+    status: 'All',
+  })
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
         <Row gutter={12}>
           <Col flex="auto">
             <Row gutter={12}>
-              <Col>
-                <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
-              </Col>
-              <Col>
-                <FilterHistory label="Time" value={time} onSelected={setTime} />
-              </Col>
-              <Col>
-                <FilterHistory
-                  label="Status"
-                  value={status}
-                  onSelected={setStatus}
-                />
-              </Col>
+              <FilterHistory
+                onSelect={(value) => {
+                  setOrderFilter(value)
+                }}
+                filterValues={orderFilter}
+              />
             </Row>
           </Col>
           <Col>
