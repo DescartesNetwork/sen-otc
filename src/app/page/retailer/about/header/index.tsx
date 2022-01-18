@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import { useUI } from '@senhub/providers'
+import { useUI, useWallet } from '@senhub/providers'
 
 import { Button, Card, Col, Divider, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import NewPair from '../newPair'
 import Overview from './overview'
 
-import { shortenAddress } from 'shared/util'
+import { explorer, shortenAddress } from 'shared/util'
 
 const Header = () => {
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
   const [visible, setVisible] = useState(false)
   const {
     ui: { infix },
@@ -24,10 +27,13 @@ const Header = () => {
           <Space size={4} direction="vertical">
             <Space size={12}>
               <Typography.Text>Retailer 1</Typography.Text>
-              <IonIcon name="open-outline" />
+              <IonIcon
+                name="open-outline"
+                onClick={() => window.open(explorer(walletAddress))}
+              />
             </Space>
             <Typography.Text className="caption" type="secondary">
-              {shortenAddress('I1s3...s923')}
+              {shortenAddress(walletAddress)}
             </Typography.Text>
           </Space>
         </Col>
