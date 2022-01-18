@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useUI, useWallet } from '@senhub/providers'
 
-import { Col, Row, Typography, Table } from 'antd'
+import { Col, Row, Typography, Table, Empty } from 'antd'
 import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
@@ -39,6 +39,8 @@ const Order = () => {
   const filterData = dataSource.filter((order) => {
     return retailers[order.retailer].owner === walletAddress
   })
+
+  if (!filterData.length) return <Empty />
 
   return (
     <Row gutter={[16, 16]}>
