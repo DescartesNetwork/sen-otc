@@ -11,9 +11,9 @@ const Price = ({ orderId }: { orderId: string }) => {
     orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
-  const retailerData = retailers[orderData.retailer]
+  const retailerData = retailers?.[orderData.retailer]
   const { bid_amount, ask_amount } = orderData
-  const { mint_ask, mint_bid } = retailerData
+  const { mint_ask, mint_bid } = retailerData || {}
 
   return (
     <Space>

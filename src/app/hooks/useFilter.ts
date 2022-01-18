@@ -13,7 +13,7 @@ export const useFilterOrders = (props: FilterOrderSet) => {
   const filterOrder = useCallback(
     (address: string) => {
       const { retailer, state, created_at } = orders[address]
-      const { mint_ask, mint_bid } = retailers[retailer]
+      const { mint_ask, mint_bid } = retailers?.[retailer] || {}
 
       const coinCheck =
         coin !== ALL ? [mint_ask, mint_bid].includes(coin) : true
