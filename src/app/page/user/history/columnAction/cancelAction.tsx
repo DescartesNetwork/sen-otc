@@ -24,6 +24,7 @@ const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
       setVisible(false)
     } catch (er) {
       notifyError({ message: 'Locked time is not open' })
+      setVisible(false)
     } finally {
       setLoading(false)
     }
