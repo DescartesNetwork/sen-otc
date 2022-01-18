@@ -2,8 +2,9 @@ import { useState } from 'react'
 
 import { Button, Col, Modal, Radio, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
-import { ALL } from 'app/constant'
 import CoinFilterHistory from './filterHistory/coinFilterHistory'
+
+import { ALL } from 'app/constant'
 
 const BodyContent = ({
   label,
