@@ -1,17 +1,28 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Col, Row, Space, Typography, Table } from 'antd'
-import { ORDER_COLUMN, demoData } from './column'
+import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 
 import { FilterOrderSet } from 'app/constant'
+import { useFilterOrders } from 'app/hooks/useFilter'
+import { AppState } from 'app/model'
 
 const Order = () => {
+  const { orders } = useSelector((state: AppState) => state)
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
     coin: 'All',
     time: 7,
     status: 'All',
   })
+  const listOrderAddress = useFilterOrders(orderFilter)
+  const dataSource = useMemo(() => {
+    return listOrderAddress.map((addr) => {
+      return { ...orders[addr], address: addr }
+    })
+  }, [listOrderAddress, orders])
+
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
@@ -38,10 +49,10 @@ const Order = () => {
         <Table
           className="scrollbar"
           columns={ORDER_COLUMN}
-          dataSource={demoData}
+          dataSource={dataSource}
           rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
           pagination={false}
-          rowKey={(record) => record.order_day}
+          rowKey={(record) => record.address}
         />
       </Col>
     </Row>
