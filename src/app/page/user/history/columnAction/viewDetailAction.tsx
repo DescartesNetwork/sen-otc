@@ -1,22 +1,13 @@
-import { useState } from 'react'
+import { account } from '@senswap/sen-js'
 
 import { Button, Col, Row } from 'antd'
 
-import configs from 'app/configs'
 import { explorer } from 'shared/util'
-import { account } from '@senswap/sen-js'
-
-const {
-  sol: { purchasing },
-} = configs
 
 const ViewDetailAction = ({ orderAddress }: { orderAddress: string }) => {
   const onViewDetail = async () => {
-    // window.open(explorer(orderAddress), '_blank')
-    if (account.isAddress(orderAddress)) {
-      const b = await window.sentre.splt.getMultiSigData(orderAddress)
-      console.log(b, 'kkk')
-    }
+    if (!account.isAddress(orderAddress)) return
+    window.open(explorer(orderAddress), '_blank')
   }
 
   return (
