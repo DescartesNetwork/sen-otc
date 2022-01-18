@@ -144,16 +144,6 @@ const ConfirmOrder = ({
                 </Typography.Text>
               </Row>
             </Col>
-            <Col span={24}>
-              <Row>
-                <Col flex="auto">
-                  <Typography.Text type="secondary">
-                    Network fee
-                  </Typography.Text>
-                </Col>
-                <Col>0.0001%</Col>
-              </Row>
-            </Col>
           </Row>
         </Card>
       </Col>
