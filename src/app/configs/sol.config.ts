@@ -40,7 +40,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.testnet.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
-    purchasingProgramAddress: 'Ecw8Vh3cwwwwMsaU63mW6knKMsuaiSakVDvKxB5nyhFC',
+    purchasingProgramAddress: '',
     sntrAddress: '',
     get purchasing() {
       return new Purchasing(
