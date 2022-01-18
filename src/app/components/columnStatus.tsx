@@ -9,10 +9,10 @@ import StatusTag from 'app/components/statusTags'
 
 const ColumnStatus = ({
   state,
-  orderData,
+  orderId,
 }: {
   state: number
-  orderData: any
+  orderId: string
 }) => {
   const [visible, setVisible] = useState(false)
 
@@ -29,7 +29,7 @@ const ColumnStatus = ({
           onCancel={() => setVisible(false)}
           closeIcon={<IonIcon name="close" />}
         >
-          <ConfirmOrder setVisible={setVisible} orderData={orderData} />
+          <ConfirmOrder setVisible={setVisible} orderAddress={orderId} />
         </Modal>
       </Fragment>
     )

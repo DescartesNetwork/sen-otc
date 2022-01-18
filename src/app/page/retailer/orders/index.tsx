@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useUI } from '@senhub/providers'
+import { useSelector } from 'react-redux'
+import { useUI, useWallet } from '@senhub/providers'
 
 import { Col, Row, Typography, Table } from 'antd'
-import { useSelector } from 'react-redux'
 import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
@@ -12,7 +12,7 @@ import { useFilterOrders } from 'app/hooks/useFilter'
 import { AppState } from 'app/model'
 
 const Order = () => {
-  const { orders } = useSelector((state: AppState) => state)
+  const { orders, retailers } = useSelector((state: AppState) => state)
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
     coin: ALL,
     time: 7,
@@ -26,12 +26,19 @@ const Order = () => {
   const colSpan = isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
   const listOrderAddress = useFilterOrders(orderFilter)
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
 
   const dataSource = useMemo(() => {
     return listOrderAddress.map((addr) => {
       return { ...orders[addr], address: addr }
     })
   }, [listOrderAddress, orders])
+
+  const filterData = dataSource.filter((order) => {
+    return retailers[order.retailer].owner === walletAddress
+  })
 
   return (
     <Row gutter={[16, 16]}>
@@ -65,7 +72,7 @@ const Order = () => {
           <Table
             className="scrollbar"
             columns={ORDER_COLUMN}
-            dataSource={dataSource}
+            dataSource={filterData}
             rowClassName={(record, index) =>
               index % 2 ? 'odd-row' : 'even-row'
             }
@@ -74,7 +81,7 @@ const Order = () => {
           />
         ) : (
           <Row gutter={[24, 24]}>
-            {dataSource.map((data) => (
+            {filterData.map((data) => (
               <Col span={24} key={data.address}>
                 <OrderCard orderId={data.address} />
               </Col>

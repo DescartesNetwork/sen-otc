@@ -16,10 +16,10 @@ const Ask = () => {
   const [selected, setSelected] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
-    order: { askAmount, askMintAddress, bidAmount },
+    order: { askAmount, askMintAddress, bidAmount, bidMintAddress },
   } = useSelector((state: AppState) => state)
   const { askMints } = useAskMints()
-  const { marketPrice } = useMarketPrice()
+  const { marketPrice } = useMarketPrice(bidMintAddress, askMintAddress)
 
   const selectMintDefault = useCallback(() => {
     const defaultMint = askMints[0]

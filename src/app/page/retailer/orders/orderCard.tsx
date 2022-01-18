@@ -30,15 +30,21 @@ const Content = ({
   )
 }
 
-const OrderCard = ({ orderId }: { orderId: string }) => {
+const OrderCard = ({
+  orderId,
+}: // onClick,
+{
+  orderId: string
+  // onClick: () => void
+}) => {
   const [activeKey, setActiveKey] = useState<string | undefined>()
   const {
     orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData?.retailer]
-  const { bid_amount, ask_amount, created_at } = orderData
-  const { mint_ask, mint_bid, state } = retailerData
+  const { bid_amount, ask_amount, created_at, state } = orderData
+  const { mint_ask, mint_bid } = retailerData
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
   const getDate = (date?: BigInt | string) => {
@@ -54,6 +60,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
       className="order-otc-card"
       bordered={false}
       bodyStyle={{ padding: 16 }}
+      // onClick={onClick}
     >
       <Row gutter={[16, 16]}>
         <Col span={24}>
@@ -73,7 +80,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
             </Col>
             <Col>
               <Space direction="vertical" size={16}>
-                <ColumnStatus orderData={orderData} state={state} />
+                <ColumnStatus orderId={orderId} state={state} />
               </Space>
             </Col>
           </Row>

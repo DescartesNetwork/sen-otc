@@ -38,7 +38,7 @@ export const ORDER_COLUMN = [
     key: 'state',
     dataIndex: 'state',
     render: (state: number, record: any) => (
-      <ColumnStatus state={state} orderData={record} />
+      <ColumnStatus state={state} orderId={record.address} />
     ),
   },
 ]
