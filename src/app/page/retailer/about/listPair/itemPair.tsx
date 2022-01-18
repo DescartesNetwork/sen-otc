@@ -7,12 +7,29 @@ import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 import { useRetailerFee } from 'app/hooks/useRetailerFee'
 import { AppState } from 'app/model'
 import { numeric } from 'shared/util'
+import configs from 'app/configs'
+import { notifyError, notifySuccess } from 'app/helper'
+
+const {
+  sol: { purchasing },
+} = configs
 
 const ItemPair = ({ address }: { address: string }) => {
   const {
     retailers: { [address]: retailerData },
   } = useSelector((state: AppState) => state)
   const { fee } = useRetailerFee(address)
+
+  const onFreeze = async () => {
+    try {
+      const wallet = window.sentre.wallet
+      if (!wallet) throw new Error('Login fist')
+      const { txId } = await purchasing.freezeRetailer(address, wallet)
+      notifySuccess('Freeze', txId)
+    } catch (er) {
+      notifyError(er)
+    }
+  }
 
   return (
     <Card
@@ -34,6 +51,7 @@ const ItemPair = ({ address }: { address: string }) => {
               <Button
                 icon={<IonIcon style={{ fontSize: 16 }} name="trash-outline" />}
                 type="text"
+                onClick={onFreeze}
               />
             </Col>
           </Row>

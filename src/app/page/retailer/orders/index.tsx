@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useUI } from '@senhub/providers'
 
 import { Col, Row, Typography, Table } from 'antd'
+import { useSelector } from 'react-redux'
+import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
 
 import { FilterOrderSet } from 'app/constant'
-import { ORDER_COLUMN, demoData } from './column'
+import { useFilterOrders } from 'app/hooks/useFilter'
+import { AppState } from 'app/model'
 
 const Order = () => {
+  const { orders } = useSelector((state: AppState) => state)
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
     coin: 'All',
     time: 7,
@@ -21,6 +25,12 @@ const Order = () => {
   const isMobile = infix === 'xs'
   const colSpan = isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
+  const listOrderAddress = useFilterOrders(orderFilter)
+  const dataSource = useMemo(() => {
+    return listOrderAddress.map((addr) => {
+      return { ...orders[addr], address: addr }
+    })
+  }, [listOrderAddress, orders])
 
   return (
     <Row gutter={[16, 16]}>
@@ -54,18 +64,18 @@ const Order = () => {
           <Table
             className="scrollbar"
             columns={ORDER_COLUMN}
-            dataSource={demoData}
+            dataSource={dataSource}
             rowClassName={(record, index) =>
               index % 2 ? 'odd-row' : 'even-row'
             }
             pagination={false}
-            rowKey={(record) => record.order_day}
+            rowKey={(record) => record.address}
           />
         ) : (
           <Row gutter={[24, 24]}>
-            {demoData.map((data) => (
-              <Col span={24} key={data.order_day}>
-                <OrderCard orderId="9f9c4fw7dXg7titXKCUWbGPAG4M4miRqL236u4Fho3dF" />
+            {dataSource.map((data) => (
+              <Col span={24} key={data.address}>
+                <OrderCard orderId={data.address} />
               </Col>
             ))}
           </Row>
