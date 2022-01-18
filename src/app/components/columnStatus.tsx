@@ -29,7 +29,7 @@ const ColumnStatus = ({
           onCancel={() => setVisible(false)}
           closeIcon={<IonIcon name="close" />}
         >
-          <ConfirmOrder onClose={setVisible} orderData={orderData} />
+          <ConfirmOrder setVisible={setVisible} orderData={orderData} />
         </Modal>
       </Fragment>
     )

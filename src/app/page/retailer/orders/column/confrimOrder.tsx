@@ -4,10 +4,10 @@ import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
 const ConfirmOrder = ({
   orderData,
-  onClose,
+  setVisible,
 }: {
   orderData: any
-  onClose: (visible: boolean) => void
+  setVisible: (visible: boolean) => void
 }) => {
   return (
     <Row gutter={[16, 24]}>
