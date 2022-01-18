@@ -6,11 +6,11 @@ import OrderCard from 'app/page/user/history/orderCard'
 import { AppState } from 'app/model'
 import Watcher from 'app/components/watcher'
 // import CoinFilterHistory from 'app/components/filterHistory/coinFilterHistory'
+import { useState } from 'react'
 
 const Widget = () => {
   // const [selectedCoin, setSelectedCoin] = useState('')
   const { orders } = useSelector((state: AppState) => state)
-
   return (
     <Watcher>
       <Row gutter={[24, 24]}>
