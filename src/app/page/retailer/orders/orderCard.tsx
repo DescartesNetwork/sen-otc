@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import moment from 'moment'
 
 import { Button, Card, Col, Collapse, Row, Space, Typography } from 'antd'
+import IonIcon from 'shared/antd/ionicon'
+import ColumnStatus from 'app/components/columnStatus'
 import OrderPriceCell from 'app/components/orderPriceCell'
+
 import { AppState } from 'app/model'
 import { MintAvatar } from 'shared/antd/mint'
-import IonIcon from 'shared/antd/ionicon'
 import { shortenAddress } from 'shared/util'
-import ColumnStatus from 'app/components/columnStatus'
 
 const Content = ({
   label,
@@ -35,7 +36,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
     orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
-  const retailerData = retailers[orderData.retailer]
+  const retailerData = retailers[orderData?.retailer]
   const { bid_amount, ask_amount, created_at } = orderData
   const { mint_ask, mint_bid, state } = retailerData
 

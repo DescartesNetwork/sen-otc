@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import { useUI } from '@senhub/providers'
 
-import { Col, Row, Space, Typography, Table } from 'antd'
+import { Col, Row, Typography, Table } from 'antd'
+import OrderCard from 'app/page/retailer/orders/orderCard'
+import { ORDER_COLUMN, demoData } from './column'
 
 import FilterHistory from 'app/components/filterHistory'
-import { ORDER_COLUMN, demoData } from './column'
-import { useUI } from '@senhub/providers'
-import OrderCard from 'app/page/retailer/orders/orderCard'
 
 const Order = () => {
   const [coin, setCoin] = useState('Select')
@@ -13,35 +13,55 @@ const Order = () => {
   const [status, setStatus] = useState('Select')
 
   const {
-    ui: { width },
+    ui: { width, infix },
   } = useUI()
   const desktop = width > 1200
+  const isMobile = infix === 'xs'
+  const colSpan = !isMobile ? 24 : undefined
+  const flexType = isMobile ? 'auto' : undefined
+
+  console.log(colSpan)
+
   return (
-    <Row gutter={[24, 24]}>
+    <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Row gutter={12}>
-          <Col flex="auto">
-            <Row gutter={12}>
-              <Col>
-                <FilterHistory label="Coin" value={coin} onSelected={setCoin} />
+        <Row gutter={12} align="bottom">
+          {!isMobile && (
+            <Col flex="auto">
+              <Row gutter={12}>
+                <Col>
+                  <FilterHistory
+                    label="Coin"
+                    value={coin}
+                    onSelected={setCoin}
+                  />
+                </Col>
+                <Col>
+                  <FilterHistory
+                    label="Time"
+                    value={time}
+                    onSelected={setTime}
+                  />
+                </Col>
+                <Col>
+                  <FilterHistory
+                    label="Status"
+                    value={status}
+                    onSelected={setStatus}
+                  />
+                </Col>
+              </Row>
+            </Col>
+          )}
+          <Col>
+            <Row style={{ textAlign: 'right' }}>
+              <Col span={colSpan} flex={flexType}>
+                <Typography.Text type="secondary">Market price</Typography.Text>
               </Col>
-              <Col>
-                <FilterHistory label="Time" value={time} onSelected={setTime} />
-              </Col>
-              <Col>
-                <FilterHistory
-                  label="Status"
-                  value={status}
-                  onSelected={setStatus}
-                />
+              <Col span={colSpan}>
+                <Typography.Text>SNTR/USDC = 0.02567</Typography.Text>
               </Col>
             </Row>
-          </Col>
-          <Col>
-            <Space direction="vertical" align="end">
-              <Typography.Text type="secondary">Market price</Typography.Text>
-              <Typography.Text>SNTR/USDC = 0.02567</Typography.Text>
-            </Space>
           </Col>
         </Row>
       </Col>
