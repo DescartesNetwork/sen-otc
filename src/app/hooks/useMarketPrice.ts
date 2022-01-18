@@ -1,14 +1,11 @@
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
 
 import { useMintPrice } from 'app/hooks/useMintPrice'
-import { AppState } from 'app/model'
 
-export const useMarketPrice = () => {
-  const {
-    order: { bidMintAddress, askMintAddress },
-  } = useSelector((state: AppState) => state)
-
+export const useMarketPrice = (
+  bidMintAddress: string,
+  askMintAddress: string,
+) => {
   const bidMintPrice = useMintPrice(bidMintAddress)
   const askMintPrice = useMintPrice(askMintAddress)
 

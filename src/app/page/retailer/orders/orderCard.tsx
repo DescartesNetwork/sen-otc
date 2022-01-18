@@ -30,15 +30,21 @@ const Content = ({
   )
 }
 
-const OrderCard = ({ orderId }: { orderId: string }) => {
+const OrderCard = ({
+  orderAddress,
+  onClick,
+}: {
+  orderAddress: string
+  onClick: () => void
+}) => {
   const [activeKey, setActiveKey] = useState<string | undefined>()
   const {
-    orders: { [orderId]: orderData },
+    orders: { [orderAddress]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData?.retailer]
-  const { bid_amount, ask_amount, created_at } = orderData
-  const { mint_ask, mint_bid, state } = retailerData
+  const { bid_amount, ask_amount, created_at, state } = orderData
+  const { mint_ask, mint_bid } = retailerData
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
   const getDate = (date?: BigInt | string) => {
@@ -47,13 +53,14 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
   }
   const onActive = () => {
     if (activeKey) return setActiveKey(undefined)
-    return setActiveKey(orderId)
+    return setActiveKey(orderAddress)
   }
   return (
     <Card
       className="order-otc-card"
       bordered={false}
-      bodyStyle={{ padding: 16 }}
+      bodyStyle={{ padding: 16, cursor: 'pointer' }}
+      onClick={onClick}
     >
       <Row gutter={[16, 16]}>
         <Col span={24}>
@@ -73,7 +80,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
             </Col>
             <Col>
               <Space direction="vertical" size={16}>
-                <ColumnStatus orderData={orderData} state={state} />
+                <ColumnStatus orderAddress={orderAddress} state={state} />
               </Space>
             </Col>
           </Row>
@@ -82,7 +89,11 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
           <Row justify="center">
             <Col span={24} className="order-collapse">
               <Collapse activeKey={activeKey} bordered={false}>
-                <Collapse.Panel header={false} key={orderId} showArrow={false}>
+                <Collapse.Panel
+                  header={false}
+                  key={orderAddress}
+                  showArrow={false}
+                >
                   <Row gutter={[6, 6]}>
                     <Col span={24}>
                       <Content label="Order day" value={getDate(created_at)} />
@@ -91,7 +102,7 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
                     <Col span={24}>
                       <Content
                         label="Order ID"
-                        value={shortenAddress(orderId)}
+                        value={shortenAddress(orderAddress)}
                       />
                     </Col>
                   </Row>

@@ -11,7 +11,7 @@ const MarketPrice = () => {
   const {
     order: { bidMintAddress, askMintAddress },
   } = useSelector((state: AppState) => state)
-  const { marketPrice } = useMarketPrice()
+  const { marketPrice } = useMarketPrice(bidMintAddress, askMintAddress)
 
   return (
     <Typography.Text type="secondary">

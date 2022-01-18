@@ -1,14 +1,73 @@
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { utils } from '@senswap/sen-js'
+import moment from 'moment'
+
 import { Button, Card, Col, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 
+import { notifyError, notifySuccess } from 'app/helper'
+import { AppState } from 'app/model'
+import configs from 'app/configs'
+import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { numeric } from 'shared/util'
+import { useMarketPrice } from 'app/hooks/useMarketPrice'
+
+const {
+  sol: { purchasing },
+} = configs
+
 const ConfirmOrder = ({
-  orderData,
+  orderAddress,
   setVisible,
 }: {
-  orderData: any
+  orderAddress: string
   setVisible: (visible: boolean) => void
 }) => {
+  const [approving, setApproving] = useState(false)
+  const [rejecting, setRejecting] = useState(false)
+  const {
+    orders: { [orderAddress]: orderData },
+    retailers,
+  } = useSelector((state: AppState) => state)
+
+  const retailerData = retailers[orderData?.retailer]
+  const { bid_amount, ask_amount } = orderData
+  const { mint_ask, mint_bid } = retailerData
+  const bidDecimals = useMintDecimals(mint_bid) || 0
+  const askDecimals = useMintDecimals(mint_ask) || 0
+  const { marketPrice } = useMarketPrice(mint_bid, mint_ask)
+
+  const onApprove = async () => {
+    try {
+      setApproving(true)
+      const wallet = window.sentre.wallet
+      if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
+      const { txId } = await purchasing.approveOrder(orderAddress, wallet)
+      notifySuccess('Approve', txId)
+    } catch (er) {
+      notifyError(er)
+    } finally {
+      setApproving(false)
+      setVisible(false)
+    }
+  }
+
+  const onReject = async () => {
+    try {
+      setRejecting(true)
+      const wallet = window.sentre.wallet
+      if (!wallet) return notifyError({ message: 'Wallet is not connected!' })
+      const { txId } = await purchasing.rejectOrder(orderAddress, wallet)
+      notifySuccess('Reject', txId)
+    } catch (er) {
+      notifyError(er)
+    } finally {
+      setRejecting(false)
+      setVisible(false)
+    }
+  }
   return (
     <Row gutter={[16, 24]}>
       <Col span={24}>
@@ -17,12 +76,16 @@ const ConfirmOrder = ({
             <Space direction="vertical">
               <Typography.Text>Pay</Typography.Text>
               <Space>
-                <MintAvatar mintAddress="5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ" />
+                <MintAvatar mintAddress={mint_bid} />
                 <Typography.Text>
-                  <MintSymbol mintAddress="5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ" />
+                  <MintSymbol mintAddress={mint_bid} />
                 </Typography.Text>
               </Space>
-              <Typography.Title level={4}>10</Typography.Title>
+              <Typography.Title level={4}>
+                {numeric(utils.undecimalize(bid_amount, bidDecimals)).format(
+                  '0,0.[0000]',
+                )}
+              </Typography.Title>
             </Space>
           </Col>
           <Col>
@@ -32,15 +95,16 @@ const ConfirmOrder = ({
             <Space direction="vertical">
               <Typography.Text>Receive</Typography.Text>
               <Space>
-                <MintAvatar mintAddress="5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ" />
+                <MintAvatar mintAddress={mint_ask} />
                 <Typography.Text>
-                  <MintSymbol
-                    separator=" + "
-                    mintAddress="5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ"
-                  />
+                  <MintSymbol separator=" + " mintAddress={mint_ask} />
                 </Typography.Text>
               </Space>
-              <Typography.Title level={4}>10</Typography.Title>
+              <Typography.Title level={4}>
+                {numeric(utils.undecimalize(ask_amount, askDecimals)).format(
+                  '0,0.[0000]',
+                )}
+              </Typography.Title>
             </Space>
           </Col>
         </Row>
@@ -60,7 +124,9 @@ const ConfirmOrder = ({
                     Approve day
                   </Typography.Text>
                 </Col>
-                <Typography.Text>15/12/2021</Typography.Text>
+                <Typography.Text>
+                  {moment().format('MM/DD/YYYY')}
+                </Typography.Text>
               </Row>
             </Col>
             <Col span={24}>
@@ -70,17 +136,11 @@ const ConfirmOrder = ({
                     Market price
                   </Typography.Text>
                 </Col>
-                <Typography.Text>1 USDC = 39.54 SNTR</Typography.Text>
-              </Row>
-            </Col>
-            <Col span={24}>
-              <Row>
-                <Col flex="auto">
-                  <Typography.Text type="secondary">
-                    Network fee
-                  </Typography.Text>
-                </Col>
-                <Col>0.0001%</Col>
+                <Typography.Text>
+                  <MintSymbol mintAddress={mint_bid} /> =
+                  {numeric(marketPrice).format('0,0.[00]')}
+                  <MintSymbol mintAddress={mint_ask} />
+                </Typography.Text>
               </Row>
             </Col>
           </Row>
@@ -88,8 +148,12 @@ const ConfirmOrder = ({
       </Col>
       <Col span={24} style={{ textAlign: 'right' }}>
         <Space size={4}>
-          <Button>Reject</Button>
-          <Button type="primary">Approve</Button>
+          <Button onClick={onReject} loading={rejecting}>
+            Reject
+          </Button>
+          <Button onClick={onApprove} loading={approving} type="primary">
+            Approve
+          </Button>
         </Space>
       </Col>
     </Row>
