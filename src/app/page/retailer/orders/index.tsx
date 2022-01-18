@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react'
-import { useUI } from '@senhub/providers'
-
-import { Col, Row, Typography, Table } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useUI, useWallet } from '@senhub/providers'
+
+import { Col, Row, Typography, Table, Empty } from 'antd'
 import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
@@ -10,9 +10,14 @@ import OrderCard from 'app/page/retailer/orders/orderCard'
 import { ALL, FilterOrderSet } from 'app/constant'
 import { useFilterOrders } from 'app/hooks/useFilter'
 import { AppState } from 'app/model'
+import { useMarketPrice } from 'app/hooks/useMarketPrice'
+import { MintSymbol } from 'shared/antd/mint'
+import { numeric } from 'shared/util'
 
 const Order = () => {
-  const { orders } = useSelector((state: AppState) => state)
+  const { orders, retailers } = useSelector((state: AppState) => state)
+  const [bidAdress, setBidAddress] = useState('')
+  const [askAdress, setAskAddress] = useState('')
   const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
     coin: ALL,
     time: 7,
@@ -26,12 +31,35 @@ const Order = () => {
   const colSpan = isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
   const listOrderAddress = useFilterOrders(orderFilter)
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
+  const { marketPrice } = useMarketPrice(bidAdress, askAdress)
 
   const dataSource = useMemo(() => {
     return listOrderAddress.map((addr) => {
       return { ...orders[addr], address: addr }
     })
   }, [listOrderAddress, orders])
+
+  const myOrders = dataSource.filter((order) => {
+    return retailers[order.retailer].owner === walletAddress
+  })
+
+  const handleClick = (retailer: string) => {
+    const { mint_bid, mint_ask } = retailers[retailer]
+    setBidAddress(mint_bid)
+    setAskAddress(mint_ask)
+  }
+
+  useEffect(() => {
+    if (!myOrders.length || bidAdress || askAdress) return
+    const { mint_bid, mint_ask } = retailers[myOrders[0].retailer]
+    setBidAddress(mint_bid)
+    setAskAddress(mint_ask)
+  }, [askAdress, bidAdress, myOrders, retailers])
+
+  if (!myOrders.length) return <Empty />
 
   return (
     <Row gutter={[16, 16]}>
@@ -54,7 +82,11 @@ const Order = () => {
               </Col>
               {!isMobile && <Col span={24} />}
               <Col>
-                <Typography.Text>SNTR/USDC = 0.02567</Typography.Text>
+                <Typography.Text>
+                  <MintSymbol mintAddress={bidAdress} />/
+                  <MintSymbol mintAddress={askAdress} /> ={' '}
+                  {numeric(marketPrice).format('0,0.[00]')}
+                </Typography.Text>
               </Col>
             </Row>
           </Col>
@@ -65,18 +97,26 @@ const Order = () => {
           <Table
             className="scrollbar"
             columns={ORDER_COLUMN}
-            dataSource={dataSource}
+            dataSource={myOrders}
             rowClassName={(record, index) =>
               index % 2 ? 'odd-row' : 'even-row'
             }
+            onRow={(record) => {
+              return {
+                onClick: () => handleClick(record.retailer),
+              }
+            }}
             pagination={false}
             rowKey={(record) => record.address}
           />
         ) : (
           <Row gutter={[24, 24]}>
-            {dataSource.map((data) => (
+            {myOrders.map((data) => (
               <Col span={24} key={data.address}>
-                <OrderCard orderId={data.address} />
+                <OrderCard
+                  onClick={() => handleClick(data.retailer)}
+                  orderAddress={data.address}
+                />
               </Col>
             ))}
           </Row>

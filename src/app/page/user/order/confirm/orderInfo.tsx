@@ -13,7 +13,7 @@ const OrderInfo = () => {
   const {
     order: { bidMintAddress, askMintAddress, retailerAddress },
   } = useSelector((state: AppState) => state)
-  const { marketPrice } = useMarketPrice()
+  const { marketPrice } = useMarketPrice(bidMintAddress, askMintAddress)
   const { fee } = useRetailerFee(retailerAddress)
 
   return (

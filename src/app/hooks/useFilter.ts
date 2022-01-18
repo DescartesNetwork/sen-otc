@@ -16,12 +16,13 @@ export const useFilterOrders = (props: FilterOrderSet) => {
       const { mint_ask, mint_bid } = retailers?.[retailer] || {}
 
       const coinCheck =
-        coin !== ALL ? [mint_ask, mint_bid].includes(coin) : true
+        coin && coin !== ALL ? [mint_ask, mint_bid].includes(coin) : true
       const statusCheck =
-        status !== ALL ? ORDER_STATE_DIGIT[state] === status : true
-      const timeCheck =
-        Date.now() / 1000 - Number(utils.undecimalize(created_at, 0)) <
-        time * 86400
+        status && status !== ALL ? ORDER_STATE_DIGIT[state] === status : true
+      const timeCheck = time
+        ? Date.now() / 1000 - Number(utils.undecimalize(created_at, 0)) <
+          time * 86400
+        : true
       return statusCheck && timeCheck && coinCheck
     },
     [coin, orders, retailers, status, time],

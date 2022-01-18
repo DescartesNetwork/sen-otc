@@ -11,7 +11,7 @@ const CoinFilterHistory = ({
   onSelect = () => {},
 }: {
   label?: boolean
-  coin: string
+  coin?: string
   onSelect: (value: string) => void
 }) => {
   const { bidMints } = useBidMints()
