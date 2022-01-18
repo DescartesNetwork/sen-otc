@@ -21,6 +21,7 @@ const Order = () => {
   const isMobile = infix === 'xs'
   const colSpan = !isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
+
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -38,7 +39,7 @@ const Order = () => {
             </Col>
           )}
           <Col>
-            <Row style={{ textAlign: 'right' }}>
+            <Row>
               <Col span={colSpan} flex={flexType}>
                 <Typography.Text type="secondary">Market price</Typography.Text>
               </Col>
