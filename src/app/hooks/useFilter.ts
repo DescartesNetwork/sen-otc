@@ -4,15 +4,17 @@ import { utils } from '@senswap/sen-js'
 
 import { AppState } from 'app/model'
 import { ALL, FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
+import { useOrdersWithMode } from './useFilteredOrders'
 
 export const useFilterOrders = (props: FilterOrderSet) => {
   const { coin, status, time } = props
-  const { orders, retailers } = useSelector((state: AppState) => state)
+  const { retailers } = useSelector((state: AppState) => state)
+  const ordersWithMode = useOrdersWithMode()
   const [orderListAddress, setOrderListAddress] = useState<string[]>([])
 
   const filterOrder = useCallback(
     (address: string) => {
-      const { retailer, state, created_at } = orders[address]
+      const { retailer, state, created_at } = ordersWithMode[address]
       const { mint_ask, mint_bid } = retailers?.[retailer] || {}
 
       const coinCheck =
@@ -25,14 +27,16 @@ export const useFilterOrders = (props: FilterOrderSet) => {
         : true
       return statusCheck && timeCheck && coinCheck
     },
-    [coin, orders, retailers, status, time],
+    [coin, ordersWithMode, retailers, status, time],
   )
 
   useEffect(() => {
-    const orderList = Object.keys(orders).filter((addr) => filterOrder(addr))
+    const orderList = Object.keys(ordersWithMode).filter((addr) =>
+      filterOrder(addr),
+    )
     if (orderList.length) return setOrderListAddress(orderList)
     return setOrderListAddress([])
-  }, [filterOrder, orders])
+  }, [filterOrder, ordersWithMode])
 
   return orderListAddress
 }

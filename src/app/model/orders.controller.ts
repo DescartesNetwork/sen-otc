@@ -7,10 +7,10 @@ import configs from 'app/configs'
  * Store constructor
  */
 
-export type State = Record<string, OrderData>
+export type OrdersState = Record<string, OrderData>
 
 const NAME = 'orders'
-const initialState: State = {}
+const initialState: OrdersState = {}
 
 /**
  * Actions
@@ -23,7 +23,7 @@ export const getUserOrders = createAsyncThunk(
       sol: { purchasing },
     } = configs
     // Get all retailers with specific owner
-    let bulk: State = {}
+    let bulk: OrdersState = {}
     let opts = []
     if (account.isAddress(owner))
       opts.push({ memcmp: { bytes: owner, offset: 0 } })
@@ -51,7 +51,7 @@ export const getRetailerOrders = createAsyncThunk(
       sol: { purchasing },
     } = configs
     // Get all retailers with specific owner
-    let bulk: State = {}
+    let bulk: OrdersState = {}
     await Promise.all(
       retailers.map(async (retailer) => {
         let opts = [{ memcmp: { bytes: retailer, offset: 33 } }]
@@ -76,7 +76,7 @@ export const getRetailerOrders = createAsyncThunk(
 )
 
 export const getOrder = createAsyncThunk<
-  State,
+  OrdersState,
   { address: string },
   { state: any }
 >(`${NAME}/getOrder`, async ({ address }, { getState }) => {
@@ -93,7 +93,7 @@ export const getOrder = createAsyncThunk<
 })
 
 export const upsetOrder = createAsyncThunk<
-  State,
+  OrdersState,
   { address: string; data: OrderData },
   { state: any }
 >(`${NAME}/upsetOrder`, async ({ address, data }) => {
