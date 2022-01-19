@@ -8,13 +8,11 @@ import { useSearchTokens } from 'app/hooks/useSearchTokens'
 const TokenSelect = ({
   tokens,
   search = false,
-  onChange,
   ...rest
 }: {
   tokens: string[]
   search?: boolean
   selectFist?: boolean
-  onChange: (val: any) => void
 } & SelectProps) => {
   const [keyword, setKeyword] = useState('')
   const searchedTokens = useSearchTokens(tokens, keyword)
