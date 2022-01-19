@@ -41,8 +41,8 @@ export const useOrdersWithMode = (): OrdersState => {
     // Filter single token
     for (const addr in orders) {
       const orderData = orders[addr]
-      const retailerData = retailers[orderData.retailer]
-      const { mint_bid, mint_ask } = retailerData
+      const retailerData = retailers?.[orderData.retailer]
+      const { mint_bid, mint_ask } = retailerData || {}
       const bidToken = await tokenProvider.findByAddress(mint_bid)
       const askToken = await tokenProvider.findByAddress(mint_ask)
       if (bidToken && askToken) filteredOrders[addr] = orderData

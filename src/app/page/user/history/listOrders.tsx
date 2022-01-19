@@ -8,7 +8,7 @@ import { HISTORY_COLUMN } from './historyColumn'
 import { AppState } from 'app/model'
 import { FilterOrderSet } from 'app/constant'
 import { useFilterOrders } from 'app/hooks/useFilter'
-import OrderCard from './orderCard'
+import OrderCard from '../../../components/orderCard'
 
 const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { orders } = useSelector((state: AppState) => state)
