@@ -9,6 +9,7 @@ import { AppState } from 'app/model'
 import { numeric } from 'shared/util'
 import configs from 'app/configs'
 import { notifyError, notifySuccess } from 'app/helper'
+import { RETAILER_STATE } from 'app/constant/retailer'
 
 const {
   sol: { purchasing },
@@ -30,12 +31,24 @@ const ItemPair = ({ address }: { address: string }) => {
       notifyError(er)
     }
   }
+  const onThaw = async () => {
+    try {
+      const wallet = window.sentre.wallet
+      if (!wallet) throw new Error('Login fist')
+      const { txId } = await purchasing.thawRetailer(address, wallet)
+      notifySuccess('Thaw', txId)
+    } catch (er) {
+      notifyError(er)
+    }
+  }
+  const frozen = retailerData.state === RETAILER_STATE.Frozen
 
   return (
     <Card
       style={{ boxShadow: 'none' }}
       bodyStyle={{ padding: 16 }}
       bordered={false}
+      className={frozen ? 'frozen-card' : ''}
     >
       <Row gutter={[12, 12]}>
         <Col span={24}>
@@ -49,9 +62,14 @@ const ItemPair = ({ address }: { address: string }) => {
             </Col>
             <Col>
               <Button
-                icon={<IonIcon style={{ fontSize: 16 }} name="trash-outline" />}
+                icon={
+                  <IonIcon
+                    style={{ fontSize: 16, opacity: 1 }}
+                    name={frozen ? 'sunny-outline' : 'snow-outline'}
+                  />
+                }
                 type="text"
-                onClick={onFreeze}
+                onClick={frozen ? onThaw : onFreeze}
               />
             </Col>
           </Row>
