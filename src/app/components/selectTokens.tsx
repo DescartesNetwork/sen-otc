@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
   Button,
@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
-import { useMintSelection } from 'app/hooks/useMintSelection'
+import { useSearchToken } from 'app/hooks/useSearchToken'
 
 const TokenSelect = ({
   tokens,
@@ -24,25 +24,18 @@ const TokenSelect = ({
   search?: boolean
 } & SelectProps) => {
   const [keyword, setKeyword] = useState('')
-  const { onSearch, searchedAccount } = useMintSelection()
-
-  useEffect(() => {
-    ;(async () => {
-      if (!search || !keyword) return
-      return await onSearch(keyword)
-    })()
-  }, [keyword, onSearch, search])
+  const { searchedTokens } = useSearchToken(tokens, keyword)
 
   return (
     <Select
       {...rest}
-      dropdownRender={(menu) =>
-        search ? (
-          <Row gutter={[8, 8]}>
-            <Col span={24} style={{ padding: 8 }}>
+      dropdownRender={(menu) => (
+        <Row gutter={[8, 8]}>
+          {search && (
+            <Col span={24}>
               <Card
                 className="account-card"
-                style={{ borderRadius: 8, boxShadow: 'unset' }}
+                style={{ borderRadius: 8, margin: 8, boxShadow: 'unset' }}
                 bodyStyle={{ padding: 6 }}
               >
                 <Input
@@ -69,12 +62,10 @@ const TokenSelect = ({
                 />
               </Card>
             </Col>
-            <Col span={24}>{menu}</Col>
-          </Row>
-        ) : (
-          <Fragment />
-        )
-      }
+          )}
+          <Col span={24}>{menu}</Col>
+        </Row>
+      )}
     >
       {!keyword && (
         <Select.Option key="Select">
@@ -87,7 +78,7 @@ const TokenSelect = ({
           </Space>
         </Select.Option>
       )}
-      {(searchedAccount || tokens).map((tokenAddress) => (
+      {(searchedTokens || tokens).map((tokenAddress) => (
         <Select.Option key={tokenAddress}>
           <Space>
             <MintAvatar mintAddress={tokenAddress} />
