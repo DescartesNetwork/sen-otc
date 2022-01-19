@@ -20,6 +20,7 @@ const Header = () => {
   const isMobile = infix === 'xs'
   const dividerType = isMobile ? 'horizontal' : 'vertical'
   const colSpan = isMobile ? 24 : undefined
+
   return (
     <Card className="header-about" bordered={false}>
       <Row gutter={[24, 24]}>
