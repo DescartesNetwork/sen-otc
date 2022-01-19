@@ -27,7 +27,7 @@ const Header = () => {
         <Col>
           <Space size={4} direction="vertical">
             <Space size={12}>
-              <Typography.Text>Retailer 1</Typography.Text>
+              <Typography.Text>Retailer</Typography.Text>
               <IonIcon
                 name="open-outline"
                 onClick={() => window.open(explorer(walletAddress))}
