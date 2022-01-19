@@ -21,9 +21,16 @@ export const HISTORY_COLUMN = [
     },
   },
   {
-    title: 'APPROVED DAY',
-    dataIndex: 'approved_day',
-    key: 'approved_day',
+    title: 'UPDATED DAY',
+    dataIndex: 'updated_at',
+    key: 'updated_at',
+    render: (time: bigint) => {
+      return (
+        <Typography.Text>
+          {moment(Number(time) * 1000).format('MMM DD, YYYY HH:mm')}
+        </Typography.Text>
+      )
+    },
   },
   {
     title: 'ORDER ID',
