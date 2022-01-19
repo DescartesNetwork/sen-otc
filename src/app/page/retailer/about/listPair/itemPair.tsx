@@ -41,14 +41,14 @@ const ItemPair = ({ address }: { address: string }) => {
       notifyError(er)
     }
   }
-  const freeze = retailerData.state === RETAILER_STATE.Frozen
+  const frozen = retailerData.state === RETAILER_STATE.Frozen
 
   return (
     <Card
       style={{ boxShadow: 'none' }}
       bodyStyle={{ padding: 16 }}
       bordered={false}
-      className={freeze ? 'freeze-card' : ''}
+      className={frozen ? 'frozen-card' : ''}
     >
       <Row gutter={[12, 12]}>
         <Col span={24}>
@@ -65,11 +65,11 @@ const ItemPair = ({ address }: { address: string }) => {
                 icon={
                   <IonIcon
                     style={{ fontSize: 16, opacity: 1 }}
-                    name={freeze ? 'sunny-outline' : 'snow-outline'}
+                    name={frozen ? 'sunny-outline' : 'snow-outline'}
                   />
                 }
                 type="text"
-                onClick={freeze ? onThaw : onFreeze}
+                onClick={frozen ? onThaw : onFreeze}
               />
             </Col>
           </Row>
