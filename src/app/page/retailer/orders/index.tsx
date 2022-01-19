@@ -79,8 +79,6 @@ const Order = () => {
     setAskAddress(mint_ask)
   }, [askAdress, bidAdress, myOrders, retailers])
 
-  if (!myOrders.length) return <Empty />
-
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -131,14 +129,18 @@ const Order = () => {
           />
         ) : (
           <Row gutter={[24, 24]}>
-            {myOrders.map((data) => (
-              <Col span={24} key={data.address}>
-                <OrderCard
-                  onClick={() => handleClick(data.retailer)}
-                  orderAddress={data.address}
-                />
-              </Col>
-            ))}
+            {!myOrders.length ? (
+              <Empty />
+            ) : (
+              myOrders.map((data) => (
+                <Col span={24} key={data.address}>
+                  <OrderCard
+                    onClick={() => handleClick(data.retailer)}
+                    orderAddress={data.address}
+                  />
+                </Col>
+              ))
+            )}
           </Row>
         )}
       </Col>

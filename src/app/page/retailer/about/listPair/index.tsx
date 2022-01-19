@@ -25,7 +25,7 @@ const ListPair = () => {
   return (
     <Row gutter={[24, 24]}>
       {myPairs.map((address) => (
-        <Col span={6} key={address}>
+        <Col lg={6} md={8} sm={12} xs={24} key={address}>
           <ItemPair address={address} />
         </Col>
       ))}
