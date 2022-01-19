@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useUI, useWallet } from '@senhub/providers'
+import { utils } from '@senswap/sen-js'
 
 import { Col, Row, Typography, Table, Empty } from 'antd'
 import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
 
-import { ALL, FilterOrderSet } from 'app/constant'
+import { ALL, FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
 import { useFilterOrders } from 'app/hooks/useFilter'
 import { AppState } from 'app/model'
 import { useMarketPrice } from 'app/hooks/useMarketPrice'
@@ -42,9 +43,28 @@ const Order = () => {
     })
   }, [listOrderAddress, orders])
 
-  const myOrders = dataSource.filter((order) => {
-    return retailers[order.retailer].owner === walletAddress
-  })
+  const myOrders = dataSource
+    .filter((order) => {
+      return retailers[order.retailer].owner === walletAddress
+    })
+    .sort((order1, order2) => {
+      const orderState1Check = order1.state === ORDER_STATE_CODE.PENDING
+      const orderState2Check = order2.state === ORDER_STATE_CODE.PENDING
+      const timeCheck =
+        Number(utils.undecimalize(order2.created_at, 0)) -
+        Number(utils.undecimalize(order1.created_at, 0))
+
+      if (orderState1Check && orderState2Check) {
+        return timeCheck
+      }
+      if (orderState1Check && !orderState2Check) {
+        return -1
+      }
+      if (!orderState1Check && orderState2Check) {
+        return 1
+      }
+      return timeCheck
+    })
 
   const handleClick = (retailer: string) => {
     const { mint_bid, mint_ask } = retailers[retailer]
