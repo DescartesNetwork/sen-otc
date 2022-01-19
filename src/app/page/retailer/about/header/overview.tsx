@@ -1,6 +1,6 @@
 import { useUI, useWallet } from '@senhub/providers'
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 
 import { Col, Row, Typography } from 'antd'
 
@@ -43,43 +43,44 @@ const Overview = () => {
     ui: { infix },
   } = useUI()
   const { retailers, orders } = useSelector((state: AppState) => state)
-  const [totalPair, setTotalPair] = useState(0)
-  const [usablePair, setUsablePair] = useState(0)
-  const [rejectOrder, setRejectOrder] = useState(0)
-  const [approvedOrder, setApprovedOrder] = useState(0)
-  const [rate, setRate] = useState(0)
 
-  useEffect(() => {
-    const totalPair = Object.keys(retailers).filter((addr) => {
-      const { owner } = retailers[addr]
-      return owner === walletAddress
-    })
-    const usablePair = totalPair.filter((addr) => {
-      const { state } = retailers[addr]
-      return state === RETAILER_STATE.Active
-    })
+  const totalPair = useMemo(
+    () =>
+      Object.keys(retailers).filter((addr) => {
+        const { owner } = retailers[addr]
+        return owner === walletAddress
+      }),
+    [retailers, walletAddress],
+  )
 
-    setUsablePair(usablePair.length)
-    setTotalPair(totalPair.length)
-  }, [retailers, walletAddress])
+  const usablePair = useMemo(
+    () =>
+      totalPair.filter((addr) => {
+        const { state } = retailers[addr]
+        return state === RETAILER_STATE.Active
+      }).length,
+    [retailers, totalPair],
+  )
 
-  useEffect(() => {
-    const rejectedOrder = Object.keys(orders).filter((addr) => {
-      const { state } = orders[addr]
-      return state === ORDER_STATE_CODE['REJECTED']
-    })
-    const approvedOrder = Object.keys(orders).filter((addr) => {
-      const { state } = orders[addr]
-      return state === ORDER_STATE_CODE['APPROVED']
-    })
-    const rate =
-      (approvedOrder.length / (approvedOrder.length + rejectedOrder.length)) *
-      100
+  const rejectedOrder = useMemo(
+    () =>
+      Object.keys(orders).filter((addr) => {
+        const { state } = orders[addr]
+        return state === ORDER_STATE_CODE['REJECTED']
+      }).length,
+    [orders],
+  )
 
-    setRate(rate)
-    setApprovedOrder(approvedOrder.length)
-    setRejectOrder(rejectedOrder.length)
-  }, [orders])
+  const approvedOrder = useMemo(
+    () =>
+      Object.keys(orders).filter((addr) => {
+        const { state } = orders[addr]
+        return state === ORDER_STATE_CODE['APPROVED']
+      }).length,
+    [orders],
+  )
+
+  const rate = (approvedOrder / (approvedOrder + rejectedOrder)) * 100
 
   const isMobile = infix === 'xs'
   const colSpan = isMobile ? 24 : undefined
@@ -93,13 +94,13 @@ const Overview = () => {
         <Content label="Approved order" value={approvedOrder} />
       </Col>
       <Col span={colSpan}>
-        <Content label="Reject order" value={rejectOrder} />
+        <Content label="Reject order" value={rejectedOrder} />
       </Col>
       <Col span={colSpan}>
         <Content label="Usable pair" value={usablePair} />
       </Col>
       <Col span={colSpan}>
-        <Content label="Created pair" value={totalPair} />
+        <Content label="Created pair" value={totalPair.length} />
       </Col>
     </Row>
   )

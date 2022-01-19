@@ -44,7 +44,7 @@ const Confirm = () => {
       if (!wallet) throw new Error('Please connect wallet')
       if (!bidDecimals || !askDecimals) throw new Error('Invalid mint decimals')
 
-      const lockTime = BigInt(86400)
+      const lockTime = BigInt(1)
       const bidValue = utils.decimalize(bidAmount, bidDecimals)
       const askValue = utils.decimalize(askAmount, askDecimals)
 

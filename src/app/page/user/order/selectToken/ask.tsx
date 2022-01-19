@@ -32,7 +32,7 @@ const Ask = () => {
 
   const autoFillAsk = useCallback(() => {
     let askEstimate =
-      marketPrice * Number(bidAmount) * (1 - DEFAULT_RETAILER_FEE / 100)
+      marketPrice * Number(bidAmount) * (1 - DEFAULT_RETAILER_FEE)
     dispatch(setAskAmount(String(askEstimate)))
   }, [bidAmount, dispatch, marketPrice])
 
