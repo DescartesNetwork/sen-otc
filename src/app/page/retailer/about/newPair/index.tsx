@@ -33,6 +33,7 @@ const NewPair = ({
     () => Object.values(accounts).map((acc) => acc.mint),
     [accounts],
   )
+
   const { sortedMints } = useSortedMint(tokens)
 
   const onCreateNewPair = async () => {
@@ -74,6 +75,7 @@ const NewPair = ({
               value={mintBid}
               className="pair-selection"
               bordered={false}
+              search={true}
             />
           </Space>
         </Col>
@@ -86,6 +88,7 @@ const NewPair = ({
               value={mintAsk}
               className="pair-selection"
               bordered={false}
+              search={true}
             />
           </Space>
         </Col>
