@@ -5,7 +5,7 @@ import moment from 'moment'
 import { Button, Card, Col, Collapse, Row, Space, Typography } from 'antd'
 import StatusTag from 'app/components/statusTags'
 import OrderPriceCell from 'app/components/orderPriceCell'
-import ColumnAction from './columnAction'
+import ColumnAction from '../page/user/history/columnAction'
 import { AppState } from 'app/model'
 import { MintAvatar } from 'shared/antd/mint'
 import IonIcon from 'shared/antd/ionicon'
@@ -30,14 +30,20 @@ const Content = ({
   )
 }
 
-const OrderCard = ({ orderId }: { orderId: string }) => {
+const OrderCard = ({
+  orderId,
+  widget = false,
+}: {
+  orderId: string
+  widget?: boolean
+}) => {
   const [activeKey, setActiveKey] = useState<string | undefined>()
   const {
     orders: { [orderId]: orderData },
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers?.[orderData.retailer]
-  const { bid_amount, ask_amount, created_at } = orderData
+  const { bid_amount, ask_amount, created_at, updated_at } = orderData
   const { mint_ask, mint_bid, state } = retailerData || {}
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
@@ -60,6 +66,14 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
           <Row gutter={[12, 12]}>
             <Col flex="auto">
               <Space direction="vertical" size={6}>
+                {widget && (
+                  <Space size={4}>
+                    <Typography.Text type="secondary">
+                      Order ID:
+                    </Typography.Text>
+                    <Typography.Text>{shortenAddress(orderId)}</Typography.Text>
+                  </Space>
+                )}
                 <Space>
                   <MintAvatar mintAddress={mint_bid} size={20} />
                   <OrderPriceCell mintAddress={mint_bid} amount={bid_amount} />
@@ -79,41 +93,50 @@ const OrderCard = ({ orderId }: { orderId: string }) => {
             </Col>
           </Row>
         </Col>
-        <Col span={24}>
-          <Row justify="center">
-            <Col span={24} className="order-collapse">
-              <Collapse activeKey={activeKey} bordered={false}>
-                <Collapse.Panel header={false} key={orderId} showArrow={false}>
-                  <Row gutter={[6, 6]}>
-                    <Col span={24}>
-                      <Content label="Create Day" value={getDate(created_at)} />
-                    </Col>
-                    <Col span={24}>
-                      <Content
-                        label="Approved Day"
-                        value={getDate(undefined)}
-                      />
-                    </Col>
-                    <Col span={24}>
-                      <Content
-                        label="Order ID"
-                        value={shortenAddress(orderId)}
-                      />
-                    </Col>
-                  </Row>
-                </Collapse.Panel>
-              </Collapse>
-            </Col>
-            <Col>
-              <Button
-                type="text"
-                size="small"
-                icon={<IonIcon name={iconName} />}
-                onClick={onActive}
-              />
-            </Col>
-          </Row>
-        </Col>
+        {!widget && (
+          <Col span={24}>
+            <Row justify="center">
+              <Col span={24} className="order-collapse">
+                <Collapse activeKey={activeKey} bordered={false}>
+                  <Collapse.Panel
+                    header={false}
+                    key={orderId}
+                    showArrow={false}
+                  >
+                    <Row gutter={[6, 6]}>
+                      <Col span={24}>
+                        <Content
+                          label="Created at"
+                          value={getDate(created_at)}
+                        />
+                      </Col>
+                      <Col span={24}>
+                        <Content
+                          label="Last updated"
+                          value={getDate(updated_at)}
+                        />
+                      </Col>
+                      <Col span={24}>
+                        <Content
+                          label="Order ID"
+                          value={shortenAddress(orderId)}
+                        />
+                      </Col>
+                    </Row>
+                  </Collapse.Panel>
+                </Collapse>
+              </Col>
+              <Col>
+                <Button
+                  type="text"
+                  size="small"
+                  icon={<IonIcon name={iconName} />}
+                  onClick={onActive}
+                />
+              </Col>
+            </Row>
+          </Col>
+        )}
       </Row>
     </Card>
   )

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Col, Divider, Row, Space, Typography } from 'antd'
+import { Button, Col, Divider, Row, Space, Typography } from 'antd'
 import NumericInput from 'shared/antd/numericInput'
 import TokenSelect from 'app/components/selectTokens'
 
@@ -52,6 +52,15 @@ const Bid = () => {
               suffixIcon={<Divider type="vertical" />}
               dropdownStyle={{ minWidth: 170 }}
             />
+          }
+          suffix={
+            <Button
+              type="text"
+              size="small"
+              onClick={() => dispatch(setBidAmount(`${bidAccount.balance}`))}
+            >
+              Max
+            </Button>
           }
           value={bidAmount}
           onValue={(amount: string) => dispatch(setBidAmount(amount))}

@@ -4,7 +4,7 @@ import { useUI } from '@senhub/providers'
 
 import { Col, Row, Table } from 'antd'
 import { HISTORY_COLUMN } from './historyColumn'
-import OrderCard from './orderCard'
+import OrderCard from '../../../components/orderCard'
 
 import { AppState } from 'app/model'
 import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
