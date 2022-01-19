@@ -6,7 +6,6 @@ import { AppState } from 'app/model'
 import ItemPair from './itemPair'
 
 import { useWallet } from '@senhub/providers'
-import { RETAILER_STATE } from 'app/constant/retailer'
 
 const ListPair = () => {
   const {
@@ -17,8 +16,8 @@ const ListPair = () => {
   const myPairs: string[] = useMemo(
     () =>
       Object.keys(retailers).filter((addr) => {
-        const { owner, state } = retailers[addr]
-        return owner === walletAddress && state === RETAILER_STATE.Active
+        const { owner } = retailers[addr]
+        return owner === walletAddress
       }),
     [retailers, walletAddress],
   )
