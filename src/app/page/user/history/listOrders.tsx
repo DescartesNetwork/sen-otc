@@ -4,11 +4,11 @@ import { useUI } from '@senhub/providers'
 
 import { Col, Row, Table } from 'antd'
 import { HISTORY_COLUMN } from './historyColumn'
+import OrderCard from '../../../components/orderCard'
 
 import { AppState } from 'app/model'
-import { FilterOrderSet } from 'app/constant'
+import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
 import { useFilterOrders } from 'app/hooks/useFilter'
-import OrderCard from '../../../components/orderCard'
 
 const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { orders } = useSelector((state: AppState) => state)
@@ -20,9 +20,24 @@ const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const desktop = width > 1200
 
   const dataSource = useMemo(() => {
-    return listOrderAddress?.map((addr) => {
-      return { ...orders[addr], address: addr }
-    })
+    return listOrderAddress
+      .map((addr) => {
+        return { ...orders[addr], address: addr }
+      })
+      .sort((orderA, orderB) => {
+        const priorityCodes = [
+          ORDER_STATE_CODE.APPROVED,
+          ORDER_STATE_CODE.PENDING,
+        ]
+
+        const priorityA = Number(priorityCodes.includes(orderA.state))
+        const priorityB = Number(priorityCodes.includes(orderB.state))
+        const point = priorityA + priorityB
+
+        if (point === 2 || !point)
+          return Number(orderB.created_at) - Number(orderA.created_at)
+        return orderA.state - orderB.state
+      })
   }, [listOrderAddress, orders])
 
   if (desktop)
