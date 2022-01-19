@@ -43,7 +43,7 @@ const OrderCard = ({
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers?.[orderData.retailer]
-  const { bid_amount, ask_amount, created_at } = orderData
+  const { bid_amount, ask_amount, created_at, updated_at } = orderData
   const { mint_ask, mint_bid, state } = retailerData || {}
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
@@ -106,14 +106,14 @@ const OrderCard = ({
                     <Row gutter={[6, 6]}>
                       <Col span={24}>
                         <Content
-                          label="Create Day"
+                          label="Created at"
                           value={getDate(created_at)}
                         />
                       </Col>
                       <Col span={24}>
                         <Content
-                          label="Approved Day"
-                          value={getDate(undefined)}
+                          label="Last updated"
+                          value={getDate(updated_at)}
                         />
                       </Col>
                       <Col span={24}>
