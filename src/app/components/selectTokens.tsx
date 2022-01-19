@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
-import { useSearchToken } from 'app/hooks/useSearchToken'
+import { useSearchTokens } from 'app/hooks/useSearchTokens'
 
 const TokenSelect = ({
   tokens,
@@ -24,7 +24,7 @@ const TokenSelect = ({
   search?: boolean
 } & SelectProps) => {
   const [keyword, setKeyword] = useState('')
-  const { searchedTokens } = useSearchToken(tokens, keyword)
+  const searchedTokens = useSearchTokens(tokens, keyword)
 
   return (
     <Select
@@ -78,7 +78,7 @@ const TokenSelect = ({
           </Space>
         </Select.Option>
       )}
-      {(searchedTokens || tokens).map((tokenAddress) => (
+      {searchedTokens.map((tokenAddress) => (
         <Select.Option key={tokenAddress}>
           <Space>
             <MintAvatar mintAddress={tokenAddress} />

@@ -3,15 +3,13 @@ import { useMint } from '@senhub/providers'
 
 const KEYSIZE = 3
 
-export const useSearchToken = (tokens: string[], keyword: string) => {
-  const [searchedTokens, setSearchedTokens] = useState<string[]>()
-
+export const useSearchTokens = (tokens: string[], keyword: string) => {
+  const [searchedTokens, setSearchedTokens] = useState<string[]>(tokens)
   const { tokenProvider } = useMint()
 
   const onSearch = useCallback(
-    async (keyword: string | undefined) => {
-      if (!keyword || keyword.length < KEYSIZE)
-        return setSearchedTokens(undefined)
+    async (keyword: string) => {
+      if (!keyword || keyword.length < KEYSIZE) return setSearchedTokens(tokens)
       const raw = await tokenProvider.find(keyword)
       const searchedTokenAddress = raw.map(({ address }) => address)
       let searchedToken: string[] = []
@@ -28,7 +26,5 @@ export const useSearchToken = (tokens: string[], keyword: string) => {
     onSearch(keyword)
   }, [onSearch, keyword])
 
-  return {
-    searchedTokens,
-  }
+  return searchedTokens
 }
