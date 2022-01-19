@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAccount, useWallet } from '@senhub/providers'
 
 import { Button, Col, Modal, Row, Space, Typography } from 'antd'
@@ -8,9 +8,10 @@ import SelectTokens from 'app/components/selectTokens'
 import { useSortedMint } from 'app/hooks/useSortedMint'
 import configs from 'app/configs'
 import { notifyError, notifySuccess } from 'app/helper'
+import { useSingleMints } from 'app/hooks/useSingleMints'
 
 const {
-  sol: { purchasing },
+  sol: { purchasing, sntrAddress },
 } = configs
 
 const NewPair = ({
@@ -23,19 +24,28 @@ const NewPair = ({
   const {
     wallet: { address: walletAddress },
   } = useWallet()
-  const [mintBid, setMintBid] = useState('Select')
-  const [mintAsk, setMintAsk] = useState('Select')
+  const [mintBid, setMintBid] = useState('')
+  const [mintAsk, setMintAsk] = useState('')
   const [loading, setLoading] = useState(false)
 
   const { accounts } = useAccount()
 
-  const tokens = useMemo(
+  const myMints = useMemo(
     () => Object.values(accounts).map((acc) => acc.mint),
     [accounts],
   )
+  const singleMints = useSingleMints(myMints)
+  const { sortedMints } = useSortedMint(singleMints)
 
-  const { sortedMints } = useSortedMint(tokens)
+  const selectDefault = useCallback(() => {
+    const bidDefault = sortedMints.find((addr) => addr !== sntrAddress) || ''
+    setMintBid(bidDefault)
+    setMintAsk(sntrAddress)
+  }, [sortedMints])
 
+  useEffect(() => {
+    selectDefault()
+  }, [selectDefault])
   const onCreateNewPair = async () => {
     try {
       setLoading(true)
@@ -75,7 +85,8 @@ const NewPair = ({
               value={mintBid}
               className="pair-selection"
               bordered={false}
-              search={true}
+              search
+              selectFist
             />
           </Space>
         </Col>
@@ -88,7 +99,7 @@ const NewPair = ({
               value={mintAsk}
               className="pair-selection"
               bordered={false}
-              search={true}
+              search
             />
           </Space>
         </Col>

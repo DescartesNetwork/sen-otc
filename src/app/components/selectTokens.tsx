@@ -1,16 +1,6 @@
 import { useState } from 'react'
 
-import {
-  Button,
-  Card,
-  Col,
-  Input,
-  Row,
-  Select,
-  SelectProps,
-  Space,
-  Typography,
-} from 'antd'
+import { Button, Card, Col, Input, Row, Select, SelectProps, Space } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 import { useSearchTokens } from 'app/hooks/useSearchTokens'
@@ -18,10 +8,13 @@ import { useSearchTokens } from 'app/hooks/useSearchTokens'
 const TokenSelect = ({
   tokens,
   search = false,
+  onChange,
   ...rest
 }: {
   tokens: string[]
   search?: boolean
+  selectFist?: boolean
+  onChange: (val: any) => void
 } & SelectProps) => {
   const [keyword, setKeyword] = useState('')
   const searchedTokens = useSearchTokens(tokens, keyword)
@@ -67,17 +60,6 @@ const TokenSelect = ({
         </Row>
       )}
     >
-      {!keyword && (
-        <Select.Option key="Select">
-          <Space>
-            <MintAvatar
-              mintAddress="Select"
-              icon={<IonIcon name="help-outline" />}
-            />
-            <Typography.Text>Select</Typography.Text>
-          </Space>
-        </Select.Option>
-      )}
       {searchedTokens.map((tokenAddress) => (
         <Select.Option key={tokenAddress}>
           <Space>
