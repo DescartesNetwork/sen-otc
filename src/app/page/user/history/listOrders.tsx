@@ -26,14 +26,12 @@ const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
         return { ...orders[addr], address: addr }
       })
       .sort((order1, order2) => {
-        const orderState1Check = [
+        const priorityStates = [
           ORDER_STATE_CODE.PENDING,
           ORDER_STATE_CODE.APPROVED,
-        ].includes(order1.state)
-        const orderState2Check = [
-          ORDER_STATE_CODE.PENDING,
-          ORDER_STATE_CODE.APPROVED,
-        ].includes(order2.state)
+        ]
+        const orderState1Check = priorityStates.includes(order1.state)
+        const orderState2Check = priorityStates.includes(order2.state)
         const timeCheck =
           Number(utils.undecimalize(order2.created_at, 0)) -
           Number(utils.undecimalize(order1.created_at, 0))
