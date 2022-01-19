@@ -130,7 +130,9 @@ const Order = () => {
         ) : (
           <Row gutter={[24, 24]}>
             {!myOrders.length ? (
-              <Empty />
+              <Col span={24}>
+                <Empty />
+              </Col>
             ) : (
               myOrders.map((data) => (
                 <Col span={24} key={data.address}>
