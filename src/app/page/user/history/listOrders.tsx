@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useUI } from '@senhub/providers'
-import { utils } from '@senswap/sen-js'
 
 import { Col, Row, Table } from 'antd'
 import { HISTORY_COLUMN } from './historyColumn'
@@ -22,32 +21,22 @@ const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
 
   const dataSource = useMemo(() => {
     return listOrderAddress
-      ?.map((addr) => {
+      .map((addr) => {
         return { ...orders[addr], address: addr }
       })
-      .sort((order1, order2) => {
-        const orderState1Check = [
-          ORDER_STATE_CODE.PENDING,
+      .sort((orderA, orderB) => {
+        const priorityCodes = [
           ORDER_STATE_CODE.APPROVED,
-        ].includes(order1.state)
-        const orderState2Check = [
           ORDER_STATE_CODE.PENDING,
-          ORDER_STATE_CODE.APPROVED,
-        ].includes(order2.state)
-        const timeCheck =
-          Number(utils.undecimalize(order2.created_at, 0)) -
-          Number(utils.undecimalize(order1.created_at, 0))
+        ]
 
-        if (orderState1Check && orderState2Check) {
-          return timeCheck
-        }
-        if (orderState1Check && !orderState2Check) {
-          return -1
-        }
-        if (!orderState1Check && orderState2Check) {
-          return 1
-        }
-        return timeCheck
+        const priorityA = Number(priorityCodes.includes(orderA.state))
+        const priorityB = Number(priorityCodes.includes(orderB.state))
+        const point = priorityA + priorityB
+
+        if (point === 2 || !point)
+          return Number(orderB.created_at) - Number(orderA.created_at)
+        return orderA.state - orderB.state
       })
   }, [listOrderAddress, orders])
 
