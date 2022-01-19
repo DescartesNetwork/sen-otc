@@ -24,7 +24,7 @@ const TokenSelect = ({
   search?: boolean
 } & SelectProps) => {
   const [keyword, setKeyword] = useState('')
-  const { searchedToken } = useSearchToken(tokens, keyword)
+  const { searchedTokens } = useSearchToken(tokens, keyword)
 
   return (
     <Select
@@ -78,7 +78,7 @@ const TokenSelect = ({
           </Space>
         </Select.Option>
       )}
-      {(searchedToken || tokens).map((tokenAddress) => (
+      {(searchedTokens || tokens).map((tokenAddress) => (
         <Select.Option key={tokenAddress}>
           <Space>
             <MintAvatar mintAddress={tokenAddress} />
