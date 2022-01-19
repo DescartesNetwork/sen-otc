@@ -1,14 +1,13 @@
-import { useCallback, useMemo, useState } from 'react'
-import { useAccount, useMint } from '@senhub/providers'
+import { useCallback, useEffect, useState } from 'react'
+import { useMint } from '@senhub/providers'
 
 const KEYSIZE = 3
 
-export const useMintSelection = () => {
+export const useSearchToken = (tokens: string[], keyword: string) => {
   const [searchedAccount, setSearchedAccount] = useState<string[]>()
-  const { accounts } = useAccount()
+
   const { tokenProvider } = useMint()
 
-  const accountAddresses = useMemo(() => Object.keys(accounts), [accounts])
   const onSearch = useCallback(
     async (keyword: string | undefined) => {
       if (!keyword || keyword.length < KEYSIZE)
@@ -17,18 +16,20 @@ export const useMintSelection = () => {
       const searchedTokenAddress = raw.map(({ address }) => address)
       let searchedAccount: string[] = []
       // Filter Tokens
-      accountAddresses.forEach((accAddr) => {
-        if (!searchedTokenAddress.includes(accounts[accAddr]?.mint)) return
-        return searchedAccount.push(accounts[accAddr]?.mint)
+      tokens.forEach((accAddr) => {
+        if (!searchedTokenAddress.includes(accAddr)) return
+        return searchedAccount.push(accAddr)
       })
       return setSearchedAccount(searchedAccount)
     },
-    [accountAddresses, accounts, tokenProvider],
+    [tokenProvider, tokens],
   )
+
+  useEffect(() => {
+    onSearch(keyword)
+  }, [onSearch, keyword])
 
   return {
     searchedAccount,
-    accountAddresses,
-    onSearch,
   }
 }
