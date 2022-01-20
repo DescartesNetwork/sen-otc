@@ -1,15 +1,21 @@
+import { useState } from 'react'
 import { useUI } from '@senhub/providers'
 
 import { Col, Row, Space, Tabs } from 'antd'
 import ButtonFilterOrders from 'app/components/buttonFilterOrders'
-import { UserOrderTabs } from 'app/constant'
-import { useState } from 'react'
-import ModeSettings from '../../components/modeSettings'
+import ModeSettings from 'app/components/modeSettings'
 import FAQ from './FAQ'
 import OrderHistory from './history'
 import Order from './order'
 
+import { ALL, FilterOrderSet, UserOrderTabs } from 'app/constant'
+
 const User = () => {
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: ALL,
+    time: 7,
+    status: ALL,
+  })
   const [activeTab, setActiveTab] = useState<string>(UserOrderTabs.otc)
   const {
     ui: { infix },
@@ -25,7 +31,12 @@ const User = () => {
         <Tabs
           tabBarExtraContent={
             <Space size={2}>
-              {showFilter && <ButtonFilterOrders />}
+              {showFilter && (
+                <ButtonFilterOrders
+                  onSelect={setOrderFilter}
+                  orderFilter={orderFilter}
+                />
+              )}
               <ModeSettings />
             </Space>
           }
@@ -36,7 +47,7 @@ const User = () => {
             <Order />
           </Tabs.TabPane>
           <Tabs.TabPane key={UserOrderTabs.history} tab="History">
-            <OrderHistory />
+            <OrderHistory onSelect={setOrderFilter} orderFilter={orderFilter} />
           </Tabs.TabPane>
         </Tabs>
       </Col>

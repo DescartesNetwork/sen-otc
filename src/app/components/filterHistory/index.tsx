@@ -31,9 +31,11 @@ const FilterHistory = ({
         time: propTime,
         status: propStatus,
       }
+
       if (coin) selectedFilter.coin = coin
       if (time) selectedFilter.time = time
       if (status) selectedFilter.status = status
+
       onSelect(selectedFilter)
     },
     [onSelect, propCoin, propStatus, propTime],

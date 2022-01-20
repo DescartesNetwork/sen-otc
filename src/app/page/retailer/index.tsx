@@ -2,16 +2,20 @@ import { useState } from 'react'
 import { useUI } from '@senhub/providers'
 
 import { Space, Tabs } from 'antd'
-
 import ButtonFilterOrders from 'app/components/buttonFilterOrders'
 import ModeSettings from '../../components/modeSettings'
 import About from './about'
 import Orders from './orders'
 
-import { RetailerOrderTabs } from 'app/constant'
+import { ALL, FilterOrderSet, RetailerOrderTabs } from 'app/constant'
 
 const Retailer = () => {
   const [activeTab, setActiveTab] = useState<string>(RetailerOrderTabs.about)
+  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+    coin: ALL,
+    time: 7,
+    status: ALL,
+  })
 
   const {
     ui: { infix },
@@ -25,7 +29,12 @@ const Retailer = () => {
     <Tabs
       tabBarExtraContent={
         <Space size={2}>
-          {showFilter && <ButtonFilterOrders />}
+          {showFilter && (
+            <ButtonFilterOrders
+              onSelect={setOrderFilter}
+              orderFilter={orderFilter}
+            />
+          )}
           <ModeSettings />
         </Space>
       }
@@ -36,7 +45,7 @@ const Retailer = () => {
         <About />
       </Tabs.TabPane>
       <Tabs.TabPane key={RetailerOrderTabs.orderList} tab="Order List">
-        <Orders />
+        <Orders onSelect={setOrderFilter} orderFilter={orderFilter} />
       </Tabs.TabPane>
     </Tabs>
   )

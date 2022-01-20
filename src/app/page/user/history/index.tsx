@@ -1,19 +1,18 @@
-import { useState } from 'react'
 import { useUI } from '@senhub/providers'
 
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
 import ListHistory from './listOrders'
 
-import { ALL, FilterOrderSet } from 'app/constant'
+import { FilterOrderSet } from 'app/constant'
 
-const OrderHistory = () => {
-  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
-    coin: ALL,
-    time: 7,
-    status: ALL,
-  })
-
+const OrderHistory = ({
+  onSelect = () => {},
+  orderFilter,
+}: {
+  onSelect: (value: FilterOrderSet) => void
+  orderFilter: FilterOrderSet
+}) => {
   const {
     ui: { infix },
   } = useUI()
@@ -24,7 +23,7 @@ const OrderHistory = () => {
     <Row gutter={[12, 24]}>
       {!isMobile && (
         <Col span={24}>
-          <FilterHistory onSelect={setOrderFilter} filterValues={orderFilter} />
+          <FilterHistory onSelect={onSelect} filterValues={orderFilter} />
         </Col>
       )}
       <Col span={24}>
