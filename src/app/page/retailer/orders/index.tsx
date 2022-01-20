@@ -80,8 +80,6 @@ const Order = ({
     setAskAddress(mint_ask)
   }, [askAdress, bidAdress, myOrders, retailers])
 
-  if (!myOrders.length) return <Empty />
-
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
