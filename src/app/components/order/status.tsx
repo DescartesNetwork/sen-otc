@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 
 import { Tag } from 'antd'
 import { OrderState, ORDER_STATE_CODE } from 'app/constant'
+import { useSelector } from 'react-redux'
+import { AppState } from 'app/model'
 
 const STATUS_COLOR: Record<OrderState, number[]> = {
   Approved: [12, 161, 191],
@@ -12,9 +14,14 @@ const STATUS_COLOR: Record<OrderState, number[]> = {
   Unknown: [0, 0, 0],
 }
 
-const StatusTag = ({ state }: { state: number }) => {
+const OrderStatus = ({ orderAddress }: { orderAddress: string }) => {
+  const {
+    orders: { [orderAddress]: orderData },
+  } = useSelector((state: AppState) => state)
+
+  const orderState = orderData.state
   const statusText = useMemo(() => {
-    switch (state) {
+    switch (orderState) {
       case ORDER_STATE_CODE.APPROVED:
         return OrderState.Approved
       case ORDER_STATE_CODE.REJECTED:
@@ -28,7 +35,7 @@ const StatusTag = ({ state }: { state: number }) => {
       default:
         return OrderState.Unknown
     }
-  }, [state])
+  }, [orderState])
 
   const setTagColor = (opacity?: number) => {
     const color = STATUS_COLOR[statusText]
@@ -52,4 +59,4 @@ const StatusTag = ({ state }: { state: number }) => {
   )
 }
 
-export default StatusTag
+export default OrderStatus

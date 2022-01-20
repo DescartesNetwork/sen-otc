@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { Button, Card, Col, Collapse, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
-import ColumnStatus from 'app/components/columnStatus'
+import RetailerAction from 'app/page/retailer/orders/column/action/retailerAction'
 import OrderPriceCell from 'app/components/orderPriceCell'
 
 import { AppState } from 'app/model'
@@ -42,7 +42,7 @@ const OrderCard = ({
     retailers,
   } = useSelector((state: AppState) => state)
   const retailerData = retailers[orderData?.retailer]
-  const { bid_amount, ask_amount, created_at, state } = orderData
+  const { bid_amount, ask_amount, created_at } = orderData
   const { mint_ask, mint_bid } = retailerData
 
   const iconName = activeKey ? 'chevron-up-outline' : 'chevron-down-outline'
@@ -81,7 +81,7 @@ const OrderCard = ({
             </Col>
             <Col>
               <Space direction="vertical" size={16}>
-                <ColumnStatus orderAddress={orderAddress} state={state} />
+                <RetailerAction orderAddress={orderAddress} />
               </Space>
             </Col>
           </Row>

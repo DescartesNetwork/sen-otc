@@ -1,9 +1,9 @@
 import moment from 'moment'
 
 import { Typography } from 'antd'
-import StatusTag from 'app/components/statusTags'
-import ColumnBid from 'app/components/orderColumn/columnBid'
-import ColumnAsk from '../../../../components/orderColumn/columnAsk'
+import OrderStatus from 'app/components/order/status'
+import ColumnBid from 'app/components/order/columnBid'
+import ColumnAsk from '../../../../components/order/columnAsk'
 import ColumnAction from './actions'
 
 import { shortenAddress } from 'shared/util'
@@ -50,8 +50,10 @@ export const HISTORY_COLUMN = [
   },
   {
     title: 'STATUS',
-    dataIndex: 'state',
-    render: (state: number) => <StatusTag state={state} />,
+    dataIndex: 'address',
+    render: (orderAddress: string) => (
+      <OrderStatus orderAddress={orderAddress} />
+    ),
   },
   {
     title: 'ACTIONS',

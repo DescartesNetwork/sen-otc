@@ -1,11 +1,12 @@
 import moment from 'moment'
 
 import { Typography } from 'antd'
-import ColumnStatus from 'app/components/columnStatus'
+
+import ColumnBid from 'app/components/order/columnBid'
+import ColumnAsk from 'app/components/order/columnAsk'
 
 import { shortenAddress } from 'shared/util'
-import ColumnBid from 'app/components/orderColumn/columnBid'
-import ColumnAsk from 'app/components/orderColumn/columnAsk'
+import RetailerAction from './action/retailerAction'
 
 export const ORDER_COLUMN = [
   {
@@ -19,7 +20,6 @@ export const ORDER_COLUMN = [
       )
     },
   },
-
   {
     title: 'ORDER ID',
     dataIndex: 'address',
@@ -42,7 +42,7 @@ export const ORDER_COLUMN = [
     key: 'state',
     dataIndex: 'state',
     render: (state: number, record: any) => (
-      <ColumnStatus state={state} orderAddress={record.address} />
+      <RetailerAction orderAddress={record.address} />
     ),
   },
 ]
