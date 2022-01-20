@@ -5,24 +5,21 @@ import { AppState } from 'app/model'
 import { useSortedMint } from './useSortedMint'
 
 export const useAskMints = (): { askMints: string[] } => {
+  const [askMints, setAskMints] = useState<string[]>([])
   const {
     retailers,
     order: { bidMintAddress },
   } = useSelector((state: AppState) => state)
-  const [askMints, setAskMints] = useState<string[]>([])
   const { sortedMints } = useSortedMint(askMints)
 
   // Get all 'mint_ask' in list retailers data
   const getAskMints = useCallback(() => {
-    const mapHasMints = new Map<string, boolean>()
-    const newAskMints = []
+    const mapAskMints: Record<string, boolean> = {}
     for (const addr in retailers) {
       const { mint_ask, mint_bid } = retailers[addr]
-      if (mapHasMints.has(mint_ask) || mint_bid !== bidMintAddress) continue
-      newAskMints.push(mint_ask)
-      mapHasMints.set(mint_ask, true)
+      if (mint_bid === bidMintAddress) mapAskMints[mint_ask] = true
     }
-    return setAskMints(newAskMints)
+    return setAskMints(Object.keys(mapAskMints))
   }, [bidMintAddress, retailers])
 
   useEffect(() => {
