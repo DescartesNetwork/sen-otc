@@ -2,15 +2,16 @@ import { useState } from 'react'
 
 import { Row, Col, Typography, Empty } from 'antd'
 import OrderCard from 'app/components/orderCard'
+import StatusFilterHistory from 'app/components/filterHistory/statusFilter'
+
 import Watcher from 'app/components/watcher'
-import CoinFilterHistory from 'app/components/filterHistory/coinFilterHistory'
 import { ALL } from 'app/constant'
 import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 
 const Widget = () => {
-  const [selectedCoin, setSelectedCoin] = useState(ALL)
+  const [selectedStatus, setSelectedStatus] = useState(ALL)
 
-  const listOrderAddress = useFilteredOrders({ coin: selectedCoin })
+  const listOrderAddress = useFilteredOrders({ status: selectedStatus })
 
   return (
     <Watcher>
@@ -23,10 +24,10 @@ const Widget = () => {
               </Typography.Text>
             </Col>
             <Col style={{ minWidth: 150 }}>
-              <CoinFilterHistory
+              <StatusFilterHistory
                 label={false}
-                coin={selectedCoin}
-                onSelect={setSelectedCoin}
+                status={selectedStatus}
+                onSelect={setSelectedStatus}
               />
             </Col>
           </Row>
