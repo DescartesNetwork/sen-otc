@@ -10,6 +10,7 @@ import { AppDispatch, AppState } from 'app/model'
 import { setBidAmount, setBidMint } from 'app/model/order.controller'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { numeric } from 'shared/util'
+import { MintSymbol } from 'shared/antd/mint'
 
 const Bid = () => {
   const [selected, setSelected] = useState(false)
@@ -73,6 +74,9 @@ const Bid = () => {
           </Typography.Text>
           <Typography.Text type="secondary" className="caption">
             {numeric(bidAccount.balance).format('0,0.[00]')}
+          </Typography.Text>
+          <Typography.Text type="secondary" className="caption">
+            <MintSymbol mintAddress={bidMintAddress} />
           </Typography.Text>
         </Space>
       </Col>
