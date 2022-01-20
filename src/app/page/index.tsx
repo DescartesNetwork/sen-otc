@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import { useUI } from '@senhub/providers'
 
 import { Row, Col, Image } from 'antd'
 import User from './user'
@@ -7,17 +6,15 @@ import Retailer from './retailer'
 
 import Watcher from 'app/components/watcher'
 import { AppState } from 'app/model'
+import { useDevice } from 'app/hooks/useDevice'
 import HeroBanner from 'app/static/images/otc-banner.svg'
 import HeroBannerMobile from 'app/static/images/otc-banner-mobile.svg'
 import './index.less'
 
 const Page = () => {
   const { retailerMode } = useSelector((state: AppState) => state.main)
-  const {
-    ui: { infix },
-  } = useUI()
+  const { isMobile } = useDevice()
 
-  const isMobile = infix === 'xs'
   const imgHeroBanner = isMobile ? HeroBannerMobile : HeroBanner
 
   return (

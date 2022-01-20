@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useUI } from '@senhub/providers'
 
 import { Col, Row, Space, Tabs } from 'antd'
 import ButtonFilterOrders from 'app/components/buttonFilterOrders'
@@ -9,6 +8,7 @@ import OrderHistory from './history'
 import Order from './order'
 
 import { ALL, OrderFilterOptions, UserOrderTabs } from 'app/constant'
+import { useDevice } from 'app/hooks/useDevice'
 
 const User = () => {
   const [orderFilter, setOrderFilter] = useState<OrderFilterOptions>({
@@ -17,11 +17,8 @@ const User = () => {
     status: ALL,
   })
   const [activeTab, setActiveTab] = useState<string>(UserOrderTabs.otc)
-  const {
-    ui: { infix },
-  } = useUI()
+  const { isMobile } = useDevice()
 
-  const isMobile = infix === 'xs'
   const activeHistory = activeTab === UserOrderTabs.history
   const showFilter = isMobile && activeHistory
 

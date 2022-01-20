@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useUI, useWallet } from '@senhub/providers'
+import { useWallet } from '@senhub/providers'
 
 import { Button, Card, Col, Divider, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
@@ -7,17 +7,15 @@ import NewPair from '../newPair'
 import Overview from './overview'
 
 import { explorer, shortenAddress } from 'shared/util'
+import { useDevice } from 'app/hooks/useDevice'
 
 const Header = () => {
   const {
     wallet: { address: walletAddress },
   } = useWallet()
   const [visible, setVisible] = useState(false)
-  const {
-    ui: { infix },
-  } = useUI()
+  const { isMobile } = useDevice()
 
-  const isMobile = infix === 'xs'
   const dividerType = isMobile ? 'horizontal' : 'vertical'
   const colSpan = isMobile ? 24 : undefined
 

@@ -1,4 +1,4 @@
-import { useUI, useWallet } from '@senhub/providers'
+import { useWallet } from '@senhub/providers'
 import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
 
@@ -7,6 +7,7 @@ import { Col, Row, Typography } from 'antd'
 import { AppState } from 'app/model'
 import { RetailerState } from 'app/constant/retailer'
 import { ORDER_STATE_CODE } from 'app/constant/order'
+import { useDevice } from 'app/hooks/useDevice'
 
 const Content = ({
   label,
@@ -15,11 +16,8 @@ const Content = ({
   label: string
   value: string | number
 }) => {
-  const {
-    ui: { infix },
-  } = useUI()
+  const { isMobile } = useDevice()
 
-  const isMobile = infix === 'xs'
   const colSpan = !isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
 
@@ -39,10 +37,8 @@ const Overview = () => {
   const {
     wallet: { address: walletAddress },
   } = useWallet()
-  const {
-    ui: { infix },
-  } = useUI()
   const { retailers, orders } = useSelector((state: AppState) => state)
+  const { isMobile } = useDevice()
 
   const totalPair = useMemo(
     () =>
@@ -82,7 +78,6 @@ const Overview = () => {
 
   const rate = (approvedOrder / (approvedOrder + rejectedOrder)) * 100
 
-  const isMobile = infix === 'xs'
   const colSpan = isMobile ? 24 : undefined
 
   return (

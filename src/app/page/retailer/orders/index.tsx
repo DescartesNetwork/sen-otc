@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useUI, useWallet } from '@senhub/providers'
+import { useWallet } from '@senhub/providers'
 import { utils } from '@senswap/sen-js'
 
 import { Col, Row, Table, Empty } from 'antd'
@@ -12,6 +12,7 @@ import { OrderFilterOptions } from 'app/constant'
 import { ORDER_STATE_CODE } from 'app/constant/order'
 import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 import { AppState } from 'app/model'
+import { useDevice } from 'app/hooks/useDevice'
 
 const ListOrders = ({
   onSelect = () => {},
@@ -23,11 +24,7 @@ const ListOrders = ({
   const { orders, retailers } = useSelector((state: AppState) => state)
   const [bidAddress, setBidAddress] = useState('')
   const [askAddress, setAskAddress] = useState('')
-  const {
-    ui: { width, infix },
-  } = useUI()
-  const desktop = width > 1200
-  const isMobile = infix === 'xs'
+  const { isMobile, isDesktop } = useDevice()
 
   const listOrderAddress = useFilteredOrders(orderFilter)
   const {
@@ -93,7 +90,7 @@ const ListOrders = ({
         </Row>
       </Col>
       <Col span={24}>
-        {desktop ? (
+        {isDesktop ? (
           <Table
             className="scrollbar"
             columns={ORDER_COLUMN}

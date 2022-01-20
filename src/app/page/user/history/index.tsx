@@ -5,6 +5,7 @@ import FilterHistory from 'app/components/filterHistory'
 import ListOrders from './listOrders'
 
 import { OrderFilterOptions } from 'app/constant'
+import { useDevice } from 'app/hooks/useDevice'
 
 const OrderHistory = ({
   onSelect = () => {},
@@ -13,11 +14,7 @@ const OrderHistory = ({
   onSelect: (value: OrderFilterOptions) => void
   orderFilter: OrderFilterOptions
 }) => {
-  const {
-    ui: { infix },
-  } = useUI()
-
-  const isMobile = infix === 'xs'
+  const { isMobile } = useDevice()
 
   return (
     <Row gutter={[12, 24]}>
