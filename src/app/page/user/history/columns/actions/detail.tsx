@@ -4,7 +4,7 @@ import { Button, Col, Row } from 'antd'
 
 import { explorer } from 'shared/util'
 
-const ViewDetailAction = ({ orderAddress }: { orderAddress: string }) => {
+const Detail = ({ orderAddress }: { orderAddress: string }) => {
   const onViewDetail = async () => {
     if (!account.isAddress(orderAddress)) return
     window.open(explorer(orderAddress), '_blank')
@@ -21,4 +21,4 @@ const ViewDetailAction = ({ orderAddress }: { orderAddress: string }) => {
   )
 }
 
-export default ViewDetailAction
+export default Detail

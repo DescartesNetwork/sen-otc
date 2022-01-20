@@ -8,7 +8,6 @@ import ColumnStatus from 'app/components/columnStatus'
 import OrderPriceCell from 'app/components/orderPriceCell'
 
 import { AppState } from 'app/model'
-import { MintAvatar } from 'shared/antd/mint'
 import { shortenAddress } from 'shared/util'
 
 const Content = ({
@@ -67,15 +66,17 @@ const OrderCard = ({
           <Row gutter={[12, 12]}>
             <Col flex="auto">
               <Space direction="vertical" size={6}>
-                <Space>
-                  <MintAvatar mintAddress={mint_bid} size={20} />
-                  <OrderPriceCell mintAddress={mint_bid} amount={bid_amount} />
-                </Space>
+                <OrderPriceCell
+                  mintAddress={mint_bid}
+                  amount={bid_amount}
+                  size={20}
+                />
                 <IonIcon name="arrow-down-outline" />
-                <Space>
-                  <MintAvatar mintAddress={mint_ask} size={20} />
-                  <OrderPriceCell mintAddress={mint_ask} amount={ask_amount} />
-                </Space>
+                <OrderPriceCell
+                  mintAddress={mint_ask}
+                  amount={ask_amount}
+                  size={20}
+                />
               </Space>
             </Col>
             <Col>

@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux'
 import moment from 'moment'
 
 import { Button, Card, Col, Collapse, Row, Space, Typography } from 'antd'
+import ColumnAction from '../page/user/history/columns/actions'
 import StatusTag from 'app/components/statusTags'
 import OrderPriceCell from 'app/components/orderPriceCell'
-import ColumnAction from '../page/user/history/columnAction'
-import { AppState } from 'app/model'
-import { MintAvatar } from 'shared/antd/mint'
 import IonIcon from 'shared/antd/ionicon'
+
 import { shortenAddress } from 'shared/util'
+import { AppState } from 'app/model'
 
 const Content = ({
   label,
@@ -74,15 +74,17 @@ const OrderCard = ({
                     <Typography.Text>{shortenAddress(orderId)}</Typography.Text>
                   </Space>
                 )}
-                <Space>
-                  <MintAvatar mintAddress={mint_bid} size={20} />
-                  <OrderPriceCell mintAddress={mint_bid} amount={bid_amount} />
-                </Space>
+                <OrderPriceCell
+                  mintAddress={mint_bid}
+                  amount={bid_amount}
+                  size={20}
+                />
                 <IonIcon name="arrow-down-outline" />
-                <Space>
-                  <MintAvatar mintAddress={mint_ask} size={20} />
-                  <OrderPriceCell mintAddress={mint_ask} amount={ask_amount} />
-                </Space>
+                <OrderPriceCell
+                  mintAddress={mint_ask}
+                  amount={ask_amount}
+                  size={20}
+                />
               </Space>
             </Col>
             <Col>

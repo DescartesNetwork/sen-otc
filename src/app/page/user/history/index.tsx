@@ -2,7 +2,7 @@ import { useUI } from '@senhub/providers'
 
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
-import ListHistory from './listOrders'
+import ListOrders from './listOrders'
 
 import { FilterOrderSet } from 'app/constant'
 
@@ -27,7 +27,7 @@ const OrderHistory = ({
         </Col>
       )}
       <Col span={24}>
-        <ListHistory orderFilters={orderFilter} />
+        <ListOrders orderFilters={orderFilter} />
       </Col>
     </Row>
   )

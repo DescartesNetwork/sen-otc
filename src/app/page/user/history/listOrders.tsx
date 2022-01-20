@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useUI } from '@senhub/providers'
 
 import { Col, Row, Table } from 'antd'
-import { HISTORY_COLUMN } from './historyColumn'
+import { HISTORY_COLUMN } from './columns'
 import OrderCard from '../../../components/orderCard'
 
 import { AppState } from 'app/model'

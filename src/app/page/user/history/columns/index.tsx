@@ -1,9 +1,10 @@
 import moment from 'moment'
 
 import { Typography } from 'antd'
-import Price from 'app/components/orderPrice'
 import StatusTag from 'app/components/statusTags'
-import ColumnAction from './columnAction'
+import ColumnBid from 'app/components/orderColumn/columnBid'
+import ColumnAsk from '../../../../components/orderColumn/columnAsk'
+import ColumnAction from './actions'
 
 import { shortenAddress } from 'shared/util'
 
@@ -11,7 +12,6 @@ export const HISTORY_COLUMN = [
   {
     title: 'CREATED DAY',
     dataIndex: 'created_at',
-    key: 'created_day',
     render: (time: string) => {
       return (
         <Typography.Text>
@@ -23,7 +23,6 @@ export const HISTORY_COLUMN = [
   {
     title: 'UPDATED DAY',
     dataIndex: 'updated_at',
-    key: 'updated_at',
     render: (time: bigint) => {
       return (
         <Typography.Text>
@@ -35,26 +34,27 @@ export const HISTORY_COLUMN = [
   {
     title: 'ORDER ID',
     dataIndex: 'address',
-    key: 'order_id',
     render: (orderId: string) => (
       <Typography.Text>{shortenAddress(orderId)}</Typography.Text>
     ),
   },
   {
-    title: 'PRICE',
+    title: 'FROM',
     dataIndex: 'address',
-    key: 'price',
-    render: (orderId: string) => <Price orderId={orderId} />,
+    render: (orderId: string) => <ColumnBid orderId={orderId} />,
+  },
+  {
+    title: 'TO',
+    dataIndex: 'address',
+    render: (orderId: string) => <ColumnAsk orderId={orderId} />,
   },
   {
     title: 'STATUS',
     dataIndex: 'state',
-    key: 'state',
     render: (state: number) => <StatusTag state={state} />,
   },
   {
     title: 'ACTIONS',
-    key: 'action',
     dataIndex: 'address',
     width: 100,
     render: (address: string) => <ColumnAction orderAddress={address} />,

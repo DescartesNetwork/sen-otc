@@ -9,7 +9,7 @@ const {
   sol: { purchasing },
 } = configs
 
-const RedeemAction = ({ orderAddress }: { orderAddress: string }) => {
+const Redeem = ({ orderAddress }: { orderAddress: string }) => {
   const [loading, setLoading] = useState(false)
 
   const onRedeem = async () => {
@@ -39,4 +39,4 @@ const RedeemAction = ({ orderAddress }: { orderAddress: string }) => {
   )
 }
 
-export default RedeemAction
+export default Redeem

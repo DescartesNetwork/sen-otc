@@ -10,7 +10,7 @@ const {
   sol: { purchasing },
 } = configs
 
-const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
+const Cancel = ({ orderAddress }: { orderAddress: string }) => {
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -79,4 +79,4 @@ const CancelAction = ({ orderAddress }: { orderAddress: string }) => {
   )
 }
 
-export default CancelAction
+export default Cancel

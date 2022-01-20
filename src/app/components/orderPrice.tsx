@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { Space } from 'antd'
 import { AppState } from 'app/model'
 import IonIcon from 'shared/antd/ionicon'
-import { MintAvatar } from 'shared/antd/mint'
 import OrderPriceCell from './orderPriceCell'
 
 const Price = ({ orderId }: { orderId: string }) => {
@@ -18,9 +17,7 @@ const Price = ({ orderId }: { orderId: string }) => {
   return (
     <Space>
       <OrderPriceCell amount={bid_amount} mintAddress={mint_bid} />
-      <MintAvatar mintAddress={mint_bid} />
       <IonIcon name="arrow-forward-outline" />
-      <MintAvatar mintAddress={mint_ask} />
       <OrderPriceCell amount={ask_amount} mintAddress={mint_ask} />
     </Space>
   )
