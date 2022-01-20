@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import OrderPriceCell from 'app/components/orderPriceCell'
+import OrderMintInfo from 'app/components/orderMintInfo'
 
 import { AppState } from 'app/model'
 
@@ -13,7 +13,7 @@ const ColumnAsk = ({ orderId }: { orderId: string }) => {
   const { retailer, ask_amount } = orderData || {}
   const { mint_ask } = retailers[retailer] || {}
 
-  return <OrderPriceCell amount={ask_amount} mintAddress={mint_ask} />
+  return <OrderMintInfo amount={ask_amount} mintAddress={mint_ask} />
 }
 
 export default ColumnAsk

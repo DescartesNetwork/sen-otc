@@ -5,7 +5,7 @@ import moment from 'moment'
 import { Button, Card, Col, Collapse, Row, Space, Typography } from 'antd'
 import ColumnAction from '../page/user/history/columns/actions'
 import OrderStatus from 'app/components/order/status'
-import OrderPriceCell from 'app/components/orderPriceCell'
+import OrderMintInfo from 'app/components/orderMintInfo'
 import IonIcon from 'shared/antd/ionicon'
 
 import { shortenAddress } from 'shared/util'
@@ -74,13 +74,13 @@ const OrderCard = ({
                     <Typography.Text>{shortenAddress(orderId)}</Typography.Text>
                   </Space>
                 )}
-                <OrderPriceCell
+                <OrderMintInfo
                   mintAddress={mint_bid}
                   amount={bid_amount}
                   size={20}
                 />
                 <IonIcon name="arrow-down-outline" />
-                <OrderPriceCell
+                <OrderMintInfo
                   mintAddress={mint_ask}
                   amount={ask_amount}
                   size={20}

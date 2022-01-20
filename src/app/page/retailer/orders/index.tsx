@@ -3,17 +3,14 @@ import { useSelector } from 'react-redux'
 import { useUI, useWallet } from '@senhub/providers'
 import { utils } from '@senswap/sen-js'
 
-import { Col, Row, Typography, Table, Empty } from 'antd'
+import { Col, Row, Table, Empty } from 'antd'
 import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
-import { MintSymbol } from 'shared/antd/mint'
 
 import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
 import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 import { AppState } from 'app/model'
-import { useMarketPrice } from 'app/hooks/useMarketPrice'
-import { numeric } from 'shared/util'
 
 const Order = ({
   onSelect = () => {},
@@ -23,20 +20,18 @@ const Order = ({
   orderFilter: FilterOrderSet
 }) => {
   const { orders, retailers } = useSelector((state: AppState) => state)
-  const [bidAdress, setBidAddress] = useState('')
-  const [askAdress, setAskAddress] = useState('')
+  const [bidAddress, setBidAddress] = useState('')
+  const [askAddress, setAskAddress] = useState('')
   const {
     ui: { width, infix },
   } = useUI()
   const desktop = width > 1200
   const isMobile = infix === 'xs'
-  const colSpan = isMobile ? 24 : undefined
-  const flexType = isMobile ? 'auto' : undefined
+
   const listOrderAddress = useFilteredOrders(orderFilter)
   const {
     wallet: { address: walletAddress },
   } = useWallet()
-  const { marketPrice } = useMarketPrice(bidAdress, askAdress)
 
   const dataSource = useMemo(() => {
     return listOrderAddress.map((addr) => {
@@ -74,11 +69,11 @@ const Order = ({
   }
 
   useEffect(() => {
-    if (!myOrders.length || bidAdress || askAdress) return
+    if (!myOrders.length || bidAddress || askAddress) return
     const { mint_bid, mint_ask } = retailers[myOrders[0].retailer]
     setBidAddress(mint_bid)
     setAskAddress(mint_ask)
-  }, [askAdress, bidAdress, myOrders, retailers])
+  }, [askAddress, bidAddress, myOrders, retailers])
 
   return (
     <Row gutter={[16, 16]}>
@@ -94,21 +89,6 @@ const Order = ({
               />
             </Col>
           )}
-          <Col span={colSpan}>
-            <Row justify="end">
-              <Col flex={flexType}>
-                <Typography.Text type="secondary">Market price</Typography.Text>
-              </Col>
-              {!isMobile && <Col span={24} />}
-              <Col>
-                <Typography.Text>
-                  <MintSymbol mintAddress={bidAdress} />/
-                  <MintSymbol mintAddress={askAdress} /> ={' '}
-                  {numeric(marketPrice).format('0,0.[00]')}
-                </Typography.Text>
-              </Col>
-            </Row>
-          </Col>
         </Row>
       </Col>
       <Col span={24}>

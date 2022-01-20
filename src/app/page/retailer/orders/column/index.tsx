@@ -7,6 +7,7 @@ import ColumnAsk from 'app/components/order/columnAsk'
 
 import { shortenAddress } from 'shared/util'
 import RetailerAction from './action/retailerAction'
+import ColumnProfit from './columnProfit'
 
 export const ORDER_COLUMN = [
   {
@@ -36,6 +37,11 @@ export const ORDER_COLUMN = [
     title: 'TO',
     dataIndex: 'address',
     render: (orderId: string) => <ColumnAsk orderId={orderId} />,
+  },
+  {
+    title: 'PROFIT',
+    dataIndex: 'address',
+    render: (orderId: string) => <ColumnProfit orderAddress={orderId} />,
   },
   {
     title: 'ACTIONS',

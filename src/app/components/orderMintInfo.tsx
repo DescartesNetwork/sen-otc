@@ -5,7 +5,7 @@ import { MintAvatar, MintSymbol } from 'shared/antd/mint'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { numeric } from 'shared/util'
 
-const OrderPriceCell = ({
+const OrderMintInfo = ({
   amount,
   mintAddress,
   size,
@@ -27,4 +27,4 @@ const OrderPriceCell = ({
     </Space>
   )
 }
-export default OrderPriceCell
+export default OrderMintInfo
