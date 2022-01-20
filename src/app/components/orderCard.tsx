@@ -57,7 +57,7 @@ const OrderCard = ({
   }
   return (
     <Card
-      className="order-otc-card"
+      className={widget ? 'order-otc-card-widget' : 'order-otc-card'}
       bordered={false}
       bodyStyle={{ padding: 16 }}
     >
