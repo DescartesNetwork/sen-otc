@@ -4,7 +4,7 @@ import { useUI, useWallet } from '@senhub/providers'
 import { utils } from '@senswap/sen-js'
 
 import { Col, Row, Table, Empty } from 'antd'
-import { ORDER_COLUMN } from './column'
+import { ORDER_COLUMN } from './columns'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
 
