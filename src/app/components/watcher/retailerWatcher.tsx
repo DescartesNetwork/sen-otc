@@ -1,12 +1,12 @@
 import { CSSProperties, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { account } from '@senswap/sen-js'
 import { useMint, useWallet } from '@senhub/providers'
 
 import { Spin } from 'antd'
 
 import { notifyError } from 'app/helper'
-import { AppDispatch } from 'app/model'
+import { AppDispatch, AppState } from 'app/model'
 import { getRetailers, upsetRetailer } from 'app/model/retailers.controller'
 import configs from 'app/configs'
 
@@ -27,6 +27,9 @@ const RetailerWatcher = ({
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
+    main: { retailerMode },
+  } = useSelector((state: AppState) => state)
+  const {
     wallet: { address: walletAddress },
   } = useWallet()
   const { tokenProvider } = useMint()
@@ -37,13 +40,16 @@ const RetailerWatcher = ({
     try {
       setLoading(true)
       if (!account.isAddress(walletAddress)) return
-      await dispatch(getRetailers({ tokenProvider })).unwrap()
+      const filter = retailerMode
+        ? [{ memcmp: { bytes: walletAddress, offset: 0 } }]
+        : []
+      await dispatch(getRetailers({ tokenProvider, filter })).unwrap()
     } catch (er) {
       await notifyError(er)
     } finally {
       setLoading(false)
     }
-  }, [dispatch, tokenProvider, walletAddress])
+  }, [dispatch, retailerMode, tokenProvider, walletAddress])
 
   // Watch account changes
   const watchData = useCallback(async () => {

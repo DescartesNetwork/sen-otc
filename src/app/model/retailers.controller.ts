@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AccountInfo, PublicKey } from '@solana/web3.js'
+import { AccountInfo, MemcmpFilter, PublicKey } from '@solana/web3.js'
 import { account, RetailerData } from '@senswap/sen-js'
 
 import configs from 'app/configs'
@@ -29,17 +29,18 @@ const initialState: RetailersState = {}
 
 export const getRetailers = createAsyncThunk<
   RetailersState,
-  { tokenProvider: TokenProvider }
+  { tokenProvider: TokenProvider; filter?: MemcmpFilter[] }
 >(
   `${NAME}/getRetailers`,
 
-  async ({ tokenProvider }) => {
+  async ({ tokenProvider, filter = [] }) => {
     // Get all farm
+
     const value: Array<{ pubkey: PublicKey; account: AccountInfo<Buffer> }> =
       await purchasing.connection.getProgramAccounts(
         purchasing.purchasingProgramId,
         {
-          filters: [{ dataSize: RETAILER_DATA_SIZE }],
+          filters: [{ dataSize: RETAILER_DATA_SIZE }, ...filter],
         },
       )
 
@@ -103,10 +104,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(
-        getRetailers.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
+      .addCase(getRetailers.fulfilled, (state, { payload }) => payload)
       .addCase(
         getRetailer.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
