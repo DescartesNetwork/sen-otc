@@ -1,5 +1,3 @@
-import { useUI } from '@senhub/providers'
-
 import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
 import ListOrders from './listOrders'
