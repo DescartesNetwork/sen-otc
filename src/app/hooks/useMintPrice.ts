@@ -64,6 +64,8 @@ export const useMintPrice = (mintAddress: string, strict?: boolean) => {
   const getMintPrice = useCallback(
     async (mintAddress: string) => {
       try {
+        // Clear prev state after change mint address
+        setMintPrice(0)
         const tokenInfo = await tokenProvider.findByAddress(mintAddress)
         // mint lpt
         if (!tokenInfo) {
