@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { account, OrderData } from '@senswap/sen-js'
 
 import configs from 'app/configs'
-import { RetailerState } from './retailers.controller'
+import { RetailersState } from './retailers.controller'
 import { getWalletAddress } from 'app/helper'
 import TokenProvider from 'os/providers/tokenProvider'
 
@@ -24,7 +24,7 @@ const initialState: OrdersState = {}
  */
 const visibleOrder = async (
   orderData: OrderData,
-  retailers: RetailerState,
+  retailers: RetailersState,
   tokenProvider: TokenProvider,
 ) => {
   const retailerData = retailers[orderData.retailer]
@@ -44,7 +44,7 @@ export const getUserOrders = createAsyncThunk(
     tokenProvider,
   }: {
     owner: string
-    retailers: RetailerState
+    retailers: RetailersState
     tokenProvider: TokenProvider
   }) => {
     // Fetch all orders with specific owner
@@ -76,7 +76,7 @@ export const getRetailerOrders = createAsyncThunk(
     retailers,
     tokenProvider,
   }: {
-    retailers: RetailerState
+    retailers: RetailersState
     tokenProvider: TokenProvider
   }) => {
     const {

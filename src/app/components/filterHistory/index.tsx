@@ -5,14 +5,14 @@ import CoinFilterHistory from './coinFilterHistory'
 import StatusFilterHistory from './statusFilter'
 import TimeFilterHistory from './timeFilterHistory'
 
-import { FilterOrderSet } from 'app/constant'
+import { OrderFilterOptions } from 'app/constant'
 
 const FilterHistory = ({
   onSelect = () => {},
   filterValues,
 }: {
-  onSelect: (value: FilterOrderSet) => void
-  filterValues: FilterOrderSet
+  onSelect: (value: OrderFilterOptions) => void
+  filterValues: OrderFilterOptions
 }) => {
   const { coin: propCoin, time: propTime, status: propStatus } = filterValues
 

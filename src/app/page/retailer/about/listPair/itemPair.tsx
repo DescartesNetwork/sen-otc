@@ -9,7 +9,7 @@ import { AppState } from 'app/model'
 import { numeric } from 'shared/util'
 import configs from 'app/configs'
 import { notifyError, notifySuccess } from 'app/helper'
-import { RETAILER_STATE } from 'app/constant/retailer'
+import { RetailerState } from 'app/constant/retailer'
 
 const {
   sol: { purchasing },
@@ -41,7 +41,7 @@ const ItemPair = ({ address }: { address: string }) => {
       notifyError(er)
     }
   }
-  const frozen = retailerData.state === RETAILER_STATE.Frozen
+  const frozen = retailerData.state === RetailerState.Frozen
 
   return (
     <Card

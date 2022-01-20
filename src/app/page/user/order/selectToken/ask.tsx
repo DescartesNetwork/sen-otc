@@ -10,7 +10,7 @@ import { useAskMints } from 'app/hooks/useAskMints'
 import { AppDispatch, AppState } from 'app/model'
 import { setAskAmount, setAskMint } from 'app/model/order.controller'
 import { useMarketPrice } from 'app/hooks/useMarketPrice'
-import { DEFAULT_RETAILER_FEE } from 'app/constant'
+import { DEFAULT_RETAILER_FEE } from 'app/constant/retailer'
 
 const Ask = () => {
   const [selected, setSelected] = useState(false)

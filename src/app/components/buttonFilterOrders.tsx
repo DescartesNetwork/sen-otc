@@ -4,7 +4,7 @@ import { Button, Col, Modal, Radio, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import CoinFilterHistory from './filterHistory/coinFilterHistory'
 
-import { FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
+import { OrderFilterOptions, ORDER_STATE_DIGIT } from 'app/constant'
 
 const BodyContent = ({
   label,
@@ -45,8 +45,8 @@ const ButtonFilterOrders = ({
   onSelect = () => {},
   orderFilter,
 }: {
-  onSelect: (value: FilterOrderSet) => void
-  orderFilter: FilterOrderSet
+  onSelect: (value: OrderFilterOptions) => void
+  orderFilter: OrderFilterOptions
 }) => {
   const { time: propTime, status: PropStatus, coin: propCoin } = orderFilter
   const [visible, setVisible] = useState(false)

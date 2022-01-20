@@ -3,7 +3,7 @@ import { AccountInfo, PublicKey } from '@solana/web3.js'
 import { account, RetailerData } from '@senswap/sen-js'
 
 import configs from 'app/configs'
-import { RETAILER_DATA_SIZE } from 'app/constant'
+import { RETAILER_DATA_SIZE } from 'app/constant/retailer'
 import TokenProvider from 'os/providers/tokenProvider'
 
 const {
@@ -14,21 +14,21 @@ const {
  * Interface & Utility
  */
 
-export type RetailerState = Record<string, RetailerData>
+export type RetailersState = Record<string, RetailerData>
 
 /**
  * Store constructor
  */
 
 const NAME = 'retailers'
-const initialState: RetailerState = {}
+const initialState: RetailersState = {}
 
 /**
  * Actions
  */
 
 export const getRetailers = createAsyncThunk<
-  RetailerState,
+  RetailersState,
   { tokenProvider: TokenProvider }
 >(
   `${NAME}/getRetailers`,
@@ -43,7 +43,7 @@ export const getRetailers = createAsyncThunk<
         },
       )
 
-    let retailers: RetailerState = {}
+    let retailers: RetailersState = {}
     for (const { pubkey, account: accountData } of value) {
       const address = pubkey.toBase58()
       const retailerData = purchasing.parseRetailerData(accountData.data)
@@ -60,7 +60,7 @@ export const getRetailers = createAsyncThunk<
 )
 
 export const getRetailer = createAsyncThunk<
-  RetailerState,
+  RetailersState,
   { address: string },
   { state: any }
 >(`${NAME}/getRetailer`, async ({ address }, { getState }) => {
@@ -77,7 +77,7 @@ export const getRetailer = createAsyncThunk<
 })
 
 export const upsetRetailer = createAsyncThunk<
-  RetailerState,
+  RetailersState,
   { address: string; data: RetailerData }
 >(`${NAME}/upsetRetailer`, async ({ address, data }) => {
   if (!account.isAddress(address)) throw new Error('Invalid retailer address')

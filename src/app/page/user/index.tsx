@@ -8,10 +8,10 @@ import FAQ from './FAQ'
 import OrderHistory from './history'
 import Order from './order'
 
-import { ALL, FilterOrderSet, UserOrderTabs } from 'app/constant'
+import { ALL, OrderFilterOptions, UserOrderTabs } from 'app/constant'
 
 const User = () => {
-  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+  const [orderFilter, setOrderFilter] = useState<OrderFilterOptions>({
     coin: ALL,
     time: 7,
     status: ALL,

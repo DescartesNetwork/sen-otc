@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'app/model'
-import { DEFAULT_RETAILER_FEE } from 'app/constant'
+import { DEFAULT_RETAILER_FEE } from 'app/constant/retailer'
 
 export const useRetailerFee = (retailerAddress: string) => {
   const {

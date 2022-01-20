@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux'
 import { utils } from '@senswap/sen-js'
 
 import { AppState } from 'app/model'
-import { ALL, FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
+import { ALL, OrderFilterOptions, ORDER_STATE_DIGIT } from 'app/constant'
 
-export const useFilteredOrders = (props: FilterOrderSet) => {
+export const useFilteredOrders = (props: OrderFilterOptions) => {
   const { coin, status, time } = props
   const { retailers, orders } = useSelector((state: AppState) => state)
 

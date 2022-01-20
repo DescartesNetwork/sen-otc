@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { Tag } from 'antd'
-import { OrderState, ORDER_STATE_CODE } from 'app/constant'
+import { OrderState, ORDER_STATE_CODE } from 'app/constant/order'
 import { useSelector } from 'react-redux'
 import { AppState } from 'app/model'
 

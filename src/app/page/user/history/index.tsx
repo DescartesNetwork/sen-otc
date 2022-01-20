@@ -4,14 +4,14 @@ import { Col, Row } from 'antd'
 import FilterHistory from 'app/components/filterHistory'
 import ListOrders from './listOrders'
 
-import { FilterOrderSet } from 'app/constant'
+import { OrderFilterOptions } from 'app/constant'
 
 const OrderHistory = ({
   onSelect = () => {},
   orderFilter,
 }: {
-  onSelect: (value: FilterOrderSet) => void
-  orderFilter: FilterOrderSet
+  onSelect: (value: OrderFilterOptions) => void
+  orderFilter: OrderFilterOptions
 }) => {
   const {
     ui: { infix },

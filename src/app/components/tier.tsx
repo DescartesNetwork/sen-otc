@@ -1,5 +1,5 @@
 import { Avatar, Space, Typography } from 'antd'
-import { TierLevel } from 'app/constant'
+import { TierLevel } from 'app/constant/retailer'
 
 import tierGold from 'app/static/images/tier-gold.svg'
 import { useMemo } from 'react'

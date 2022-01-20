@@ -8,16 +8,17 @@ import { ORDER_COLUMN } from './columns'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
 
-import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
+import { OrderFilterOptions } from 'app/constant'
+import { ORDER_STATE_CODE } from 'app/constant/order'
 import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 import { AppState } from 'app/model'
 
-const Order = ({
+const ListOrders = ({
   onSelect = () => {},
   orderFilter,
 }: {
-  onSelect: (value: FilterOrderSet) => void
-  orderFilter: FilterOrderSet
+  onSelect: (value: OrderFilterOptions) => void
+  orderFilter: OrderFilterOptions
 }) => {
   const { orders, retailers } = useSelector((state: AppState) => state)
   const [bidAddress, setBidAddress] = useState('')
@@ -131,4 +132,4 @@ const Order = ({
   )
 }
 
-export default Order
+export default ListOrders

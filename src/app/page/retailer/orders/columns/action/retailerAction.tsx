@@ -4,7 +4,7 @@ import { Button, Modal, Typography } from 'antd'
 import ConfirmOrder from './confrimOrder'
 import IonIcon from 'shared/antd/ionicon'
 
-import { ORDER_STATE_CODE } from 'app/constant'
+import { ORDER_STATE_CODE } from 'app/constant/order'
 import OrderStatus from 'app/components/order/status'
 import { useSelector } from 'react-redux'
 import { AppState } from 'app/model'

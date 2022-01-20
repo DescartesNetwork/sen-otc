@@ -7,10 +7,11 @@ import { HISTORY_COLUMN } from './columns'
 import OrderCard from '../../../components/orderCard'
 
 import { AppState } from 'app/model'
-import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
+import { OrderFilterOptions } from 'app/constant'
+import { ORDER_STATE_CODE } from 'app/constant/order'
 import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 
-const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
+const ListOrders = ({ orderFilters }: { orderFilters: OrderFilterOptions }) => {
   const { orders } = useSelector((state: AppState) => state)
   const listOrderAddress = useFilteredOrders(orderFilters)
   const {

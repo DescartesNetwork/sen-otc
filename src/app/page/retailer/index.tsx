@@ -7,11 +7,11 @@ import ModeSettings from '../../components/modeSettings'
 import About from './about'
 import Orders from './orders'
 
-import { ALL, FilterOrderSet, RetailerOrderTabs } from 'app/constant'
+import { ALL, OrderFilterOptions, RetailerOrderTabs } from 'app/constant'
 
 const Retailer = () => {
   const [activeTab, setActiveTab] = useState<string>(RetailerOrderTabs.about)
-  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
+  const [orderFilter, setOrderFilter] = useState<OrderFilterOptions>({
     coin: ALL,
     time: 7,
     status: ALL,

@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 import { Col, Row, Typography } from 'antd'
 
 import { AppState } from 'app/model'
-import { RETAILER_STATE } from 'app/constant/retailer'
-import { ORDER_STATE_CODE } from 'app/constant'
+import { RetailerState } from 'app/constant/retailer'
+import { ORDER_STATE_CODE } from 'app/constant/order'
 
 const Content = ({
   label,
@@ -57,7 +57,7 @@ const Overview = () => {
     () =>
       totalPair.filter((addr) => {
         const { state } = retailers[addr]
-        return state === RETAILER_STATE.Active
+        return state === RetailerState.Active
       }).length,
     [retailers, totalPair],
   )

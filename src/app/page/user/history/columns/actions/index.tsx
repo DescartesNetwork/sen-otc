@@ -4,7 +4,7 @@ import Cancel from './cancel'
 import Redeem from './redeem'
 import Detail from './detail'
 
-import { ORDER_STATE_CODE } from 'app/constant'
+import { ORDER_STATE_CODE } from 'app/constant/order'
 import { AppState } from 'app/model'
 
 const ColumnAction = ({ orderAddress }: { orderAddress: string }) => {
