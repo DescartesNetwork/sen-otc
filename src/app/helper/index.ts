@@ -14,3 +14,14 @@ export const notifyError = (er: any) => {
     description: er.message,
   })
 }
+
+export const getWallet = () => {
+  const wallet = window.sentre.wallet
+  if (!wallet) throw new Error('Login fist')
+  return wallet
+}
+
+export const getWalletAddress = () => {
+  const wallet = getWallet()
+  return wallet.getAddress()
+}

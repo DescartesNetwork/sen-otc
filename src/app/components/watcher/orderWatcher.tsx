@@ -1,7 +1,8 @@
 import { CSSProperties, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { account } from '@senswap/sen-js'
-import { useWallet } from '@senhub/providers'
+import { useMint, useWallet } from '@senhub/providers'
+
+import { Spin } from 'antd'
 
 import { notifyError } from 'app/helper'
 import { AppDispatch, AppState } from 'app/model'
@@ -11,7 +12,6 @@ import {
   upsetOrder,
 } from 'app/model/orders.controller'
 import configs from 'app/configs'
-import { Spin } from 'antd'
 
 const {
   sol: { purchasing },
@@ -36,26 +36,33 @@ const OrderWatcher = ({
   const {
     wallet: { address: walletAddress },
   } = useWallet()
+  const { tokenProvider } = useMint()
 
   // fetch user orders
   const fetchUserOrders = useCallback(
-    () => dispatch(getUserOrders({ owner: walletAddress })).unwrap(),
-    [dispatch, walletAddress],
+    () =>
+      dispatch(
+        getUserOrders({ owner: walletAddress, retailers, tokenProvider }),
+      ).unwrap(),
+    [dispatch, retailers, tokenProvider, walletAddress],
   )
 
   // fetch user orders
   const fetchRetailerOrders = useCallback(async () => {
-    const myRetailersAddr = Object.keys(retailers).filter(
-      (addr) => retailers[addr].owner === walletAddress,
-    )
-    return dispatch(getRetailerOrders({ retailers: myRetailersAddr })).unwrap()
-  }, [dispatch, retailers, walletAddress])
+    return dispatch(
+      getRetailerOrders({
+        retailers,
+        tokenProvider,
+      }),
+    ).unwrap()
+  }, [dispatch, retailers, tokenProvider])
 
   // First-time fetching
   const fetchData = useCallback(async () => {
+    if (!Object.keys(retailers).length || !tokenProvider) return
     try {
       setLoading(true)
-      if (!account.isAddress(walletAddress)) return
+      // Fetch retailer with single token
       if (retailerMode) await fetchRetailerOrders()
       else await fetchUserOrders()
     } catch (er) {
@@ -63,7 +70,13 @@ const OrderWatcher = ({
     } finally {
       setLoading(false)
     }
-  }, [fetchRetailerOrders, fetchUserOrders, retailerMode, walletAddress])
+  }, [
+    fetchRetailerOrders,
+    fetchUserOrders,
+    retailerMode,
+    retailers,
+    tokenProvider,
+  ])
 
   // Watch account changes
   const watchData = useCallback(async () => {

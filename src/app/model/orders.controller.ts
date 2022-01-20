@@ -1,8 +1,15 @@
 import { AccountInfo, PublicKey } from '@solana/web3.js'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { account, OrderData } from '@senswap/sen-js'
-import configs from 'app/configs'
 
+import configs from 'app/configs'
+import { RetailerState } from './retailers.controller'
+import { getWalletAddress } from 'app/helper'
+import TokenProvider from 'os/providers/tokenProvider'
+
+const {
+  sol: { purchasing },
+} = configs
 /**
  * Store constructor
  */
@@ -15,19 +22,34 @@ const initialState: OrdersState = {}
 /**
  * Actions
  */
+const visibleOrder = async (
+  orderData: OrderData,
+  retailers: RetailerState,
+  tokenProvider: TokenProvider,
+) => {
+  const retailerData = retailers[orderData.retailer]
+  if (!retailerData) return false
+  const { mint_bid, mint_ask } = retailerData
+  const tokenBid = await tokenProvider.findByAddress(mint_bid)
+  const tokenAsk = await tokenProvider.findByAddress(mint_ask)
+  if (!tokenBid || !tokenAsk) return false
+  return true
+}
 
 export const getUserOrders = createAsyncThunk(
   `${NAME}/getUserOrders`,
-  async ({ owner }: { owner: string }) => {
-    const {
-      sol: { purchasing },
-    } = configs
-    // Get all retailers with specific owner
-    let bulk: OrdersState = {}
+  async ({
+    owner,
+    retailers,
+    tokenProvider,
+  }: {
+    owner: string
+    retailers: RetailerState
+    tokenProvider: TokenProvider
+  }) => {
+    // Fetch all orders with specific owner
     let opts = []
-    if (account.isAddress(owner))
-      opts.push({ memcmp: { bytes: owner, offset: 0 } })
-
+    opts.push({ memcmp: { bytes: owner, offset: 0 } })
     const value: Array<{ pubkey: PublicKey; account: AccountInfo<Buffer> }> =
       await purchasing.connection.getProgramAccounts(
         purchasing.purchasingProgramId,
@@ -35,26 +57,41 @@ export const getUserOrders = createAsyncThunk(
           filters: [{ dataSize: 105 }, ...opts],
         },
       )
-    value.forEach(({ pubkey, account: { data: buf } }) => {
+    // Parser + filter order data
+    const bulk: OrdersState = {}
+    for (const { pubkey, account: accountData } of value) {
       const address = pubkey.toBase58()
-      const data = purchasing.parseOrderData(buf)
-      bulk[address] = data
-    })
+      const orderData = purchasing.parseOrderData(accountData.data)
+      const visible = await visibleOrder(orderData, retailers, tokenProvider)
+      if (visible) bulk[address] = orderData
+    }
+
     return bulk
   },
 )
 
 export const getRetailerOrders = createAsyncThunk(
   `${NAME}/getRetailerOrders`,
-  async ({ retailers }: { retailers: string[] }) => {
+  async ({
+    retailers,
+    tokenProvider,
+  }: {
+    retailers: RetailerState
+    tokenProvider: TokenProvider
+  }) => {
     const {
       sol: { purchasing },
     } = configs
-    // Get all retailers with specific owner
+    // Get owner retailer
+    const walletAddress = await getWalletAddress()
+    const myRetailerAddresses = Object.keys(retailers).filter(
+      (addr) => retailers[addr].owner === walletAddress,
+    )
+    // Get all orders with list retailers
     let bulk: OrdersState = {}
     await Promise.all(
-      retailers.map(async (retailer) => {
-        let opts = [{ memcmp: { bytes: retailer, offset: 33 } }]
+      myRetailerAddresses.map(async (retailerAddr) => {
+        let opts = [{ memcmp: { bytes: retailerAddr, offset: 33 } }]
         const value: Array<{
           pubkey: PublicKey
           account: AccountInfo<Buffer>
@@ -64,11 +101,17 @@ export const getRetailerOrders = createAsyncThunk(
             filters: [{ dataSize: 105 }, ...opts],
           },
         )
-        value.forEach(({ pubkey, account: { data: buf } }) => {
+        // Parser + filter order data
+        for (const { pubkey, account: accountData } of value) {
           const address = pubkey.toBase58()
-          const data = purchasing.parseOrderData(buf)
-          bulk[address] = data
-        })
+          const orderData = purchasing.parseOrderData(accountData.data)
+          const visible = await visibleOrder(
+            orderData,
+            retailers,
+            tokenProvider,
+          )
+          if (visible) bulk[address] = orderData
+        }
       }),
     )
     return bulk

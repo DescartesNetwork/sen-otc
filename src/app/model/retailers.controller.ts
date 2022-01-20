@@ -4,6 +4,7 @@ import { account, RetailerData } from '@senswap/sen-js'
 
 import configs from 'app/configs'
 import { RETAILER_DATA_SIZE } from 'app/constant'
+import TokenProvider from 'os/providers/tokenProvider'
 
 const {
   sol: { purchasing },
@@ -26,9 +27,13 @@ const initialState: RetailerState = {}
  * Actions
  */
 
-export const getRetailers = createAsyncThunk<RetailerState>(
+export const getRetailers = createAsyncThunk<
+  RetailerState,
+  { tokenProvider: TokenProvider }
+>(
   `${NAME}/getRetailers`,
-  async () => {
+
+  async ({ tokenProvider }) => {
     // Get all farm
     const value: Array<{ pubkey: PublicKey; account: AccountInfo<Buffer> }> =
       await purchasing.connection.getProgramAccounts(
@@ -39,11 +44,17 @@ export const getRetailers = createAsyncThunk<RetailerState>(
       )
 
     let retailers: RetailerState = {}
-    value.forEach(({ pubkey, account: { data: buf } }) => {
+    for (const { pubkey, account: accountData } of value) {
       const address = pubkey.toBase58()
-      const data = purchasing.parseRetailerData(buf)
-      retailers[address] = data
-    })
+      const retailerData = purchasing.parseRetailerData(accountData.data)
+      const { mint_bid, mint_ask } = retailerData
+      // Filter single token
+      const tokenBid = await tokenProvider.findByAddress(mint_bid)
+      const tokenAsk = await tokenProvider.findByAddress(mint_ask)
+      if (!tokenBid || !tokenAsk) continue
+      retailers[address] = retailerData
+    }
+
     return retailers
   },
 )
