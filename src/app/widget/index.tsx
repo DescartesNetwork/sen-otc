@@ -5,12 +5,12 @@ import OrderCard from 'app/components/orderCard'
 import Watcher from 'app/components/watcher'
 import CoinFilterHistory from 'app/components/filterHistory/coinFilterHistory'
 import { ALL } from 'app/constant'
-import { useFilterOrders } from 'app/hooks/useFilter'
+import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 
 const Widget = () => {
   const [selectedCoin, setSelectedCoin] = useState(ALL)
 
-  const listOrderAddress = useFilterOrders({ coin: selectedCoin })
+  const listOrderAddress = useFilteredOrders({ coin: selectedCoin })
 
   return (
     <Watcher>

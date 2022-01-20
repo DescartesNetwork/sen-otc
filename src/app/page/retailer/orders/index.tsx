@@ -10,7 +10,7 @@ import OrderCard from 'app/page/retailer/orders/orderCard'
 import { MintSymbol } from 'shared/antd/mint'
 
 import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
-import { useFilterOrders } from 'app/hooks/useFilter'
+import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 import { AppState } from 'app/model'
 import { useMarketPrice } from 'app/hooks/useMarketPrice'
 import { numeric } from 'shared/util'
@@ -32,7 +32,7 @@ const Order = ({
   const isMobile = infix === 'xs'
   const colSpan = isMobile ? 24 : undefined
   const flexType = isMobile ? 'auto' : undefined
-  const listOrderAddress = useFilterOrders(orderFilter)
+  const listOrderAddress = useFilteredOrders(orderFilter)
   const {
     wallet: { address: walletAddress },
   } = useWallet()

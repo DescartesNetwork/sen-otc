@@ -5,7 +5,7 @@ import { utils } from '@senswap/sen-js'
 import { AppState } from 'app/model'
 import { ALL, FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
 
-export const useFilterOrders = (props: FilterOrderSet) => {
+export const useFilteredOrders = (props: FilterOrderSet) => {
   const { coin, status, time } = props
   const { retailers, orders } = useSelector((state: AppState) => state)
 

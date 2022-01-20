@@ -8,11 +8,11 @@ import OrderCard from '../../../components/orderCard'
 
 import { AppState } from 'app/model'
 import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
-import { useFilterOrders } from 'app/hooks/useFilter'
+import { useFilteredOrders } from 'app/hooks/useFilteredOrders'
 
 const ListOrders = ({ orderFilters }: { orderFilters: FilterOrderSet }) => {
   const { orders } = useSelector((state: AppState) => state)
-  const listOrderAddress = useFilterOrders(orderFilters)
+  const listOrderAddress = useFilteredOrders(orderFilters)
   const {
     ui: { width },
   } = useUI()
