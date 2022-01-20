@@ -7,23 +7,24 @@ import { Col, Row, Typography, Table, Empty } from 'antd'
 import { ORDER_COLUMN } from './column'
 import FilterHistory from 'app/components/filterHistory'
 import OrderCard from 'app/page/retailer/orders/orderCard'
+import { MintSymbol } from 'shared/antd/mint'
 
-import { ALL, FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
+import { FilterOrderSet, ORDER_STATE_CODE } from 'app/constant'
 import { useFilterOrders } from 'app/hooks/useFilter'
 import { AppState } from 'app/model'
 import { useMarketPrice } from 'app/hooks/useMarketPrice'
-import { MintSymbol } from 'shared/antd/mint'
 import { numeric } from 'shared/util'
 
-const Order = () => {
+const Order = ({
+  onSelect = () => {},
+  orderFilter,
+}: {
+  onSelect: (value: FilterOrderSet) => void
+  orderFilter: FilterOrderSet
+}) => {
   const { orders, retailers } = useSelector((state: AppState) => state)
   const [bidAdress, setBidAddress] = useState('')
   const [askAdress, setAskAddress] = useState('')
-  const [orderFilter, setOrderFilter] = useState<FilterOrderSet>({
-    coin: ALL,
-    time: 7,
-    status: ALL,
-  })
   const {
     ui: { width, infix },
   } = useUI()
@@ -89,7 +90,7 @@ const Order = () => {
             <Col flex="auto">
               <FilterHistory
                 onSelect={(value) => {
-                  setOrderFilter(value)
+                  onSelect(value)
                 }}
                 filterValues={orderFilter}
               />

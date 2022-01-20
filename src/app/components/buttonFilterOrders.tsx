@@ -4,7 +4,7 @@ import { Button, Col, Modal, Radio, Row, Space, Typography } from 'antd'
 import IonIcon from 'shared/antd/ionicon'
 import CoinFilterHistory from './filterHistory/coinFilterHistory'
 
-import { ALL } from 'app/constant'
+import { FilterOrderSet, ORDER_STATE_DIGIT } from 'app/constant'
 
 const BodyContent = ({
   label,
@@ -26,13 +26,12 @@ const BodyContent = ({
         <Radio.Group
           onChange={(e) => onSelected(e.target.value)}
           value={selected}
-          size="small"
           className="filter-otc-radio-btn"
         >
           <Row gutter={[8, 8]}>
             {value.map((item, idx) => (
               <Col span={8} key={idx}>
-                <Radio.Button value={idx}>{item}</Radio.Button>
+                <Radio.Button value={item}>{item}</Radio.Button>
               </Col>
             ))}
           </Row>
@@ -42,11 +41,22 @@ const BodyContent = ({
   )
 }
 
-const ButtonFilterOrders = () => {
+const ButtonFilterOrders = ({
+  onSelect = () => {},
+  orderFilter,
+}: {
+  onSelect: (value: FilterOrderSet) => void
+  orderFilter: FilterOrderSet
+}) => {
+  const { time: propTime, status: PropStatus, coin: propCoin } = orderFilter
   const [visible, setVisible] = useState(false)
-  const [coin, setCoin] = useState(ALL)
-  const [time, setTime] = useState(7)
-  const [status, setStatus] = useState(ALL)
+  const [coin, setCoin] = useState(propCoin)
+  const [time, setTime] = useState(propTime)
+  const [status, setStatus] = useState(PropStatus)
+
+  const onApplyFilters = () => {
+    onSelect({ coin, time, status })
+  }
 
   return (
     <Space>
@@ -62,6 +72,7 @@ const ButtonFilterOrders = () => {
         onCancel={() => setVisible(false)}
         destroyOnClose
         closeIcon={<IonIcon name="close-outline" />}
+        centered
       >
         <Row gutter={[16, 16]}>
           <Col span={24}>
@@ -81,17 +92,15 @@ const ButtonFilterOrders = () => {
           <Col span={24}>
             <BodyContent
               label="Status"
-              value={[
-                'All',
-                'Pending',
-                'Approved',
-                'Done',
-                'Canceled',
-                'Reject',
-              ]}
+              value={ORDER_STATE_DIGIT}
               selected={status}
               onSelected={(val) => setStatus(val)}
             />
+          </Col>
+          <Col span={24}>
+            <Button type="primary" onClick={onApplyFilters} block>
+              Confirm
+            </Button>
           </Col>
         </Row>
       </Modal>
