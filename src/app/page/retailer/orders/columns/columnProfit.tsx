@@ -27,7 +27,7 @@ const ColumnProfit = ({ orderAddress }: { orderAddress: string }) => {
 
   const amountAsk = Number(utils.undecimalize(ask_amount, mintAskDecimals))
   const amountBid = Number(utils.undecimalize(bid_amount, mintBidDecimals))
-  const profit = amountAsk * mintAskPrice - amountBid * mintBidPrice
+  const profit = amountBid * mintBidPrice - amountAsk * mintAskPrice
 
   if (Math.abs(profit) < MIN_PROFIT)
     return (
