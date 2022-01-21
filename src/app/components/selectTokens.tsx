@@ -30,7 +30,12 @@ export const SearchInput = ({
             style={{ marginLeft: -7 }}
             size="small"
             onClick={value ? () => onChange('') : undefined}
-            icon={<IonIcon name={value ? 'close-outline' : 'search-outline'} />}
+            icon={
+              <IonIcon
+                name={value ? 'close-outline' : 'search-outline'}
+                style={{ pointerEvents: 'none' }}
+              />
+            }
           />
         }
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
