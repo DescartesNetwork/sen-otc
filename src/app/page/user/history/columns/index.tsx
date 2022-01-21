@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { OrderData } from '@senswap/sen-js'
 
 import { Typography } from 'antd'
 import OrderStatus from 'app/components/order/status'
@@ -7,7 +8,6 @@ import ColumnAsk from 'app/components/order/columnAsk'
 import ColumnAction from './actions'
 
 import { shortenAddress } from 'shared/util'
-import { OrderData } from '@senswap/sen-js'
 
 const MILLISECOND_PER_DAY = 84000000
 

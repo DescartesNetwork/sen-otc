@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { OrderData } from '@senswap/sen-js'
 
 import { Typography } from 'antd'
 
@@ -8,7 +9,6 @@ import ColumnAsk from 'app/components/order/columnAsk'
 import { shortenAddress } from 'shared/util'
 import RetailerAction from './action/retailerAction'
 import ColumnProfit from './columnProfit'
-import { OrderData } from '@senswap/sen-js'
 
 export const ORDER_COLUMN = [
   {
