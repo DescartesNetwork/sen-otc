@@ -71,7 +71,9 @@ const OrderCard = ({
                     <Typography.Text type="secondary">
                       Order ID:
                     </Typography.Text>
-                    <Typography.Text>{shortenAddress(orderId)}</Typography.Text>
+                    <Typography.Text underline>
+                      {shortenAddress(orderId)}
+                    </Typography.Text>
                   </Space>
                 )}
                 <OrderMintInfo
