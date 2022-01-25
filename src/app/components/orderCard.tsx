@@ -8,7 +8,7 @@ import OrderStatus from 'app/components/order/status'
 import OrderMintInfo from 'app/components/orderMintInfo'
 import IonIcon from 'shared/antd/ionicon'
 
-import { shortenAddress } from 'shared/util'
+import { explorer, shortenAddress } from 'shared/util'
 import { AppState } from 'app/model'
 
 const Content = ({
@@ -71,7 +71,13 @@ const OrderCard = ({
                     <Typography.Text type="secondary">
                       Order ID:
                     </Typography.Text>
-                    <Typography.Text>{shortenAddress(orderId)}</Typography.Text>
+                    <Typography.Text
+                      style={{ cursor: 'pointer' }}
+                      underline
+                      onClick={() => window.open(explorer(orderId))}
+                    >
+                      {shortenAddress(orderId)}
+                    </Typography.Text>
                   </Space>
                 )}
                 <OrderMintInfo
