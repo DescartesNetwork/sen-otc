@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Col, Row, Space, Tabs } from 'antd'
 import ButtonFilterOrders from 'app/components/buttonFilterOrders'
 import ModeSettings from 'app/components/modeSettings'
-// import FAQ from './FAQ' -> Coming soon
 import OrderHistory from './history'
 import Order from './order'
 import FAQ from './FAQ'
