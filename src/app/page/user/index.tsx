@@ -6,6 +6,7 @@ import ModeSettings from 'app/components/modeSettings'
 // import FAQ from './FAQ' -> Coming soon
 import OrderHistory from './history'
 import Order from './order'
+import FAQ from './FAQ'
 
 import { ALL, OrderFilterOptions, UserOrderTabs } from 'app/constant'
 import { useDevice } from 'app/hooks/useDevice'
@@ -48,11 +49,11 @@ const User = () => {
           </Tabs.TabPane>
         </Tabs>
       </Col>
-      <Col span={24} style={{ height: 80 }} /> {/* Safe spacing */}
-      {/* Coming soon */}
-      {/* <Col span={24}>
+      {!isMobile && <Col span={24} style={{ height: 80 }} />}
+      {/* Safe spacing */}
+      <Col span={24}>
         <FAQ />
-      </Col> */}
+      </Col>
     </Row>
   )
 }
