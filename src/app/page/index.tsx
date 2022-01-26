@@ -1,50 +1,35 @@
-import { useCallback, useEffect, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { createPDB } from 'shared/pdb'
+import { useSelector } from 'react-redux'
 
-import { Row, Col, Typography, Button, Space } from 'antd'
-import IonIcon from 'shared/antd/ionicon'
+import { Row, Col, Image } from 'antd'
+import User from './user'
+import Retailer from './retailer'
 
-import { AppDispatch, AppState } from 'app/model'
-import { increaseCounter } from 'app/model/main.controller'
-import { useWallet } from 'senhub/providers'
-import configs from 'app/configs'
-
-const {
-  manifest: { appId },
-} = configs
+import Watcher from 'app/components/watcher'
+import { AppState } from 'app/model'
+import { useDevice } from 'app/hooks/useDevice'
+import HeroBanner from 'app/static/images/otc-banner.svg'
+import HeroBannerMobile from 'app/static/images/otc-banner-mobile.svg'
+import './index.less'
 
 const Page = () => {
-  const {
-    wallet: { address },
-  } = useWallet()
-  const dispatch = useDispatch<AppDispatch>()
-  const { counter } = useSelector((state: AppState) => state.main)
+  const { retailerMode } = useSelector((state: AppState) => state.main)
+  const { isMobile } = useDevice()
 
-  const pdb = useMemo(() => createPDB(address, appId), [address])
-  const increase = useCallback(() => dispatch(increaseCounter()), [dispatch])
-  useEffect(() => {
-    if (pdb) pdb.setItem('counter', counter)
-  }, [pdb, counter])
+  const imgHeroBanner = isMobile ? HeroBannerMobile : HeroBanner
 
   return (
-    <Row gutter={[24, 24]} align="middle">
-      <Col span={24}>
-        <Space align="center">
-          <IonIcon name="newspaper-outline" />
-          <Typography.Title level={4}>Page</Typography.Title>
-        </Space>
-      </Col>
-      <Col span={24}>
-        <Typography.Text>Address: {address}</Typography.Text>
-      </Col>
-      <Col>
-        <Typography.Text>Counter: {counter}</Typography.Text>
-      </Col>
-      <Col>
-        <Button onClick={increase}>Increase</Button>
-      </Col>
-    </Row>
+    <Watcher>
+      <Row gutter={[24, 24]} justify="center" style={{ paddingBottom: 12 }}>
+        <Col xs={24} lg={18}>
+          <Row gutter={[24, 24]}>
+            <Col span={24} className="otc-banner">
+              <Image src={imgHeroBanner} preview={false} />
+            </Col>
+            <Col span={24}>{retailerMode ? <Retailer /> : <User />}</Col>
+          </Row>
+        </Col>
+      </Row>
+    </Watcher>
   )
 }
 
