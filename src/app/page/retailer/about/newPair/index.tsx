@@ -105,7 +105,7 @@ const NewPair = ({
         </Col>
         <Col span={24}>
           <Button
-            disabled={!mintBid || !mintAsk}
+            disabled={!mintBid || !mintAsk || mintBid === mintAsk}
             loading={loading}
             type="primary"
             block

@@ -17,7 +17,7 @@ const Widget = () => {
     <Watcher>
       <Row gutter={[24, 24]}>
         <Col span={24}>
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 16]} align="middle">
             <Col flex="auto">
               <Typography.Text>
                 {listOrderAddress?.length | 0} Order OTC
