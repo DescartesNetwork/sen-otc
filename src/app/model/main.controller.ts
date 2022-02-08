@@ -9,6 +9,7 @@ import { OrderStep } from 'app/constant'
 export type MainState = {
   orderStep: OrderStep
   retailerMode?: boolean
+  visible?: boolean
 }
 
 /**
@@ -19,6 +20,7 @@ const NAME = 'main'
 const initialState: MainState = {
   orderStep: OrderStep.SelectToken,
   retailerMode: false,
+  visible: false,
 }
 
 /**
@@ -41,6 +43,14 @@ export const setRetailerMode = createAsyncThunk<
   return { retailerMode: mode }
 })
 
+export const onHandleModalRetailer = createAsyncThunk<
+  Partial<MainState>,
+  { visible: boolean },
+  { state: any }
+>(`${NAME}/onHandleModalRetailer`, async ({ visible }) => {
+  return { visible: visible }
+})
+
 /**
  * Usual procedure
  */
@@ -57,6 +67,10 @@ const slice = createSlice({
       )
       .addCase(
         setRetailerMode.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        onHandleModalRetailer.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       ),
 })

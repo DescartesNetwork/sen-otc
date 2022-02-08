@@ -5,7 +5,7 @@ import { Table } from 'antd'
 import { useFoundRetailer } from 'app/hooks/useFoundRetailer'
 import { RETAILER_COLUMN } from './columnConfig'
 
-const FindRetailer = () => {
+const FindRetailerNew = () => {
   const { foundRetailer } = useFoundRetailer()
 
   const dataTable = useMemo(() => {
@@ -32,4 +32,4 @@ const FindRetailer = () => {
   )
 }
 
-export default FindRetailer
+export default FindRetailerNew

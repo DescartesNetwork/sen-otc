@@ -76,6 +76,57 @@
     padding-left: 0 !important;
   }
 }
+// select
+.otc-selections {
+  width: 100% !important;
+  .sentre-select-selector {
+    background: transparent !important;
+  }
+}
+// order otc card
+.order-ticket {
+  position: absolute !important;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+}
+.order-card {
+  position: relative;
+  margin-bottom: 24px !important;
+  background: #eff1fb;
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100% - 32px);
+    height: 50px;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 16px;
+    background: rgba(239, 241, 251, 0.7);
+    z-index: -1;
+  }
+  @media (min-width: 768px) {
+    &::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 100%;
+      top: 0;
+      border: 0.5px dashed;
+      transform: translateX(-50%);
+      left: 50%;
+    }
+  }
+}
+.order-amount {
+  background: transparent !important;
+  & input {
+    background: inherit !important;
+  }
+}
 // faq
 .otc-faq {
   background: transparent !important;
@@ -170,6 +221,12 @@
   .header-about {
     background: #292e4d !important;
   }
+  .order-card {
+    background: #eff1fb;
+    &::after {
+      border-color: #d3d3d6;
+    }
+  }
 }
 #light {
   .otc-banner {
@@ -182,5 +239,11 @@
   }
   .order-otc-card-widget {
     background: #fff !important ;
+  }
+  .order-card {
+    background: #eff1fb;
+    &::after {
+      border-color: #d3d3d6;
+    }
   }
 }
