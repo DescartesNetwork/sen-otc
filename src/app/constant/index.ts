@@ -17,6 +17,7 @@ export const ALL = 'ALL'
 
 export enum UserOrderTabs {
   otc = 'order-otc',
+  deal = 'order-deal',
   history = 'order-history',
 }
 export enum RetailerOrderTabs {

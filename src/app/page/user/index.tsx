@@ -5,6 +5,7 @@ import ButtonFilterOrders from 'app/components/buttonFilterOrders'
 import ModeSettings from 'app/components/modeSettings'
 import OrderHistory from './history'
 import Order from './order'
+import OrderDeal from './deal'
 import FAQ from './FAQ'
 
 import { ALL, OrderFilterOptions, UserOrderTabs } from 'app/constant'
@@ -42,6 +43,9 @@ const User = () => {
         >
           <Tabs.TabPane key={UserOrderTabs.otc} tab="Order OTC">
             <Order />
+          </Tabs.TabPane>
+          <Tabs.TabPane key={UserOrderTabs.deal} tab="Deal">
+            <OrderDeal onSelect={setOrderFilter} orderFilter={orderFilter} />
           </Tabs.TabPane>
           <Tabs.TabPane key={UserOrderTabs.history} tab="History">
             <OrderHistory onSelect={setOrderFilter} orderFilter={orderFilter} />

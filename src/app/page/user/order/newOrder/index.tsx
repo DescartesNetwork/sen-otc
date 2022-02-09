@@ -55,7 +55,7 @@ const NewOrder = () => {
                   <SendAmount />
                 </Col>
                 <Col span={24}>
-                  <MarketPrice />
+                  <MarketPrice floatRight={false} />
                 </Col>
               </Row>
             </Col>

@@ -95,8 +95,16 @@ const OrderCard = ({
             </Col>
             <Col>
               <Space direction="vertical" size={16}>
-                <OrderStatus orderAddress={orderId} />
                 <ColumnAction orderAddress={orderId} />
+                <OrderStatus orderAddress={orderId} />
+                {true && (
+                  <Space>
+                    <Typography.Text type="secondary">
+                      Last deal:
+                    </Typography.Text>
+                    <Typography.Text>{'0.09%'}</Typography.Text>
+                  </Space>
+                )}
               </Space>
             </Col>
           </Row>

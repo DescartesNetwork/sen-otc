@@ -17,6 +17,7 @@ import { notifyError, notifySuccess } from 'app/helper'
 
 import configs from 'app/configs'
 import { setRetailerAddress } from 'app/model/order.controller'
+import { MintSymbol } from 'shared/antd/mint'
 
 const {
   sol: { purchasing },
@@ -25,6 +26,7 @@ const {
 const Action = () => {
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [isAcctuallyReceive, setIsAcctuallyReceive] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const {
     order: {
@@ -117,7 +119,13 @@ const Action = () => {
           <Col span={24}>
             <NumericInput
               prefix={
-                <Typography.Text type="secondary">Fee(%)</Typography.Text>
+                <Typography.Text type="secondary">
+                  {isAcctuallyReceive ? (
+                    <MintSymbol mintAddress={askMintAddress} />
+                  ) : (
+                    'Fee(%)'
+                  )}
+                </Typography.Text>
               }
             />
           </Col>
@@ -126,6 +134,7 @@ const Action = () => {
               type="text"
               size="small"
               icon={<IonIcon name="repeat-outline" />}
+              onClick={() => setIsAcctuallyReceive(!isAcctuallyReceive)}
             >
               With actually received
             </Button>
