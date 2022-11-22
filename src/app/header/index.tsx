@@ -1,31 +1,35 @@
 import IconSax from '@sentre/antd-iconsax'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import {
+  WalletModalProvider,
+  WalletMultiButton,
+} from '@solana/wallet-adapter-react-ui'
 import { Button, Col, Image, Row } from 'antd'
+import MaxWidthLayout from 'components/maxWidthLayout'
 
 import logo from 'static/images/logo.svg'
 
 const Header = () => {
   return (
-    <Row gutter={[24, 24]} justify="center">
-      <Col xs={24} md={18} xxl={16}>
-        <Row gutter={[12, 12]} align="middle" wrap={false}>
-          <Col flex="auto">
-            <Image src={logo} height={24} preview={false} />
-          </Col>
-          <Col>
-            <Button
-              type="text"
-              size="large"
-              shape="circle"
-              icon={<IconSax name="Notification" />}
-            />
-          </Col>
-          <Col>
+    <MaxWidthLayout>
+      <Row gutter={[12, 12]} align="middle" wrap={false}>
+        <Col flex="auto">
+          <Image src={logo} height={24} preview={false} />
+        </Col>
+        <Col>
+          <Button
+            type="text"
+            size="large"
+            shape="circle"
+            icon={<IconSax name="Notification" />}
+          />
+        </Col>
+        <Col>
+          <WalletModalProvider>
             <WalletMultiButton />
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+          </WalletModalProvider>
+        </Col>
+      </Row>
+    </MaxWidthLayout>
   )
 }
 
