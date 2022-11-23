@@ -6,6 +6,10 @@ import Home from './home'
 
 import './index.css'
 import Footer from './footer'
+import ProtectedRoute from 'components/protectedRoute'
+import CreateOffer from './createOffer'
+import MyOffer from './myOffer'
+import History from './history'
 
 const App = () => {
   return (
@@ -17,6 +21,23 @@ const App = () => {
         <Col span={24} style={{ marginTop: 24 }}>
           <Routes>
             <Route path="/home" element={<Home />} />
+            <Route
+              path="/create-offer"
+              element={
+                <ProtectedRoute onlyAdmin>
+                  <CreateOffer />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-offer"
+              element={
+                <ProtectedRoute onlyAdmin>
+                  <MyOffer />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/history" element={<History />} />
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
         </Col>

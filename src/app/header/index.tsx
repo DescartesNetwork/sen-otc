@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import IconSax from '@sentre/antd-iconsax'
 import {
   WalletModalProvider,
@@ -8,11 +10,13 @@ import Kylan from 'components/kylan'
 import MaxWidthLayout from 'components/maxWidthLayout'
 
 const Header = () => {
+  const navigate = useNavigate()
+
   return (
     <MaxWidthLayout>
       <Row gutter={[12, 12]} align="middle" wrap={false}>
         <Col flex="auto">
-          <Kylan />
+          <Kylan onClick={() => navigate('/')} />
         </Col>
         <Col>
           <Button

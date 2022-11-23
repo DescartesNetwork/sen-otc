@@ -18,11 +18,13 @@ import { ActiveOfferTag, EndedOfferTag, UpcomingOfferTag } from './offerTag'
 import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
 import { numeric } from 'helpers/util'
 import { useCountdown } from 'hooks/useCountdown'
+import { useAction } from 'hooks/useFilter'
 
 const sol = ACCEPTED_PAYMENTS[0]
 const stable = ACCEPTED_PAYMENTS[1]
 
 const OfferCard = () => {
+  const [action] = useAction()
   const [counter] = useCountdown(20 * 24 * 60 * 60)
   const duration = moment.duration(counter, 'seconds')
 
@@ -59,7 +61,7 @@ const OfferCard = () => {
             <Space style={{ position: 'relative', top: -3 }}>
               <Avatar src={sol.url} size={24} />
               <Typography.Title level={5} style={{ color: '#ffffff' }}>
-                Buy {sol.symbol}
+                {action} {sol.symbol}
               </Typography.Title>
             </Space>
           </Button>
