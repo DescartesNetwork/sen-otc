@@ -33,7 +33,11 @@ const Footer = () => {
       <Row
         gutter={[12, 12]}
         align="middle"
-        style={{ margin: '32px 0px', borderRight: 'solid 4px #1A63FF' }}
+        style={{
+          marginTop: 32,
+          marginBottom: 32,
+          borderLeft: 'solid 4px #1A63FF',
+        }}
       >
         <Col span={24} style={{ textAlign: 'end' }}>
           <Kylan size={16} onClick={() => window.scrollTo(0, 0)} />

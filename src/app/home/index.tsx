@@ -38,15 +38,22 @@ const Home = () => {
         </Col>
         <Col span={24} style={{ marginTop: 12 }}>
           <Row gutter={[24, 24]}>
-            <Col span={24}>
-              <OfferCard />
-            </Col>
-            <Col span={24}>
-              <OfferCard />
-            </Col>
+            {[1, 2, 3, 4].map((key, i) => (
+              <Col key={key} span={24}>
+                <Row gutter={[12, 12]}>
+                  {i > 0 && (
+                    <Col span={24}>
+                      <Divider style={{ marginBottom: 12, marginTop: 4 }} />
+                    </Col>
+                  )}
+                  <Col span={24}>
+                    <OfferCard />
+                  </Col>
+                </Row>
+              </Col>
+            ))}
           </Row>
         </Col>
-        <Col span={24} />
       </Row>
     </MaxWidthLayout>
   )

@@ -35,5 +35,8 @@ export const theme: ThemeConfig = {
     DatePicker: {
       ...radius,
     },
+    Upload: {
+      ...radius,
+    },
   },
 }

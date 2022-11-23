@@ -14,11 +14,11 @@ import History from './history'
 const App = () => {
   return (
     <Layout className="layout">
-      <Row gutter={[24, 24]}>
+      <Row gutter={[24, 64]}>
         <Col span={24}>
           <Header />
         </Col>
-        <Col span={24} style={{ marginTop: 24 }}>
+        <Col span={24}>
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route

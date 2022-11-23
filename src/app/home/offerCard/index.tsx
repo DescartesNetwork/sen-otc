@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   Col,
-  Divider,
   Progress,
   Row,
   Space,
@@ -146,9 +145,6 @@ const OfferCard = () => {
             </Col>
           </Row>
         </Card>
-      </Col>
-      <Col span={24}>
-        <Divider style={{ marginBottom: 0 }} />
       </Col>
     </Row>
   )
