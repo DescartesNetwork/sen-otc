@@ -1,16 +1,16 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Col, Layout, Row } from 'antd'
-import Header from './header'
-import Home from './home'
-
-import './index.css'
-import Footer from './footer'
 import ProtectedRoute from 'components/protectedRoute'
+import Header from './header'
+import Footer from './footer'
+import Watcher from './watcher'
+import Home from './home'
 import CreateOffer from './createOffer'
 import MyOffer from './myOffer'
 import History from './history'
 
+import './index.css'
 const App = () => {
   return (
     <Layout className="layout">
@@ -45,6 +45,7 @@ const App = () => {
           <Footer />
         </Col>
       </Row>
+      <Watcher />
     </Layout>
   )
 }

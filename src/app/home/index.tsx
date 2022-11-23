@@ -43,7 +43,7 @@ const Home = () => {
                 <Row gutter={[12, 12]}>
                   {i > 0 && (
                     <Col span={24}>
-                      <Divider style={{ marginBottom: 12, marginTop: 4 }} />
+                      <Divider style={{ marginBottom: 12, marginTop: 12 }} />
                     </Col>
                   )}
                   <Col span={24}>
