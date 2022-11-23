@@ -57,7 +57,7 @@ const Sort = ({ sort, onSort }: SortProps) => {
     <Space size={8}>
       <Typography.Text type="secondary">Sort by:</Typography.Text>
       {SORTING_TYPES.map((type) => (
-        <SortedButton title={type} value={sort} onChange={onSort} />
+        <SortedButton key={type} title={type} value={sort} onChange={onSort} />
       ))}
     </Space>
   )

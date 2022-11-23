@@ -1,16 +1,33 @@
 import { Typography } from 'antd'
 
-export const ActiveOfferTag = () => {
+export type OfferTagProps = {
+  title?: string
+  color?: string
+}
+
+export const OfferTag = ({ title, color }: OfferTagProps) => {
   return (
     <Typography.Text
       style={{
-        backgroundColor: '#1A63FF15',
-        color: '#1A63FF',
+        backgroundColor: `${color}15`,
+        color: color,
         padding: '4px 8px',
         borderRadius: 12,
       }}
     >
-      Active
+      {title}
     </Typography.Text>
   )
+}
+
+export const ActiveOfferTag = () => {
+  return <OfferTag title="Active" color="#1A63FF" />
+}
+
+export const UpcomingOfferTag = () => {
+  return <OfferTag title="Upcoming" color="#B8A500" />
+}
+
+export const EndedOfferTag = () => {
+  return <OfferTag title="Ended" color="#E52E3A" />
 }

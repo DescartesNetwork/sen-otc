@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import IconSax from '@sentre/antd-iconsax'
 import {
   Avatar,
@@ -11,15 +13,19 @@ import {
   Tooltip,
   Typography,
 } from 'antd'
-import { ActiveOfferTag } from './offerTag'
+import { ActiveOfferTag, EndedOfferTag, UpcomingOfferTag } from './offerTag'
 
 import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
 import { numeric } from 'helpers/util'
+import { useCountdown } from 'hooks/useCountdown'
 
 const sol = ACCEPTED_PAYMENTS[0]
 const stable = ACCEPTED_PAYMENTS[1]
 
 const OfferCard = () => {
+  const [counter] = useCountdown(20 * 24 * 60 * 60)
+  const duration = moment.duration(counter, 'seconds')
+
   return (
     <Row gutter={[12, 12]}>
       <Col span={12}>
@@ -97,13 +103,21 @@ const OfferCard = () => {
             <Col span={24}>
               <Space>
                 <Typography.Title style={{ color: '#1A63FF' }} level={5}>
-                  3%
+                  {`${duration.days()}d : ${duration.hours()}h : ${duration.minutes()}m`}
                 </Typography.Title>
-                <Progress type="circle" percent={75} width={14} />
+                <Progress
+                  type="circle"
+                  percent={100 - duration.seconds() / 0.6}
+                  width={14}
+                />
               </Space>
             </Col>
-            <Col span={24}>
-              <ActiveOfferTag />
+            <Col span={24} style={{ marginTop: 22 }}>
+              <Space>
+                <ActiveOfferTag />
+                <UpcomingOfferTag />
+                <EndedOfferTag />
+              </Space>
             </Col>
           </Row>
         </Card>
