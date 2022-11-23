@@ -16,6 +16,11 @@ const SOCIALS = [
     icon: <TwitterOutlined />,
   },
   {
+    title: 'Telegram',
+    url: 'https://t.me/KylanHQ',
+    icon: <IconSax name="Send2" variant="Bold" />,
+  },
+  {
     title: 'Docs',
     url: 'https://docs.kylan.so',
     icon: <IconSax name="Document" variant="Bold" />,
@@ -31,6 +36,9 @@ const Footer = () => {
         style={{ marginBottom: 32, borderRight: 'solid 4px #1A63FF' }}
       >
         <Col span={24} style={{ textAlign: 'end' }}>
+          <Kylan size={16} onClick={() => window.scrollTo(0, 0)} />
+        </Col>
+        <Col span={24} style={{ textAlign: 'end' }}>
           <Space size={0}>
             {SOCIALS.map(({ title, url, icon }) => (
               <Button
@@ -43,11 +51,6 @@ const Footer = () => {
                 {title}
               </Button>
             ))}
-            <Kylan
-              size={16}
-              style={{ marginLeft: 16 }}
-              onClick={() => window.scrollTo(0, 0)}
-            />
           </Space>
         </Col>
         <Col span={24} style={{ textAlign: 'end' }}>

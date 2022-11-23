@@ -25,8 +25,10 @@ const SortedButton = ({
 }: SortBUttonProps) => {
   const direction = useMemo(() => parseDirection(title, value), [title, value])
   const icon = useMemo(() => {
-    if (direction === 'Ascending') return <IconSax name="ArrowUp3" />
-    if (direction === 'Descending') return <IconSax name="ArrowDown3" />
+    if (direction === 'Ascending')
+      return <IconSax name="ArrowUp2" variant="Bold" />
+    if (direction === 'Descending')
+      return <IconSax name="ArrowDown2" variant="Bold" />
     return null
   }, [direction])
   return (

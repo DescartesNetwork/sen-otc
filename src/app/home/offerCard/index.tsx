@@ -55,14 +55,13 @@ const OfferCard = () => {
               icon={<IconSax name="ExportCircle" />}
             />
           </Space>
-          <Button
-            type="primary"
-            size="large"
-            shape="round"
-            style={{ fontWeight: 700 }}
-          >
-            {/* <Avatar src={stable.url} size={24} /> */}
-            <span>Buy {sol.symbol}</span>
+          <Button type="primary" size="large" shape="round">
+            <Space style={{ position: 'relative', top: -3 }}>
+              <Avatar src={sol.url} size={24} />
+              <Typography.Title level={5} style={{ color: '#ffffff' }}>
+                Buy {sol.symbol}
+              </Typography.Title>
+            </Space>
           </Button>
         </Space>
       </Col>
