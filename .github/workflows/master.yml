@@ -1,0 +1,16 @@
+name: Automatic Deployment
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcome
+        run: echo Start deploying Kylan
+      - name: Checkout git
+        uses: actions/checkout@v2
+      - name: Deploy static to Render
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
