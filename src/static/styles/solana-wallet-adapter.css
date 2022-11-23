@@ -4,3 +4,7 @@
   border-radius: 24px !important;
   background-color: #000000 !important;
 }
+
+.wallet-adapter-button {
+  padding: 0px 16px;
+}

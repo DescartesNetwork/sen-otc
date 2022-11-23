@@ -59,7 +59,6 @@ const Filter = () => {
           <Col>
             <Select
               size="large"
-              style={{ borderRadius: 24 }}
               options={ACCEPTED_PAYMENTS.map(({ symbol }) => ({
                 value: symbol,
                 label: offeredToken === symbol ? `By: ${symbol}` : symbol,
@@ -72,7 +71,6 @@ const Filter = () => {
           <Col>
             <Select
               size="large"
-              style={{ borderRadius: 24 }}
               options={ACCEPTED_PAYMENTS.map(({ symbol }) => ({
                 value: symbol,
                 label: symbol,

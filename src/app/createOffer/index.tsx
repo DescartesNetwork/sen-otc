@@ -1,21 +1,7 @@
-import IconSax from '@sentre/antd-iconsax'
-import {
-  Avatar,
-  Card,
-  Col,
-  DatePicker,
-  Input,
-  Row,
-  Space,
-  Typography,
-} from 'antd'
+import { Col, DatePicker, Row, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
-
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
-import { numeric } from 'helpers/util'
-
-const sol = ACCEPTED_PAYMENTS[0]
-const stable = ACCEPTED_PAYMENTS[1]
+import Ask from './ask'
+import Bid from './bid'
 
 const CreateOffer = () => {
   return (
@@ -25,79 +11,10 @@ const CreateOffer = () => {
           <Typography.Title level={2}>Create an Offer</Typography.Title>
         </Col>
         <Col span={24}>
-          <Row gutter={[8, 8]}>
-            <Col span={24}>
-              <Row gutter={[8, 8]} wrap={false}>
-                <Col flex="auto">
-                  <Typography.Text type="secondary">BID</Typography.Text>
-                </Col>
-                <Col>
-                  <Typography.Text type="secondary">
-                    Balance: {numeric(1928639824).format('0,0.[000]')}{' '}
-                    {sol.symbol}
-                  </Typography.Text>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={24}>
-              <Input
-                size="large"
-                prefix={
-                  <Card
-                    bodyStyle={{
-                      padding: 4,
-                      backgroundColor: '#ffffff',
-                      borderRadius: '50%',
-                    }}
-                    bordered={false}
-                  >
-                    <Space>
-                      <Avatar src={sol.url} />
-                      <Typography.Title level={5}>
-                        {sol.symbol}
-                      </Typography.Title>
-                      <IconSax name="ArrowDown2" style={{ marginRight: 8 }} />
-                    </Space>
-                  </Card>
-                }
-              />
-            </Col>
-            <Col span={24}>
-              <Typography.Text type="secondary">
-                Market Price: $0
-              </Typography.Text>
-            </Col>
-          </Row>
+          <Bid />
         </Col>
         <Col span={24}>
-          <Row gutter={[8, 8]}>
-            <Col span={24}>
-              <Typography.Text type="secondary">ASK</Typography.Text>
-            </Col>
-            <Col span={24}>
-              <Input
-                size="large"
-                prefix={
-                  <Card
-                    bodyStyle={{
-                      padding: 4,
-                      backgroundColor: '#ffffff',
-                      borderRadius: '50%',
-                    }}
-                    bordered={false}
-                  >
-                    <Space>
-                      <Avatar src={stable.url} />
-                      <Typography.Title level={5}>
-                        {stable.symbol}
-                      </Typography.Title>
-                      <IconSax name="ArrowDown2" style={{ marginRight: 8 }} />
-                    </Space>
-                  </Card>
-                }
-              />
-            </Col>
-          </Row>
+          <Ask />
         </Col>
         <Col span={12}>
           <Row gutter={[8, 8]}>
