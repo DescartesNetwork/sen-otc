@@ -3,17 +3,16 @@ import {
   WalletModalProvider,
   WalletMultiButton,
 } from '@solana/wallet-adapter-react-ui'
-import { Button, Col, Image, Row } from 'antd'
+import { Button, Col, Row } from 'antd'
+import Kylan from 'components/kylan'
 import MaxWidthLayout from 'components/maxWidthLayout'
-
-import logo from 'static/images/logo.svg'
 
 const Header = () => {
   return (
     <MaxWidthLayout>
       <Row gutter={[12, 12]} align="middle" wrap={false}>
         <Col flex="auto">
-          <Image src={logo} height={24} preview={false} />
+          <Kylan />
         </Col>
         <Col>
           <Button

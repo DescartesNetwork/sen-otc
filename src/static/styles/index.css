@@ -1,2 +1,6 @@
 @import './ant.css';
 @import './solana-wallet-adapter.css';
+
+html {
+  scroll-behavior: smooth;
+}

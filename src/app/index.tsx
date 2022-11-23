@@ -5,6 +5,7 @@ import Header from './header'
 import Home from './home'
 
 import './index.css'
+import Footer from './footer'
 
 const App = () => {
   return (
@@ -18,6 +19,9 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
+        </Col>
+        <Col span={24}>
+          <Footer />
         </Col>
       </Row>
     </Layout>
