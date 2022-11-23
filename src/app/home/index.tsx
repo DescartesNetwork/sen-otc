@@ -7,6 +7,7 @@ import MaxWidthLayout from 'components/maxWidthLayout'
 import Navigation from './navigation'
 import Stat from './stat'
 import Filter from './filter'
+import OfferCard from './offerCard'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -35,6 +36,17 @@ const Home = () => {
         <Col span={24}>
           <Filter />
         </Col>
+        <Col span={24} style={{ marginTop: 12 }}>
+          <Row gutter={[24, 24]}>
+            <Col span={24}>
+              <OfferCard />
+            </Col>
+            <Col span={24}>
+              <OfferCard />
+            </Col>
+          </Row>
+        </Col>
+        <Col span={24} />
       </Row>
     </MaxWidthLayout>
   )

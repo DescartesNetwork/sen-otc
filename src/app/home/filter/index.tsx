@@ -1,14 +1,5 @@
 import IconSax from '@sentre/antd-iconsax'
-import {
-  Badge,
-  Button,
-  Col,
-  Row,
-  Segmented,
-  Select,
-  Space,
-  Typography,
-} from 'antd'
+import { Badge, Button, Col, Row, Segmented, Select, Space } from 'antd'
 import Search from './search'
 
 import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
@@ -20,6 +11,7 @@ import {
   useSort,
 } from 'hooks/useFilter'
 import { OtcAction } from 'store/filter.reducer'
+import Sort from './sort'
 
 const Filter = () => {
   const [action, setAction] = useAction()
@@ -41,8 +33,8 @@ const Filter = () => {
               onChange={(e: any) => setAction(e)}
             />
           </Col>
-          <Col>
-            <Space size={0}>
+          <Col flex="auto">
+            <Space size={0} style={{ width: '100%', overflow: 'auto' }}>
               {ACCEPTED_PAYMENTS.map(({ symbol }) => (
                 <Badge
                   key={symbol}
@@ -78,11 +70,20 @@ const Filter = () => {
             />
           </Col>
           <Col>
-            <Space>
-              <Typography.Text type="secondary">
-                Sort by: {sort}
-              </Typography.Text>
-            </Space>
+            <Select
+              size="large"
+              style={{ borderRadius: 24 }}
+              options={ACCEPTED_PAYMENTS.map(({ symbol }) => ({
+                value: symbol,
+                label: symbol,
+              }))}
+              value={offeredToken}
+              onChange={setOfferedToken}
+              suffixIcon={<IconSax name="ArrowDown2" />}
+            />
+          </Col>
+          <Col>
+            <Sort sort={sort} onSort={setSort} />
           </Col>
         </Row>
       </Col>

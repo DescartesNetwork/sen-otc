@@ -9,17 +9,13 @@ export enum OtcAction {
   Sell = 'Sell',
 }
 
-export enum SortedBySave {
-  Increase,
-  Decrease,
+export const SORTING_TYPES = ['Save', 'Price']
+export enum SortedBy {
+  AscendingSave = 'AscendingSave',
+  DescendingSave = 'DescendingSave',
+  AscendingPrice = 'AscendingPrice',
+  DescendingPrice = 'DescendingPrice',
 }
-
-export enum SortedByPrice {
-  Increase,
-  Decrease,
-}
-
-export type SortedBy = SortedBySave | SortedByPrice
 
 export type FilterState = {
   action: OtcAction
@@ -39,7 +35,7 @@ const initialState: FilterState = {
   paymentMethod: 'USDC',
   offeredToken: 'USDC',
   keyword: '',
-  sort: SortedBySave.Increase,
+  sort: SortedBy.AscendingSave,
 }
 
 /**

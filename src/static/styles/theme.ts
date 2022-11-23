@@ -29,6 +29,7 @@ export const theme: ThemeConfig = {
       controlPaddingHorizontalSM: 12,
     },
     Input: {
+      ...radius,
       colorBgContainer: '#FAFAFA',
     },
   },
