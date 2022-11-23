@@ -32,5 +32,8 @@ export const theme: ThemeConfig = {
       ...radius,
       colorBgContainer: '#FAFAFA',
     },
+    DatePicker: {
+      ...radius,
+    },
   },
 }
