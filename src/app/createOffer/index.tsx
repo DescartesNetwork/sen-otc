@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, DatePicker, Row, Space, Typography, Upload } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
@@ -5,6 +7,8 @@ import Ask from './ask'
 import Bid from './bid'
 
 const CreateOffer = () => {
+  const navigate = useNavigate()
+
   return (
     <MaxWidthLayout level={3}>
       <Row gutter={[12, 24]}>
@@ -67,7 +71,12 @@ const CreateOffer = () => {
           </Row>
         </Col>
         <Col span={12}>
-          <Button size="large" shape="round" block>
+          <Button
+            size="large"
+            shape="round"
+            onClick={() => navigate('/')}
+            block
+          >
             Cancel
           </Button>
         </Col>

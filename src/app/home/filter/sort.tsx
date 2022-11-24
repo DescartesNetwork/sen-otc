@@ -29,7 +29,7 @@ const SortedButton = ({
       return <IconSax name="ArrowUp2" variant="Bold" />
     if (direction === 'Descending')
       return <IconSax name="ArrowDown2" variant="Bold" />
-    return null
+    return <IconSax name="ArrowRight2" variant="Bold" />
   }, [direction])
   return (
     <Button

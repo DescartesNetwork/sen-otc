@@ -6,6 +6,7 @@ import MaxWidthLayout from 'components/maxWidthLayout'
 import BuySellFilter from 'components/filters/buySellFilter'
 import { TokenSelectionLite } from 'components/tokenSelect'
 import HistoryTable from './historyTable'
+import Portfolio from './portfolio'
 
 import { useAction, useOfferedToken } from 'hooks/useFilter'
 import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
@@ -30,6 +31,10 @@ const History = () => {
             </Button>
             <Typography.Title level={2}>Transaction History</Typography.Title>
           </Space>
+        </Col>
+        <Col xs={24} sm={12}></Col>
+        <Col xs={24} sm={12}>
+          <Portfolio />
         </Col>
         <Col span={24}>
           <Row gutter={[12, 12]} align="top">
