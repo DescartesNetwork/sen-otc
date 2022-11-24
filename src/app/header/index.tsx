@@ -10,7 +10,7 @@ import MaxWidthLayout from 'components/maxWidthLayout'
 
 const Header = () => {
   const navigate = useNavigate()
-  const { disconnect, publicKey, wallet } = useWallet()
+  const { disconnect, publicKey, wallet, connecting } = useWallet()
 
   const onDisconnect = useCallback(
     (e: MouseEvent<HTMLElement>) => {
@@ -37,7 +37,7 @@ const Header = () => {
         <Col>
           <WalletMultiButton
             endIcon={
-              wallet && !publicKey ? (
+              wallet && !publicKey && !connecting ? (
                 <IconSax name="CloseCircle" onClick={onDisconnect} />
               ) : undefined
             }
