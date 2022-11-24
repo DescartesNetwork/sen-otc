@@ -11,6 +11,7 @@ import MyOffer from './myOffer'
 import History from './history'
 
 import './index.css'
+
 const App = () => {
   return (
     <Layout className="layout">
