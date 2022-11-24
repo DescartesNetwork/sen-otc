@@ -1,9 +1,9 @@
+import { OtcAction } from 'components/filters/buySellFilter'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { AppDispatch, AppState } from 'store'
 import {
-  OtcAction,
   setAction,
   setKeyword,
   setOfferedToken,

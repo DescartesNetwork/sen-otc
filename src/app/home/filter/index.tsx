@@ -1,8 +1,6 @@
-import IconSax from '@sentre/antd-iconsax'
-import { Badge, Button, Col, Row, Segmented, Select, Space } from 'antd'
+import { Badge, Button, Col, Row, Space } from 'antd'
 import Search from './search'
 
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
 import {
   useAction,
   useKeyword,
@@ -10,8 +8,13 @@ import {
   usePaymentMethod,
   useSort,
 } from 'hooks/useFilter'
-import { OtcAction } from 'store/filter.reducer'
 import Sort from './sort'
+import BuySellFilter from 'components/filters/buySellFilter'
+import { TokenSelectionLite } from 'components/tokenSelect'
+
+import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
+
+const SYMBOLS = ACCEPTED_PAYMENTS.map(({ symbol }) => symbol)
 
 const Filter = () => {
   const [action, setAction] = useAction()
@@ -25,17 +28,11 @@ const Filter = () => {
       <Col span={24}>
         <Row gutter={[12, 12]} align="middle" wrap={false}>
           <Col>
-            <Segmented
-              size="large"
-              options={Object.values(OtcAction)}
-              value={action}
-              style={{ padding: 6 }}
-              onChange={(e: any) => setAction(e)}
-            />
+            <BuySellFilter value={action} onChange={setAction} />
           </Col>
           <Col flex="auto">
             <Space size={0} style={{ width: '100%', overflow: 'auto' }}>
-              {ACCEPTED_PAYMENTS.map(({ symbol }) => (
+              {SYMBOLS.map((symbol) => (
                 <Badge
                   key={symbol}
                   color="black"
@@ -57,27 +54,19 @@ const Filter = () => {
             <Search keyword={keyword} onKeyword={setKeyword} />
           </Col>
           <Col>
-            <Select
-              size="large"
-              options={ACCEPTED_PAYMENTS.map(({ symbol }) => ({
-                value: symbol,
-                label: offeredToken === symbol ? `By: ${symbol}` : symbol,
-              }))}
+            <TokenSelectionLite
+              options={SYMBOLS}
               value={offeredToken}
               onChange={setOfferedToken}
-              suffixIcon={<IconSax name="ArrowDown2" />}
+              prefix="By:"
+              style={{ width: 116 }}
             />
           </Col>
           <Col>
-            <Select
-              size="large"
-              options={ACCEPTED_PAYMENTS.map(({ symbol }) => ({
-                value: symbol,
-                label: symbol,
-              }))}
+            <TokenSelectionLite
+              options={SYMBOLS}
               value={offeredToken}
               onChange={setOfferedToken}
-              suffixIcon={<IconSax name="ArrowDown2" />}
             />
           </Col>
           <Col>

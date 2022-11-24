@@ -1,13 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { OtcAction } from 'components/filters/buySellFilter'
 
 /**
  * Interface & Utility
  */
-
-export enum OtcAction {
-  Buy = 'Buy',
-  Sell = 'Sell',
-}
 
 export const SORTING_TYPES = ['Save', 'Price']
 export enum SortedBy {

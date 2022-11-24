@@ -4,6 +4,7 @@ import { Col, Input, Row, Typography } from 'antd'
 import TokenSelection, { parseToken } from 'components/tokenSelect'
 
 import { numeric } from 'helpers/util'
+import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
 
 const Bid = () => {
   const [symbol, setSymbol] = useState('USDC')
@@ -26,7 +27,11 @@ const Bid = () => {
       <Col span={24}>
         <Row gutter={[8, 8]} align="middle">
           <Col>
-            <TokenSelection symbol={symbol} onSymbol={setSymbol} />
+            <TokenSelection
+              options={ACCEPTED_PAYMENTS}
+              value={symbol}
+              onChange={setSymbol}
+            />
           </Col>
           <Col flex="auto">
             <Input size="large" placeholder={`Amount of ${token?.symbol}`} />
