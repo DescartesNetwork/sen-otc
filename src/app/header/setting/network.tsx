@@ -1,9 +1,6 @@
 import { Col, Row, Segmented, Typography } from 'antd'
 
-import configs from 'configs'
-import { switchNetwork } from 'configs/net'
-
-const { net } = configs
+import { net, switchNetwork } from 'configs/net'
 
 const Network = () => {
   return (

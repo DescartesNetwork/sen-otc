@@ -1,29 +1,30 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
+import useSWR from 'swr'
 
 import { message } from 'antd'
 
 import { getTokenMetadata } from 'helpers/util'
 
 export const usePrice = (ticket: string) => {
-  const [price, setPrice] = useState(0)
-
-  const getPrice = useCallback(async () => {
-    try {
-      const {
-        market_data: {
-          current_price: { usd },
-        },
-      } = await getTokenMetadata(ticket)
-      return setPrice(usd)
-    } catch (er: any) {
-      message.error(er.message)
-      return setPrice(0)
-    }
-  }, [ticket])
-
+  const { data, error, mutate } = useSWR(ticket, getTokenMetadata)
+  const price = data?.market_data?.current_price?.usd || 0
+  const refresh = useCallback(() => {
+    return mutate(ticket)
+  }, [mutate, ticket])
   useEffect(() => {
-    getPrice()
-  }, [getPrice])
+    if (error) message.error(error)
+  }, [error])
+  return [price, refresh] as [typeof price, typeof refresh]
+}
 
-  return [price, getPrice] as [typeof price, typeof getPrice]
+export const use24hChange = (ticket: string) => {
+  const { data, error, mutate } = useSWR(ticket, getTokenMetadata)
+  const change = data?.market_data?.price_change_24h || 0
+  const refresh = useCallback(() => {
+    return mutate(ticket)
+  }, [mutate, ticket])
+  useEffect(() => {
+    if (error) message.error(error)
+  }, [error])
+  return [change, refresh] as [typeof change, typeof refresh]
 }

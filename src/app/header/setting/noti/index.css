@@ -1,0 +1,10 @@
+.kylan-noti {
+  border-radius: 12px;
+  padding: 12px;
+  transition: ease-in-out;
+  cursor: pointer;
+}
+
+.kylan-noti:hover {
+  background-color: #00000011;
+}
