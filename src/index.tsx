@@ -10,6 +10,7 @@ import {
   PhantomWalletAdapter,
 } from '@solana/wallet-adapter-wallets'
 
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { ConfigProvider } from 'antd'
 import App from 'app'
 
@@ -32,7 +33,9 @@ createRoot(document.getElementById('root') as HTMLElement).render(
             wallets={[new PhantomWalletAdapter(), new Coin98WalletAdapter()]}
             autoConnect
           >
-            <App />
+            <WalletModalProvider>
+              <App />
+            </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
       </ConfigProvider>

@@ -1,15 +1,12 @@
 import { MouseEvent, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 import IconSax from '@sentre/antd-iconsax'
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from '@solana/wallet-adapter-react-ui'
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { Button, Col, Row } from 'antd'
 import Kylan from 'components/kylan'
 import MaxWidthLayout from 'components/maxWidthLayout'
-import { useWallet } from '@solana/wallet-adapter-react'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -38,15 +35,13 @@ const Header = () => {
           />
         </Col>
         <Col>
-          <WalletModalProvider>
-            <WalletMultiButton
-              endIcon={
-                wallet && !publicKey ? (
-                  <IconSax name="CloseCircle" onClick={onDisconnect} />
-                ) : undefined
-              }
-            />
-          </WalletModalProvider>
+          <WalletMultiButton
+            endIcon={
+              wallet && !publicKey ? (
+                <IconSax name="CloseCircle" onClick={onDisconnect} />
+              ) : undefined
+            }
+          />
         </Col>
       </Row>
     </MaxWidthLayout>

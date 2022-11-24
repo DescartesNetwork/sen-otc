@@ -1,4 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react'
+import { useWalletModal } from '@solana/wallet-adapter-react-ui'
 
 import configs from 'configs'
 
@@ -27,4 +28,11 @@ export const usePremission = (roles: Role[] = []) => {
 export const useIsLoggedIn = () => {
   const { publicKey } = useWallet()
   return !!publicKey
+}
+
+export const useLogIn = () => {
+  const isLoggedIn = useIsLoggedIn()
+  const { visible, setVisible } = useWalletModal()
+  if (isLoggedIn || visible) return () => {}
+  return () => setVisible(true)
 }
