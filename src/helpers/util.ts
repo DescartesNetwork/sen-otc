@@ -1,3 +1,4 @@
+import axios from 'axios'
 import numbro from 'numbro'
 
 /**
@@ -19,4 +20,12 @@ export const numeric = (
 ): ReturnType<typeof numbro> => {
   if (!value) return numbro('0')
   return numbro(value)
+}
+
+export const getTokenMetadata = async (ticket: string) => {
+  if (!ticket) throw new Error('Invalid token ticket')
+  const { data } = await axios.get(
+    'https://api.coingecko.com/api/v3/coins/' + ticket,
+  )
+  return data
 }

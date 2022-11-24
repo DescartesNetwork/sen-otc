@@ -1,24 +1,13 @@
-import { MouseEvent, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useWallet } from '@solana/wallet-adapter-react'
 
-import IconSax from '@sentre/antd-iconsax'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { Button, Col, Row } from 'antd'
+import { Col, Row } from 'antd'
 import Kylan from 'components/kylan'
 import MaxWidthLayout from 'components/maxWidthLayout'
+import Setting from './setting'
+import WalletButton from './walletButton'
 
 const Header = () => {
   const navigate = useNavigate()
-  const { disconnect, publicKey, wallet, connecting } = useWallet()
-
-  const onDisconnect = useCallback(
-    (e: MouseEvent<HTMLElement>) => {
-      e.stopPropagation()
-      return disconnect()
-    },
-    [disconnect],
-  )
 
   return (
     <MaxWidthLayout>
@@ -27,21 +16,10 @@ const Header = () => {
           <Kylan onClick={() => navigate('/')} />
         </Col>
         <Col>
-          <Button
-            type="text"
-            size="large"
-            shape="circle"
-            icon={<IconSax name="Notification" />}
-          />
+          <Setting />
         </Col>
         <Col>
-          <WalletMultiButton
-            endIcon={
-              wallet && !publicKey && !connecting ? (
-                <IconSax name="CloseCircle" onClick={onDisconnect} />
-              ) : undefined
-            }
-          />
+          <WalletButton />
         </Col>
       </Row>
     </MaxWidthLayout>

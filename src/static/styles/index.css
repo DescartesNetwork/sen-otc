@@ -4,3 +4,10 @@
 html {
   scroll-behavior: smooth;
 }
+
+.kylan-dash.left {
+  border-left: solid 4px #1a63ff;
+}
+.kylan-dash.right {
+  border-right: solid 4px #1a63ff;
+}

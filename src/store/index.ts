@@ -3,6 +3,7 @@ import { env } from 'configs/env'
 
 import ui from './ui.reducer'
 import filter from './filter.reducer'
+import wallet from './wallet.reducer'
 
 /**
  * Root types
@@ -18,6 +19,7 @@ const store = configureStore({
   reducer: {
     ui,
     filter,
+    wallet,
   },
 })
 

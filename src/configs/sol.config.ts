@@ -1,4 +1,5 @@
-import { Env } from './env'
+import { Connection } from '@solana/web3.js'
+import { Net, rpc } from './net'
 
 /**
  * Contructor
@@ -6,28 +7,32 @@ import { Env } from './env'
 
 type Conf = {
   endpoint: string
+  connection: Connection
 }
 
-const conf: Record<Env, Conf> = {
+const conf: Record<Net, Conf> = {
   /**
    * Development configurations
    */
-  development: {
-    endpoint: 'https://api.devnet.solana.com',
+  devnet: {
+    endpoint: rpc,
+    connection: new Connection(rpc, { commitment: 'confirmed' }),
   },
 
   /**
    * Testing configurations
    */
-  test: {
-    endpoint: 'https://api.testnet.solana.com',
+  testnet: {
+    endpoint: rpc,
+    connection: new Connection(rpc, { commitment: 'confirmed' }),
   },
 
   /**
    * Production configurations
    */
-  production: {
-    endpoint: 'https://api.mainnet-beta.solana.com',
+  mainnet: {
+    endpoint: rpc,
+    connection: new Connection(rpc, { commitment: 'confirmed' }),
   },
 }
 
