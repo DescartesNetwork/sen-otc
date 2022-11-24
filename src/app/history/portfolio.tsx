@@ -30,6 +30,7 @@ const Portfolio = () => {
       colorField="type"
       radius={1}
       innerRadius={0.6}
+      appendPadding={10}
       label={{
         type: 'inner',
         offset: '-50%',
