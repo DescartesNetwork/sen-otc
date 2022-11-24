@@ -42,12 +42,7 @@ const Header = () => {
             <WalletMultiButton
               endIcon={
                 wallet && !publicKey ? (
-                  <Button
-                    type="primary"
-                    shape="circle"
-                    icon={<IconSax name="CloseCircle" />}
-                    onClick={onDisconnect}
-                  />
+                  <IconSax name="CloseCircle" onClick={onDisconnect} />
                 ) : undefined
               }
             />
