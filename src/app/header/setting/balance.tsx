@@ -22,7 +22,7 @@ const Balance = () => {
   }, [refreshPrice, refreshChange])
 
   return (
-    <Row gutter={[8, 8]}>
+    <Row gutter={[12, 12]}>
       <Col span={24}>
         <Row gutter={[8, 8]} wrap={false} align="middle">
           <Col flex="auto">
@@ -65,31 +65,46 @@ const Balance = () => {
         </Row>
       </Col>
       <Col span={24}>
-        <Row gutter={[8, 8]} wrap={false} align="bottom">
-          <Col flex="auto">
-            <Space>
-              <Typography.Title level={4}>
-                {numeric(sol).format('0,0.[00]')}
-              </Typography.Title>
-              <Typography.Title type="secondary" level={4}>
-                SOL
-              </Typography.Title>
-            </Space>
+        <Row gutter={[4, 4]}>
+          <Col span={24}>
+            <Row gutter={[4, 4]} wrap={false} align="bottom">
+              <Col flex="auto">
+                <Space>
+                  <Typography.Title level={4}>
+                    {numeric(sol).format('0,0.[00]')}
+                  </Typography.Title>
+                  <Typography.Title type="secondary" level={4}>
+                    SOL
+                  </Typography.Title>
+                </Space>
+              </Col>
+              <Col>
+                <Typography.Text type="secondary">
+                  ${numeric(sol * price).format('0,0.[0]')}
+                </Typography.Text>
+              </Col>
+            </Row>
           </Col>
-          <Col>
-            <Space size={4}>
-              <Typography.Text type="secondary">
-                ${numeric(sol * price).format('0,0.[0]')}
-              </Typography.Text>
-              <IconSax
-                style={{ color: change >= 0 ? '#52c41a' : '#ff4d4f' }}
-                name={change >= 0 ? 'ArrowCircleUp2' : 'ArrowCircleDown2'}
-                variant="Bold"
-              />
-              <Typography.Text type={change >= 0 ? 'success' : 'danger'}>
-                {numeric(Math.abs(change)).format('0.[0]')}%
-              </Typography.Text>
-            </Space>
+          <Col span={24}>
+            <Row gutter={[4, 4]} wrap={false}>
+              <Col flex="auto">
+                <Typography.Text type="secondary">
+                  {numeric(price).format('0,0.[0]')} USD/SOL
+                </Typography.Text>
+              </Col>
+              <Col>
+                <Space size={4}>
+                  <IconSax
+                    style={{ color: change >= 0 ? '#52c41a' : '#ff4d4f' }}
+                    name={change >= 0 ? 'ArrowCircleUp2' : 'ArrowCircleDown2'}
+                    variant="Bold"
+                  />
+                  <Typography.Text type={change >= 0 ? 'success' : 'danger'}>
+                    {numeric(Math.abs(change)).format('0.[0]')}%
+                  </Typography.Text>
+                </Space>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Col>
