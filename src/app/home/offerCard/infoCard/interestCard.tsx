@@ -13,7 +13,11 @@ const InterestCard = () => {
             <Typography.Title style={{ color: '#1A63FF' }} level={5}>
               3%
             </Typography.Title>
-            <Tooltip title="Compared to the reference market price on CoinGecko.">
+            <Tooltip
+              title="Compared to the reference market price on CoinGecko."
+              placement="topRight"
+              arrowPointAtCenter
+            >
               <Button
                 type="text"
                 size="small"
