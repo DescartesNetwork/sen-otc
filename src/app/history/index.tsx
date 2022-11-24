@@ -5,6 +5,7 @@ import { Button, Col, Row, Space, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import BuySellFilter from 'components/filters/buySellFilter'
 import { TokenSelectionLite } from 'components/tokenSelect'
+import HistoryTable from './historyTable'
 
 import { useAction, useOfferedToken } from 'hooks/useFilter'
 import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
@@ -53,6 +54,9 @@ const History = () => {
               </Space>
             </Col>
           </Row>
+        </Col>
+        <Col span={24}>
+          <HistoryTable />
         </Col>
       </Row>
     </MaxWidthLayout>
