@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Col, Layout, Row } from 'antd'
-import ProtectedRoute from 'components/protectedRoute'
+import { ProtectedRoute, ProtectedNavigator } from 'components/protected'
 import Header from './header'
 import Footer from './footer'
 import Watcher from './watcher'
@@ -21,7 +21,14 @@ const App = () => {
         </Col>
         <Col span={24}>
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route
+              path="/home"
+              element={
+                <ProtectedNavigator>
+                  <Home />
+                </ProtectedNavigator>
+              }
+            />
             <Route
               path="/create-offer"
               element={
@@ -31,7 +38,7 @@ const App = () => {
               }
             />
             <Route
-              path="/my-offer"
+              path="/my-offer/:id"
               element={
                 <ProtectedRoute onlyAdmin>
                   <MyOffer />

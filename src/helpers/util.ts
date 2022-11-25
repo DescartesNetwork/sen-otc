@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js'
+import { isAddress } from '@sentre/otc'
 import axios from 'axios'
 import numbro from 'numbro'
 
@@ -36,22 +36,6 @@ export const getTokenMetadata = async (ticket: string) => {
     'https://api.coingecko.com/api/v3/coins/' + ticket,
   )
   return data
-}
-
-/**
- * Validate Solana address
- * @param address Solana address
- * @returns true/false
- */
-export const isAddress = (address: string | undefined): address is string => {
-  if (!address) return false
-  try {
-    const publicKey = new PublicKey(address)
-    if (!publicKey) throw new Error('Invalid public key')
-    return true
-  } catch (er) {
-    return false
-  }
 }
 
 /**

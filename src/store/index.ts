@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { env } from 'configs/env'
+
+import { devTools, serializationMiddleware } from './devTools'
 
 import ui from './ui.reducer'
 import filter from './filter.reducer'
 import wallet from './wallet.reducer'
+import order from './order.reducer'
 
 /**
  * Root types
@@ -15,11 +17,14 @@ export type AppDispatch = typeof store.dispatch
  * Root store
  */
 const store = configureStore({
-  devTools: env === 'development' ? { name: 'kylan' } : false,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware(serializationMiddleware),
+  devTools: devTools('kylan'),
   reducer: {
     ui,
     filter,
     wallet,
+    order,
   },
 })
 

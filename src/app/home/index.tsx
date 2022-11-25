@@ -1,7 +1,3 @@
-import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useWallet } from '@solana/wallet-adapter-react'
-
 import { Col, Divider, Row } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Navigation from './navigation'
@@ -10,17 +6,6 @@ import Filter from './filter'
 import OfferCard from './offerCard'
 
 const Home = () => {
-  const navigate = useNavigate()
-  const { search } = useLocation()
-  const { publicKey } = useWallet()
-
-  // Redirect callback
-  useEffect(() => {
-    const params = new URLSearchParams(search)
-    const redirect = params.get('redirect')
-    if (publicKey && redirect) navigate(decodeURIComponent(redirect))
-  }, [publicKey, navigate, search])
-
   return (
     <MaxWidthLayout>
       <Row gutter={[24, 24]}>
