@@ -6,6 +6,7 @@ import ui from './ui.reducer'
 import filter from './filter.reducer'
 import wallet from './wallet.reducer'
 import order from './order.reducer'
+import newOrder from './newOrder.reducer'
 
 /**
  * Root types
@@ -25,6 +26,7 @@ const store = configureStore({
     filter,
     wallet,
     order,
+    newOrder,
   },
 })
 

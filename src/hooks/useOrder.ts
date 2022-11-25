@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { AppState } from 'store'
 import { OrderState } from 'store/order.reducer'
 import { AcceptedPaymentMetadata } from 'helpers/acceptedPayments'
-import { OtcAction } from 'components/filters/buySellFilter'
 import configs from 'configs'
 
 const {
@@ -12,11 +11,11 @@ const {
 
 /**
  * Buy/Sell filter
- * @param orders
+ * @param action
  * @returns
  */
-export const otcActionSelector = (action: OtcAction = OtcAction.Buy) => {
-  const key = action === OtcAction.Buy ? 'aToken' : 'bToken'
+export const otcActionSelector = (action: OtcMode = 'Buy') => {
+  const key = action === 'Buy' ? 'aToken' : 'bToken'
   return (orders: OrderState) => {
     let filteredOrders: OrderState = {}
     Object.keys(orders).forEach((orderAddress) => {

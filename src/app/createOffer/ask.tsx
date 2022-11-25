@@ -6,13 +6,13 @@ import TokenSelection from 'components/tokenSelect'
 import configs from 'configs'
 
 const {
-  otc: { acceptedPayments },
+  otc: { partneredTokens },
 } = configs
 const MODE = ['Price', 'Amount']
 
 const Ask = () => {
   const [mode, setMode] = useState('Price')
-  const [symbol, setSymbol] = useState('SOL')
+  const [symbol, setSymbol] = useState('SNTR')
 
   return (
     <Row gutter={[8, 8]}>
@@ -42,7 +42,7 @@ const Ask = () => {
         <Row gutter={[8, 8]} align="middle">
           <Col>
             <TokenSelection
-              options={acceptedPayments}
+              options={partneredTokens}
               value={symbol}
               onChange={setSymbol}
             />

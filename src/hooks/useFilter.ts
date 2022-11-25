@@ -1,4 +1,3 @@
-import { OtcAction } from 'components/filters/buySellFilter'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -16,7 +15,7 @@ export const useAction = () => {
   const dispatch = useDispatch<AppDispatch>()
   const action = useSelector(({ filter }: AppState) => filter.action)
   const onAction = useCallback(
-    (value: OtcAction) => dispatch(setAction(value)),
+    (value: OtcMode) => dispatch(setAction(value)),
     [dispatch],
   )
   return [action, onAction] as [typeof action, typeof onAction]

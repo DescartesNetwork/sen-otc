@@ -1,6 +1,7 @@
 import { isAddress } from '@sentre/otc'
 import axios from 'axios'
 import numbro from 'numbro'
+import BN from 'bn.js'
 
 import { net } from 'configs/net'
 
@@ -48,4 +49,31 @@ export const explorer = (addressOrTxId: string): string => {
     return `https://solscan.io/account/${addressOrTxId}?cluster=${net}`
   }
   return `https://solscan.io/tx/${addressOrTxId}?cluster=${net}`
+}
+
+/**
+ * Decimalize
+ * @param amount
+ * @param decimals
+ * @returns
+ */
+export const decimalize = (amount: BN, decimals: number): number => {
+  const e = new BN(10 ** decimals)
+  const natural = amount.div(e).toString()
+  const residue = amount.sub(amount.div(e).mul(e)).toString()
+  return parseFloat(`${natural}.${residue}`)
+}
+
+/**
+ * Undecimalize
+ * @param amount
+ * @param decimals
+ * @returns
+ */
+export const undecimalize = (amount: number, decimals: number): BN => {
+  const e = new BN(10 ** decimals)
+  let [natural, residue] = amount.toString().split('.')
+  residue = residue || ''
+  while (residue.length < decimals) residue = residue + '0'
+  return new BN(natural).mul(e).add(new BN(residue.substring(0, decimals)))
 }

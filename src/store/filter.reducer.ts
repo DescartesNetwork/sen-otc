@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { OtcAction } from 'components/filters/buySellFilter'
 
 /**
  * Interface & Utility
@@ -14,7 +13,7 @@ export enum SortedBy {
 }
 
 export type FilterState = {
-  action: OtcAction
+  action: OtcMode
   paymentMethod: string
   offeredToken: string
   keyword: string
@@ -27,7 +26,7 @@ export type FilterState = {
 
 const NAME = 'filter'
 const initialState: FilterState = {
-  action: OtcAction.Buy,
+  action: 'Buy',
   paymentMethod: 'USDC',
   offeredToken: 'USDC',
   keyword: '',
@@ -40,7 +39,7 @@ const initialState: FilterState = {
 
 export const setAction = createAsyncThunk(
   `${NAME}/setAction`,
-  async (action: OtcAction) => {
+  async (action: OtcMode) => {
     return { action }
   },
 )

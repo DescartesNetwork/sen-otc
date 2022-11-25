@@ -1,23 +1,18 @@
 import { Segmented } from 'antd'
 
-export enum OtcAction {
-  Buy = 'Buy',
-  Sell = 'Sell',
-}
-
 export type BuySellFilterProps = {
-  value: OtcAction
-  onChange: (value: OtcAction) => void
+  value: OtcMode
+  onChange: (value: OtcMode) => void
 }
 
 const BuySellFilter = ({
-  value = OtcAction.Buy,
+  value = 'Buy',
   onChange = () => {},
 }: BuySellFilterProps) => {
   return (
     <Segmented
       size="large"
-      options={Object.values(OtcAction)}
+      options={['Buy', 'Sell']}
       value={value}
       style={{ padding: 6 }}
       onChange={(e: any) => onChange(e)}

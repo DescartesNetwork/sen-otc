@@ -1,9 +1,8 @@
 import { useMemo } from 'react'
-import { BN } from 'bn.js'
 
 import { Typography } from 'antd'
 
-import { numeric } from 'helpers/util'
+import { decimalize, numeric } from 'helpers/util'
 import { useMetadataByAddress } from 'hooks/useToken'
 import { useBalance } from 'hooks/useWallet'
 
@@ -17,7 +16,7 @@ const TokenBalance = ({ mintAddress }: TokenBalanceProps) => {
 
   const balance = useMemo(() => {
     if (typeof decimals !== 'number') return 0
-    return amount.div(new BN(10 ** decimals)).toNumber()
+    return decimalize(amount, decimals)
   }, [decimals, amount])
 
   return (

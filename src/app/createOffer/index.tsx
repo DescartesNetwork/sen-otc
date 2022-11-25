@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 
 import IconSax from '@sentre/antd-iconsax'
-import { Button, Col, DatePicker, Row, Space, Typography, Upload } from 'antd'
+import { Button, Col, Row, Space, Typography, Upload } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
+import Mode from './mode'
 import Ask from './ask'
 import Bid from './bid'
+import StartedAt from './startedAt'
+import EndedAt from './endedAt'
 
 const CreateOffer = () => {
   const navigate = useNavigate()
@@ -15,6 +18,9 @@ const CreateOffer = () => {
         <Col span={24}>
           <Typography.Title level={2}>Create an Offer</Typography.Title>
         </Col>
+        <Col span={24} style={{ textAlign: 'end' }}>
+          <Mode />
+        </Col>
         <Col span={24}>
           <Bid />
         </Col>
@@ -22,24 +28,10 @@ const CreateOffer = () => {
           <Ask />
         </Col>
         <Col span={12}>
-          <Row gutter={[8, 8]}>
-            <Col span={24}>
-              <Typography.Text type="secondary">STARTED AT</Typography.Text>
-            </Col>
-            <Col span={24}>
-              <DatePicker size="large" style={{ width: '100%' }} showTime />
-            </Col>
-          </Row>
+          <StartedAt />
         </Col>
         <Col span={12}>
-          <Row gutter={[8, 8]}>
-            <Col span={24}>
-              <Typography.Text type="secondary">ENDED AT</Typography.Text>
-            </Col>
-            <Col span={24}>
-              <DatePicker size="large" style={{ width: '100%' }} showTime />
-            </Col>
-          </Row>
+          <EndedAt />
         </Col>
         <Col span={24}>
           <Row gutter={[8, 8]}>
