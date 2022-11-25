@@ -12,9 +12,12 @@ import Sort from './sort'
 import BuySellFilter from 'components/filters/buySellFilter'
 import { TokenSelectionLite } from 'components/tokenSelect'
 
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
+import configs from 'configs'
 
-const SYMBOLS = ACCEPTED_PAYMENTS.map(({ symbol }) => symbol)
+const {
+  otc: { acceptedPayments },
+} = configs
+const SYMBOLS = acceptedPayments.map(({ symbol }) => symbol)
 
 const Filter = () => {
   const [action, setAction] = useAction()

@@ -13,6 +13,10 @@ export enum Role {
   Admin,
 }
 
+/**
+ * Get role
+ * @returns
+ */
 export const useRole = () => {
   const { publicKey } = useWallet()
   if (!publicKey) return Role.Guest
@@ -20,16 +24,28 @@ export const useRole = () => {
   return Role.User
 }
 
+/**
+ * Get checked permission (whether role is in the predefined roles)
+ * @returns
+ */
 export const usePremission = (roles: Role[] = []) => {
   const role = useRole()
   return roles.includes(role)
 }
 
+/**
+ * Get checked login
+ * @returns
+ */
 export const useIsLoggedIn = () => {
   const { publicKey } = useWallet()
   return !!publicKey
 }
 
+/**
+ * Get login function
+ * @returns
+ */
 export const useLogIn = () => {
   const isLoggedIn = useIsLoggedIn()
   const { visible, setVisible } = useWalletModal()

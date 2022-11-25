@@ -1,8 +1,13 @@
 import { Avatar, Card, Col, Row, Space, Typography } from 'antd'
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
+
+import configs from 'configs'
 import { numeric } from 'helpers/util'
 
-const sol = ACCEPTED_PAYMENTS[0]
+const {
+  otc: {
+    acceptedPayments: [sol],
+  },
+} = configs
 
 const BalanceCard = () => {
   return (

@@ -7,9 +7,9 @@ import { Role, useLogIn, usePremission } from 'hooks/useAuth'
 
 const Navigation = () => {
   const navigate = useNavigate()
+  const login = useLogIn()
   const isUser = usePremission([Role.Admin, Role.User])
   const isAdmin = usePremission([Role.Admin])
-  const login = useLogIn()
 
   return (
     <Row gutter={[8, 8]} align="middle">

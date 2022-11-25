@@ -1,14 +1,19 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { Col, Input, Row, Typography } from 'antd'
-import TokenSelection, { parseToken } from 'components/tokenSelect'
+import TokenSelection from 'components/tokenSelect'
+import TokenBalance from './balance'
 
-import { numeric } from 'helpers/util'
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
+import configs from 'configs'
+import { useMetadataBySymbol } from 'hooks/useToken'
+
+const {
+  otc: { acceptedPayments },
+} = configs
 
 const Bid = () => {
   const [symbol, setSymbol] = useState('USDC')
-  const token = useMemo(() => parseToken(symbol), [symbol])
+  const { address } = useMetadataBySymbol(symbol) || {}
 
   return (
     <Row gutter={[8, 8]}>
@@ -18,9 +23,7 @@ const Bid = () => {
             <Typography.Text type="secondary">BID</Typography.Text>
           </Col>
           <Col>
-            <Typography.Text type="secondary">
-              Balance: {numeric(1928639824).format('0,0.[000]')} {symbol}
-            </Typography.Text>
+            <TokenBalance mintAddress={address || ''} />
           </Col>
         </Row>
       </Col>
@@ -28,13 +31,13 @@ const Bid = () => {
         <Row gutter={[8, 8]} align="middle">
           <Col>
             <TokenSelection
-              options={ACCEPTED_PAYMENTS}
+              options={acceptedPayments}
               value={symbol}
               onChange={setSymbol}
             />
           </Col>
           <Col flex="auto">
-            <Input size="large" placeholder={`Amount of ${token?.symbol}`} />
+            <Input size="large" placeholder={`Amount of ${symbol}`} />
           </Col>
         </Row>
       </Col>

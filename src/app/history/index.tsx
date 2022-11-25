@@ -8,8 +8,12 @@ import { TokenSelectionLite } from 'components/tokenSelect'
 import HistoryTable from './historyTable'
 import Portfolio from './portfolio'
 
+import configs from 'configs'
 import { useAction, useOfferedToken } from 'hooks/useFilter'
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
+
+const {
+  otc: { acceptedPayments },
+} = configs
 
 const History = () => {
   const navigate = useNavigate()
@@ -50,7 +54,7 @@ const History = () => {
                 <TokenSelectionLite
                   options={[
                     'All',
-                    ...ACCEPTED_PAYMENTS.map(({ symbol }) => symbol),
+                    ...acceptedPayments.map(({ symbol }) => symbol),
                   ]}
                   value={offeredToken}
                   onChange={setOfferedToken}

@@ -3,8 +3,11 @@ import { useState } from 'react'
 import { Col, Input, Row, Segmented, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
 
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
+import configs from 'configs'
 
+const {
+  otc: { acceptedPayments },
+} = configs
 const MODE = ['Price', 'Amount']
 
 const Ask = () => {
@@ -39,7 +42,7 @@ const Ask = () => {
         <Row gutter={[8, 8]} align="middle">
           <Col>
             <TokenSelection
-              options={ACCEPTED_PAYMENTS}
+              options={acceptedPayments}
               value={symbol}
               onChange={setSymbol}
             />

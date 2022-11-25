@@ -1,16 +1,27 @@
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
-
-import { ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
-import { numeric } from 'helpers/util'
-import { useAction } from 'hooks/useFilter'
 import InfoCard from './infoCard'
 
-const sol = ACCEPTED_PAYMENTS[0]
-const stable = ACCEPTED_PAYMENTS[1]
+import configs from 'configs'
+import { numeric } from 'helpers/util'
+import { useAction } from 'hooks/useFilter'
+import { useOrderSelector } from 'hooks/useOrder'
 
-const OfferCard = () => {
+const {
+  otc: {
+    acceptedPayments: [sol, stable],
+  },
+} = configs
+
+export type OfferCardProps = {
+  address: string
+}
+
+const OfferCard = ({ address }: OfferCardProps) => {
   const [action] = useAction()
+
+  const order = useOrderSelector((orders) => orders[address])
+  console.log(order)
 
   return (
     <Row gutter={[12, 12]}>

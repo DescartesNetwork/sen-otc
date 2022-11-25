@@ -6,7 +6,7 @@ import system from './system.config'
 
 const configs = {
   sol: sol[net],
-  otc: otc[env],
+  otc: otc[net],
   system: system[env],
 }
 

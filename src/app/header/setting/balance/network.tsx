@@ -6,9 +6,6 @@ const Network = () => {
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
-        <Typography.Text type="secondary">NETWORK</Typography.Text>
-      </Col>
-      <Col span={24}>
         <Segmented
           size="large"
           style={{ padding: 6 }}
@@ -21,6 +18,11 @@ const Network = () => {
           onChange={(e: any) => switchNetwork(e)}
           block
         />
+      </Col>
+      <Col span={24} style={{ textAlign: 'end' }}>
+        <Typography.Paragraph type="secondary" style={{ fontSize: 10 }}>
+          * The browser will be reloaded while changing network
+        </Typography.Paragraph>
       </Col>
     </Row>
   )

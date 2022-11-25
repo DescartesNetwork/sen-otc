@@ -5,7 +5,7 @@ import { SenOtcEvents } from '@sentre/otc'
 
 import { AppDispatch } from 'store'
 import { OrderState, updateOrder } from 'store/order.reducer'
-import { useOtc } from 'hooks/useOtc'
+import { useOtc } from 'hooks/useProvider'
 
 const EVENTS: Array<keyof SenOtcEvents> = [
   'MakeOrderEvent',

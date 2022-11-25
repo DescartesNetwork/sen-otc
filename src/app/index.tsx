@@ -38,7 +38,7 @@ const App = () => {
               }
             />
             <Route
-              path="/my-offer/:id"
+              path="/my-offer"
               element={
                 <ProtectedRoute onlyAdmin>
                   <MyOffer />

@@ -3,6 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Row, Space, Tooltip, Typography } from 'antd'
+import Network from './network'
 
 import { useLamports } from 'hooks/useWallet'
 import { numeric, explorer } from 'helpers/util'
@@ -22,7 +23,7 @@ const Balance = () => {
   }, [refreshPrice, refreshChange])
 
   return (
-    <Row gutter={[12, 12]}>
+    <Row gutter={[24, 24]}>
       <Col span={24}>
         <Row gutter={[8, 8]} wrap={false} align="middle">
           <Col flex="auto">
@@ -107,6 +108,9 @@ const Balance = () => {
             </Row>
           </Col>
         </Row>
+      </Col>
+      <Col span={24}>
+        <Network />
       </Col>
     </Row>
   )

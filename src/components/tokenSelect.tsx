@@ -3,11 +3,7 @@ import { CSSProperties, useMemo } from 'react'
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Card, Select, Space } from 'antd'
 
-import { AcceptedPayment, ACCEPTED_PAYMENTS } from 'helpers/acceptedPayments'
-
-export const parseToken = (symbol: string) => {
-  return ACCEPTED_PAYMENTS.find((token) => token.symbol === symbol)
-}
+import { AcceptedPayment } from 'helpers/acceptedPayments'
 
 export type TokenSelectionLiteProps = {
   options: string[]

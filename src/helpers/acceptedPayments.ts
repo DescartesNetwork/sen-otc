@@ -7,7 +7,24 @@ export type AcceptedPaymentMetadata = {
 
 export type AcceptedPayment = AcceptedPaymentMetadata[]
 
-export const ACCEPTED_PAYMENTS: AcceptedPayment = [
+export const ACCEPTED_PAYMENTS_DEVNET: AcceptedPayment = [
+  {
+    address: 'So11111111111111111111111111111111111111112',
+    symbol: 'SOL',
+    decimals: 9,
+    url: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+  },
+  {
+    address: '2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj',
+    symbol: 'USDC',
+    decimals: 9,
+    url: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
+  },
+]
+
+export const ACCEPTED_PAYMENTS_TESTNET: AcceptedPayment = []
+
+export const ACCEPTED_PAYMENTS_MAINNET: AcceptedPayment = [
   {
     address: 'So11111111111111111111111111111111111111112',
     symbol: 'SOL',

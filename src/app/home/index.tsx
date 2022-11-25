@@ -5,7 +5,14 @@ import Stat from './stat'
 import Filter from './filter'
 import OfferCard from './offerCard'
 
+import { otcActionSelector, useOrderSelector } from 'hooks/useOrder'
+import { useAction } from 'hooks/useFilter'
+
 const Home = () => {
+  const [action] = useAction()
+  const orders = useOrderSelector(otcActionSelector(action))
+  console.log(orders)
+
   return (
     <MaxWidthLayout>
       <Row gutter={[24, 24]}>
@@ -23,8 +30,8 @@ const Home = () => {
         </Col>
         <Col span={24} style={{ marginTop: 12 }}>
           <Row gutter={[24, 24]}>
-            {[1, 2, 3, 4].map((key, i) => (
-              <Col key={key} span={24}>
+            {Object.keys(orders).map((address, i) => (
+              <Col key={address} span={24}>
                 <Row gutter={[12, 12]}>
                   {i > 0 && (
                     <Col span={24}>
@@ -32,7 +39,7 @@ const Home = () => {
                     </Col>
                   )}
                   <Col span={24}>
-                    <OfferCard />
+                    <OfferCard address={address} />
                   </Col>
                 </Row>
               </Col>
