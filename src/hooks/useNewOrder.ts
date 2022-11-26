@@ -125,3 +125,21 @@ export const useAskAmount = () => {
 
   return { askAmount, setAskAmount }
 }
+
+/**
+ * Ask price state
+ * @returns
+ */
+export const useAskPrice = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const askPrice = useSelector(({ newOrder }: AppState) => newOrder.askPrice)
+
+  const setAskPrice = useCallback(
+    async (askPrice: string) => {
+      return dispatch(updateNewOrder({ askPrice }))
+    },
+    [dispatch],
+  )
+
+  return { askPrice, setAskPrice }
+}

@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Input, Row, Typography } from 'antd'
@@ -34,9 +34,10 @@ const Bid = () => {
     [setBidAmount],
   )
 
-  useEffect(() => {
-    setValue(bidAmount)
-  }, [bidAmount])
+  const onClear = useCallback(() => {
+    setBidAmount('')
+    return setValue('')
+  }, [setBidAmount])
 
   return (
     <Row gutter={[8, 8]}>
@@ -71,8 +72,9 @@ const Bid = () => {
                   shape="circle"
                   size="small"
                   icon={<IconSax name="CloseCircle" />}
-                  onClick={() => setBidAmount('')}
+                  onClick={onClear}
                   loading={loading}
+                  disabled={!bidAmount}
                 />
               }
             />

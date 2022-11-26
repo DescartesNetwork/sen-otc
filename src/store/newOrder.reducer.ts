@@ -10,6 +10,7 @@ export type NewOrderState = {
   bidAmount: string
   askToken: string
   askAmount: string
+  askPrice: string
   startedAt: string
   endedAt: string
 }
@@ -25,6 +26,7 @@ const initialState: NewOrderState = {
   bidAmount: '',
   askToken: '',
   askAmount: '',
+  askPrice: '',
   startedAt: '',
   endedAt: '',
 }

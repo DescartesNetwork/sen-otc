@@ -1,11 +1,12 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
+import { SegmentedValue } from 'antd/es/segmented'
 
+import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Input, Row, Segmented, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
 
 import configs from 'configs'
-import { useAskAmount, useAskToken } from 'hooks/useNewOrder'
-import IconSax from '@sentre/antd-iconsax'
+import { useAskAmount, useAskPrice, useAskToken } from 'hooks/useNewOrder'
 
 const {
   otc: { partneredTokens },
@@ -19,23 +20,40 @@ const Ask = () => {
   const [method, setMethod] = useState('Price')
   const { askToken, setAskToken } = useAskToken('SNTR')
   const { askAmount, setAskAmount } = useAskAmount()
+  const { askPrice, setAskPrice } = useAskPrice()
 
-  const onAskAmount = useCallback(
+  const onInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       clearTimeout(timeoutId)
       setLoading(true)
       setValue(e.target.value)
       timeoutId = setTimeout(() => {
         setLoading(false)
-        return setAskAmount(e.target.value)
+        if (method === 'Price') {
+          setAskAmount('')
+          setAskPrice(e.target.value)
+        } else {
+          setAskPrice('')
+          setAskAmount(e.target.value)
+        }
       }, 500)
     },
-    [setAskAmount],
+    [setAskAmount, setAskPrice, method],
   )
 
-  useEffect(() => {
-    setValue(askAmount)
-  }, [askAmount])
+  const onClear = useCallback(() => {
+    setAskAmount('')
+    setAskPrice('')
+    return setValue('')
+  }, [setAskAmount, setAskPrice])
+
+  const onSwitch = useCallback(
+    (value: SegmentedValue) => {
+      setMethod(value.toString())
+      return onClear()
+    },
+    [onClear],
+  )
 
   return (
     <Row gutter={[8, 8]}>
@@ -56,7 +74,7 @@ const Ask = () => {
                 value,
               }))}
               value={method}
-              onChange={(e) => setMethod(e.toString())}
+              onChange={onSwitch}
             />
           </Col>
         </Row>
@@ -75,15 +93,16 @@ const Ask = () => {
               size="large"
               placeholder={`${method} of ${askToken}`}
               value={value}
-              onChange={onAskAmount}
+              onChange={onInput}
               suffix={
                 <Button
                   type="text"
                   shape="circle"
                   size="small"
                   icon={<IconSax name="CloseCircle" />}
-                  onClick={() => setAskAmount('')}
+                  onClick={onClear}
                   loading={loading}
+                  disabled={!askAmount && !askPrice}
                 />
               }
             />
