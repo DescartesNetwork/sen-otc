@@ -4,12 +4,13 @@ import { Button, Col, Row, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Mode from './mode'
 import BuyMode from './buyMode'
+import SellMode from './sellMode'
+import Price from './price'
 import StartedAt from './startedAt'
 import EndedAt from './endedAt'
 import Whitelist from './whitelist'
 
 import { useMode } from 'hooks/useNewOrder'
-import SellMode from './sellMode'
 
 const CreateOffer = () => {
   const navigate = useNavigate()
@@ -25,6 +26,9 @@ const CreateOffer = () => {
           <Mode />
         </Col>
         <Col span={24}>{mode === 'Buy' ? <BuyMode /> : <SellMode />}</Col>
+        <Col span={24}>
+          <Price />
+        </Col>
         <Col span={12}>
           <StartedAt />
         </Col>

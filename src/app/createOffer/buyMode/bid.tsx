@@ -18,7 +18,7 @@ const Bid = () => {
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
-        <Row gutter={[8, 8]} wrap={false}>
+        <Row gutter={[8, 8]}>
           <Col flex="auto">
             <Typography.Text type="secondary">BID</Typography.Text>
           </Col>
@@ -40,9 +40,6 @@ const Bid = () => {
             <Input size="large" placeholder={`Amount of ${symbol}`} />
           </Col>
         </Row>
-      </Col>
-      <Col span={24} style={{ textAlign: 'end' }}>
-        <Typography.Text type="secondary">Reference Price: $0</Typography.Text>
       </Col>
     </Row>
   )

@@ -52,9 +52,6 @@ const Ask = () => {
           </Col>
         </Row>
       </Col>
-      <Col span={24} style={{ textAlign: 'end' }}>
-        <Typography.Text type="secondary">Offered Price: $0</Typography.Text>
-      </Col>
     </Row>
   )
 }
