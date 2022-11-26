@@ -109,7 +109,7 @@ const OfferedAmount = () => {
         {numeric(offeredAmount).format('0,0.[0000]')}
       </Typography.Title>
       <Space size={0}>
-        <Typography.Text type="secondary">Offered Amount</Typography.Text>
+        <Typography.Text type="secondary">Estimated Amount</Typography.Text>
         <Divider type="vertical" />
         <Typography.Text type="secondary">{offeredUnit}</Typography.Text>
       </Space>
@@ -117,7 +117,7 @@ const OfferedAmount = () => {
   )
 }
 
-const Price = () => {
+const Stat = () => {
   return (
     <Row gutter={[12, 12]}>
       <Col xs={24} md={12}>
@@ -139,4 +139,4 @@ const Price = () => {
   )
 }
 
-export default Price
+export default Stat

@@ -5,7 +5,7 @@ import MaxWidthLayout from 'components/maxWidthLayout'
 import Mode from './mode'
 import BuyMode from './buyMode'
 import SellMode from './sellMode'
-import Price from './price'
+import Stat from './stat'
 import StartedAt from './startedAt'
 import EndedAt from './endedAt'
 import Whitelist from './whitelist'
@@ -27,7 +27,7 @@ const CreateOffer = () => {
         </Col>
         <Col span={24}>{mode === 'Buy' ? <BuyMode /> : <SellMode />}</Col>
         <Col span={24}>
-          <Price />
+          <Stat />
         </Col>
         <Col span={12}>
           <StartedAt />
