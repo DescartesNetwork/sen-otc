@@ -4,13 +4,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from 'store'
 import { updateNewOrder } from 'store/newOrder.reducer'
 
+/**
+ * Mode
+ * @returns
+ */
 export const useMode = () => {
   const dispatch = useDispatch<AppDispatch>()
   const mode = useSelector(({ newOrder }: AppState) => newOrder.mode)
 
   const setMode = useCallback(
     async (mode: OtcMode) => {
-      return dispatch(updateNewOrder({ mode }))
+      return dispatch(
+        updateNewOrder({
+          mode,
+          bidToken: '',
+          bidAmount: '',
+          askToken: '',
+          askAmount: '',
+          askPrice: '',
+        }),
+      )
     },
     [dispatch],
   )
@@ -18,6 +31,10 @@ export const useMode = () => {
   return { mode, setMode }
 }
 
+/**
+ * Started at
+ * @returns
+ */
 export const useStartedAt = () => {
   const dispatch = useDispatch<AppDispatch>()
   const startedAt = useSelector(({ newOrder }: AppState) => newOrder.startedAt)
@@ -32,6 +49,10 @@ export const useStartedAt = () => {
   return [startedAt, setStartedAt] as [typeof startedAt, typeof setStartedAt]
 }
 
+/**
+ * Ended at
+ * @returns
+ */
 export const useEndedAt = () => {
   const dispatch = useDispatch<AppDispatch>()
   const endedAt = useSelector(({ newOrder }: AppState) => newOrder.endedAt)

@@ -11,13 +11,13 @@ import { useAskAmount, useAskPrice, useAskToken } from 'hooks/useNewOrder'
 const {
   otc: { partneredTokens },
 } = configs
-const METHOD = ['Price', 'Amount']
+const METHOD = ['Amount', 'Price']
 let timeoutId: ReturnType<typeof setTimeout>
 
 const Ask = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
-  const [method, setMethod] = useState('Price')
+  const [method, setMethod] = useState('Amount')
   const { askToken, setAskToken } = useAskToken('SNTR')
   const { askAmount, setAskAmount } = useAskAmount()
   const { askPrice, setAskPrice } = useAskPrice()
@@ -29,12 +29,12 @@ const Ask = () => {
       setValue(e.target.value)
       timeoutId = setTimeout(() => {
         setLoading(false)
-        if (method === 'Price') {
-          setAskAmount('')
-          setAskPrice(e.target.value)
-        } else {
+        if (method === 'Amount') {
           setAskPrice('')
           setAskAmount(e.target.value)
+        } else {
+          setAskAmount('')
+          setAskPrice(e.target.value)
         }
       }, 500)
     },
