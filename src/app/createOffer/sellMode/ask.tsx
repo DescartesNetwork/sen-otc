@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Input, Row, Segmented, Typography } from 'antd'
@@ -33,8 +33,11 @@ const Ask = () => {
 
   const onClear = useCallback(() => {
     setAskAmount('')
-    return setValue('')
   }, [setAskAmount])
+
+  useEffect(() => {
+    setValue(askAmount)
+  }, [askAmount])
 
   return (
     <Row gutter={[8, 8]}>

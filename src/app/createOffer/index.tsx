@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isAddress } from '@sentre/otc'
 import { BN } from 'bn.js'
 
-import { Button, Col, Row, Typography } from 'antd'
+import { Button, Col, message, Row, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Mode from './mode'
 import BuyMode from './buyMode'
@@ -24,7 +24,7 @@ import {
   useStartedAt,
 } from 'hooks/useNewOrder'
 import { useOtc } from 'hooks/useProvider'
-import { useMetadataByAddress, useMetadataBySymbol } from 'hooks/useToken'
+import { useMetadataBySymbol } from 'hooks/useToken'
 import { decimalize } from 'helpers/util'
 
 const ZERO = new BN(0)
@@ -32,6 +32,7 @@ const ZERO = new BN(0)
 const CreateOffer = () => {
   const navigate = useNavigate()
   const otc = useOtc()
+  const [loading, setLoading] = useState(false)
   const { mode } = useMode()
   const { bidToken } = useBidToken()
   const { address: aTokenAddress, decimals: aDecimals } =
@@ -39,7 +40,7 @@ const CreateOffer = () => {
   const { bidAmount } = useBidAmount()
   const { askToken } = useAskToken()
   const { address: bTokenAddress, decimals: bDecimals } =
-    useMetadataByAddress(askToken) || {}
+    useMetadataBySymbol(askToken) || {}
   const { askAmount } = useAskAmount()
   const { askPrice } = useAskPrice()
   const { startedAt } = useStartedAt()
@@ -69,21 +70,31 @@ const CreateOffer = () => {
   }, [endedAt])
 
   const onCreate = useCallback(async () => {
-    if (
-      !isAddress(aTokenAddress) ||
-      !isAddress(bTokenAddress) ||
-      !aTokenAmount.eq(ZERO)
-    )
-      return
-    const txId = await otc.makeOrder({
-      aTokenAddress,
-      aTokenAmount,
-      bTokenAddress,
-      bTokenAmount,
-      startDate,
-      endDate,
-    })
-    console.log(txId)
+    try {
+      setLoading(true)
+      if (
+        !isAddress(aTokenAddress) ||
+        !isAddress(bTokenAddress) ||
+        aTokenAmount.eq(ZERO) ||
+        bTokenAmount.eq(ZERO) ||
+        startDate.eq(ZERO) ||
+        endDate.eq(ZERO)
+      )
+        return
+      const txId = await otc.makeOrder({
+        aTokenAddress,
+        aTokenAmount,
+        bTokenAddress,
+        bTokenAmount,
+        startDate,
+        endDate,
+      })
+      return console.log(txId)
+    } catch (er: any) {
+      return message.error(er.message)
+    } finally {
+      return setLoading(false)
+    }
   }, [
     otc,
     aTokenAddress,
@@ -132,6 +143,7 @@ const CreateOffer = () => {
             size="large"
             shape="round"
             onClick={onCreate}
+            loading={loading}
             block
           >
             Create

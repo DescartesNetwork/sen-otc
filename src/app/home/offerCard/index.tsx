@@ -2,16 +2,10 @@ import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
 import InfoCard from './infoCard'
 
-import configs from 'configs'
 import { numeric } from 'helpers/util'
 import { useAction } from 'hooks/useFilter'
 import { useOrderSelector } from 'hooks/useOrder'
-
-const {
-  otc: {
-    acceptedPayments: [sol, stable],
-  },
-} = configs
+import { useMetadataByAddress } from 'hooks/useToken'
 
 export type OfferCardProps = {
   address: string
@@ -20,8 +14,11 @@ export type OfferCardProps = {
 const OfferCard = ({ address }: OfferCardProps) => {
   const [action] = useAction()
 
-  const order = useOrderSelector((orders) => orders[address])
-  console.log(order)
+  const { aToken, bToken } = useOrderSelector((orders) => orders[address])
+  const { url: aUrl, symbol: aSymbol } =
+    useMetadataByAddress(aToken.toBase58()) || {}
+  const { url: bUrl, symbol: bSymbol } =
+    useMetadataByAddress(bToken.toBase58()) || {}
 
   return (
     <Row gutter={[12, 12]}>
@@ -29,13 +26,13 @@ const OfferCard = ({ address }: OfferCardProps) => {
         <Space direction="vertical">
           <Typography.Text type="secondary">Offer Price</Typography.Text>
           <Space>
-            <Avatar src={stable.url} size={40} />
+            <Avatar src={aUrl} size={40} />
             <Space direction="vertical" size={0}>
               <Typography.Title level={4}>
                 {numeric(12.129512).format('0,0.[000]')}
               </Typography.Title>
               <Typography.Text type="secondary">
-                {stable.symbol}/{sol.symbol}
+                {aSymbol}/{bSymbol}
               </Typography.Text>
             </Space>
           </Space>
@@ -54,9 +51,9 @@ const OfferCard = ({ address }: OfferCardProps) => {
           </Space>
           <Button type="primary" size="large" shape="round">
             <Space style={{ position: 'relative', top: -3 }}>
-              <Avatar src={sol.url} size={24} />
+              <Avatar src={bUrl} size={24} />
               <Typography.Title level={5} style={{ color: '#ffffff' }}>
-                {action} {sol.symbol}
+                {action} {bSymbol}
               </Typography.Title>
             </Space>
           </Button>

@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { SegmentedValue } from 'antd/es/segmented'
 
 import IconSax from '@sentre/antd-iconsax'
@@ -44,7 +44,6 @@ const Ask = () => {
   const onClear = useCallback(() => {
     setAskAmount('')
     setAskPrice('')
-    return setValue('')
   }, [setAskAmount, setAskPrice])
 
   const onSwitch = useCallback(
@@ -54,6 +53,11 @@ const Ask = () => {
     },
     [onClear],
   )
+
+  useEffect(() => {
+    if (method === 'Amount') setValue(askAmount)
+    else setValue(askPrice)
+  }, [method, askAmount, askPrice])
 
   return (
     <Row gutter={[8, 8]}>
