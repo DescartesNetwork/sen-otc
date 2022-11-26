@@ -14,7 +14,7 @@ import { useMode } from 'hooks/useNewOrder'
 
 const CreateOffer = () => {
   const navigate = useNavigate()
-  const [mode] = useMode()
+  const { mode } = useMode()
 
   return (
     <MaxWidthLayout level={3}>

@@ -15,7 +15,7 @@ export const useMode = () => {
     [dispatch],
   )
 
-  return [mode, setMode] as [typeof mode, typeof setMode]
+  return { mode, setMode }
 }
 
 export const useStartedAt = () => {

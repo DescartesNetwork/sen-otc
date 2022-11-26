@@ -57,7 +57,7 @@ export const usePrice = (ticket: string) => {
     if (error) message.error(error)
   }, [error])
 
-  return [price, refresh] as [typeof price, typeof refresh]
+  return { price, refresh }
 }
 
 /**
@@ -75,5 +75,5 @@ export const use24hChange = (ticket: string) => {
     if (error) message.error(error)
   }, [error])
 
-  return [change, refresh] as [typeof change, typeof refresh]
+  return { change, refresh }
 }

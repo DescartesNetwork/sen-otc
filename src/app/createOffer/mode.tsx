@@ -1,9 +1,10 @@
 import { Space, Typography } from 'antd'
 import BuySellFilter from 'components/filters/buySellFilter'
+
 import { useMode } from 'hooks/useNewOrder'
 
 const Mode = () => {
-  const [mode, setMode] = useMode()
+  const { mode, setMode } = useMode()
 
   return (
     <Space>

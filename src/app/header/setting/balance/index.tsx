@@ -12,8 +12,8 @@ import { usePrice, use24hChange } from 'hooks/useToken'
 const Balance = () => {
   const { publicKey } = useWallet()
   const [lamports] = useLamports()
-  const [price, refreshPrice] = usePrice('solana')
-  const [change, refreshChange] = use24hChange('solana')
+  const { price, refresh: refreshPrice } = usePrice('solana')
+  const { change, refresh: refreshChange } = use24hChange('solana')
 
   const sol = lamports / 10 ** 9
 
