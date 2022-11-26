@@ -3,14 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Col, Row, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Mode from './mode'
-import Ask from './ask'
-import Bid from './bid'
+import BuyMode from './buyMode'
 import StartedAt from './startedAt'
 import EndedAt from './endedAt'
 import Whitelist from './whitelist'
 
+import { useMode } from 'hooks/useNewOrder'
+import SellMode from './sellMode'
+
 const CreateOffer = () => {
   const navigate = useNavigate()
+  const [mode] = useMode()
 
   return (
     <MaxWidthLayout level={3}>
@@ -21,12 +24,7 @@ const CreateOffer = () => {
         <Col span={24} style={{ textAlign: 'end' }}>
           <Mode />
         </Col>
-        <Col span={24}>
-          <Bid />
-        </Col>
-        <Col span={24}>
-          <Ask />
-        </Col>
+        <Col span={24}>{mode === 'Buy' ? <BuyMode /> : <SellMode />}</Col>
         <Col span={12}>
           <StartedAt />
         </Col>

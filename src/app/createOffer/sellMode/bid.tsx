@@ -2,17 +2,17 @@ import { useState } from 'react'
 
 import { Col, Input, Row, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
-import TokenBalance from './balance'
+import TokenBalance from '../balance'
 
 import configs from 'configs'
 import { useMetadataBySymbol } from 'hooks/useToken'
 
 const {
-  otc: { acceptedPayments },
+  otc: { partneredTokens },
 } = configs
 
 const Bid = () => {
-  const [symbol, setSymbol] = useState('USDC')
+  const [symbol, setSymbol] = useState('SNTR')
   const { address } = useMetadataBySymbol(symbol) || {}
 
   return (
@@ -31,7 +31,7 @@ const Bid = () => {
         <Row gutter={[8, 8]} align="middle">
           <Col>
             <TokenSelection
-              options={acceptedPayments}
+              options={partneredTokens}
               value={symbol}
               onChange={setSymbol}
             />
