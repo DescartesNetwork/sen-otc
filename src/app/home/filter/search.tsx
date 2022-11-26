@@ -27,8 +27,6 @@ const Search = ({ keyword = '', onKeyword = () => {} }: SearchProps) => {
     [onKeyword],
   )
 
-  const onClear = useCallback(() => onKeyword(''), [onKeyword])
-
   useEffect(() => {
     setValue(keyword)
   }, [keyword])
@@ -54,7 +52,7 @@ const Search = ({ keyword = '', onKeyword = () => {} }: SearchProps) => {
             shape="circle"
             style={{ marginRight: -3 }}
             icon={<IconSax name="CloseCircle" />}
-            onClick={onClear}
+            onClick={() => onKeyword('')}
             loading={loading}
           />
         )

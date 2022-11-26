@@ -6,6 +6,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export type NewOrderState = {
   mode: OtcMode
+  bidToken: string
+  bidAmount: string
+  askToken: string
+  askAmount: string
   startedAt: string
   endedAt: string
 }
@@ -17,6 +21,10 @@ export type NewOrderState = {
 const NAME = 'newOrder'
 const initialState: NewOrderState = {
   mode: 'Buy',
+  bidToken: '',
+  bidAmount: '',
+  askToken: '',
+  askAmount: '',
   startedAt: '',
   endedAt: '',
 }

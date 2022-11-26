@@ -8,10 +8,8 @@ import configs from 'configs'
 const {
   otc: { acceptedPayments },
 } = configs
-const MODE = ['Price', 'Amount']
 
 const Ask = () => {
-  const [mode, setMode] = useState('Price')
   const [symbol, setSymbol] = useState('USDC')
 
   return (
@@ -24,16 +22,26 @@ const Ask = () => {
           <Col>
             <Segmented
               size="small"
-              options={MODE.map((value) => ({
-                label: (
-                  <Typography.Text style={{ fontSize: 12 }}>
-                    {`By ${value}`}
-                  </Typography.Text>
-                ),
-                value,
-              }))}
-              value={mode}
-              onChange={(e) => setMode(e.toString())}
+              options={[
+                {
+                  label: (
+                    <Typography.Text style={{ fontSize: 12 }} type="secondary">
+                      By Price
+                    </Typography.Text>
+                  ),
+                  value: 'Price',
+                },
+                {
+                  label: (
+                    <Typography.Text style={{ fontSize: 12 }}>
+                      By Amount
+                    </Typography.Text>
+                  ),
+                  value: 'Amount',
+                },
+              ]}
+              value={'Amount'}
+              disabled
             />
           </Col>
         </Row>
@@ -48,7 +56,7 @@ const Ask = () => {
             />
           </Col>
           <Col flex="auto">
-            <Input size="large" placeholder={`${mode} of ${symbol}`} />
+            <Input size="large" placeholder={`Amount of ${symbol}`} />
           </Col>
         </Row>
       </Col>

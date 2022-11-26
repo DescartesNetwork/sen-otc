@@ -1,18 +1,41 @@
-import { useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
-import { Col, Input, Row, Segmented, Typography } from 'antd'
+import { Button, Col, Input, Row, Segmented, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
 
 import configs from 'configs'
+import { useAskAmount, useAskToken } from 'hooks/useNewOrder'
+import IconSax from '@sentre/antd-iconsax'
 
 const {
   otc: { partneredTokens },
 } = configs
-const MODE = ['Price', 'Amount']
+const METHOD = ['Price', 'Amount']
+let timeoutId: ReturnType<typeof setTimeout>
 
 const Ask = () => {
-  const [mode, setMode] = useState('Price')
-  const [symbol, setSymbol] = useState('SNTR')
+  const [loading, setLoading] = useState(false)
+  const [value, setValue] = useState('')
+  const [method, setMethod] = useState('Price')
+  const { askToken, setAskToken } = useAskToken('SNTR')
+  const { askAmount, setAskAmount } = useAskAmount()
+
+  const onAskAmount = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      clearTimeout(timeoutId)
+      setLoading(true)
+      setValue(e.target.value)
+      timeoutId = setTimeout(() => {
+        setLoading(false)
+        return setAskAmount(e.target.value)
+      }, 500)
+    },
+    [setAskAmount],
+  )
+
+  useEffect(() => {
+    setValue(askAmount)
+  }, [askAmount])
 
   return (
     <Row gutter={[8, 8]}>
@@ -24,7 +47,7 @@ const Ask = () => {
           <Col>
             <Segmented
               size="small"
-              options={MODE.map((value) => ({
+              options={METHOD.map((value) => ({
                 label: (
                   <Typography.Text style={{ fontSize: 12 }}>
                     {`By ${value}`}
@@ -32,8 +55,8 @@ const Ask = () => {
                 ),
                 value,
               }))}
-              value={mode}
-              onChange={(e) => setMode(e.toString())}
+              value={method}
+              onChange={(e) => setMethod(e.toString())}
             />
           </Col>
         </Row>
@@ -43,12 +66,27 @@ const Ask = () => {
           <Col>
             <TokenSelection
               options={partneredTokens}
-              value={symbol}
-              onChange={setSymbol}
+              value={askToken}
+              onChange={setAskToken}
             />
           </Col>
           <Col flex="auto">
-            <Input size="large" placeholder={`${mode} of ${symbol}`} />
+            <Input
+              size="large"
+              placeholder={`${method} of ${askToken}`}
+              value={value}
+              onChange={onAskAmount}
+              suffix={
+                <Button
+                  type="text"
+                  shape="circle"
+                  size="small"
+                  icon={<IconSax name="CloseCircle" />}
+                  onClick={() => setAskAmount('')}
+                  loading={loading}
+                />
+              }
+            />
           </Col>
         </Row>
       </Col>

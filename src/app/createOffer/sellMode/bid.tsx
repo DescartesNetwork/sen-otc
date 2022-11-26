@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Col, Input, Row, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
-import TokenBalance from '../balance'
+import TokenBalance from 'components/tokenBalance'
 
 import configs from 'configs'
 import { useMetadataBySymbol } from 'hooks/useToken'

@@ -32,6 +32,10 @@ export const theme: ThemeConfig = {
       ...radius,
       colorBgContainer: '#FAFAFA',
     },
+    InputNumber: {
+      ...radius,
+      colorBgContainer: '#FAFAFA',
+    },
     DatePicker: {
       ...radius,
     },

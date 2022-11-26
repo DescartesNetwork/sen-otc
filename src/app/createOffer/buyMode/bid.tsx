@@ -1,19 +1,42 @@
-import { useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
-import { Col, Input, Row, Typography } from 'antd'
+import IconSax from '@sentre/antd-iconsax'
+import { Button, Col, Input, Row, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
-import TokenBalance from '../balance'
+import TokenBalance from 'components/tokenBalance'
 
 import configs from 'configs'
 import { useMetadataBySymbol } from 'hooks/useToken'
+import { useBidAmount, useBidToken } from 'hooks/useNewOrder'
 
 const {
   otc: { acceptedPayments },
 } = configs
+let timeoutId: ReturnType<typeof setTimeout>
 
 const Bid = () => {
-  const [symbol, setSymbol] = useState('USDC')
-  const { address } = useMetadataBySymbol(symbol) || {}
+  const [loading, setLoading] = useState(false)
+  const [value, setValue] = useState('')
+  const { bidToken, setBidToken } = useBidToken('USDC')
+  const { bidAmount, setBidAmount } = useBidAmount()
+  const { address } = useMetadataBySymbol(bidToken) || {}
+
+  const onBidAmount = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      clearTimeout(timeoutId)
+      setLoading(true)
+      setValue(e.target.value)
+      timeoutId = setTimeout(() => {
+        setLoading(false)
+        return setBidAmount(e.target.value)
+      }, 500)
+    },
+    [setBidAmount],
+  )
+
+  useEffect(() => {
+    setValue(bidAmount)
+  }, [bidAmount])
 
   return (
     <Row gutter={[8, 8]}>
@@ -32,12 +55,27 @@ const Bid = () => {
           <Col>
             <TokenSelection
               options={acceptedPayments}
-              value={symbol}
-              onChange={setSymbol}
+              value={bidToken}
+              onChange={setBidToken}
             />
           </Col>
           <Col flex="auto">
-            <Input size="large" placeholder={`Amount of ${symbol}`} />
+            <Input
+              size="large"
+              placeholder={`Amount of ${bidToken}`}
+              value={value}
+              onChange={onBidAmount}
+              suffix={
+                <Button
+                  type="text"
+                  shape="circle"
+                  size="small"
+                  icon={<IconSax name="CloseCircle" />}
+                  onClick={() => setBidAmount('')}
+                  loading={loading}
+                />
+              }
+            />
           </Col>
         </Row>
       </Col>
