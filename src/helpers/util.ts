@@ -52,12 +52,12 @@ export const explorer = (addressOrTxId: string): string => {
 }
 
 /**
- * Decimalize
+ * Undecimalize
  * @param amount
  * @param decimals
  * @returns
  */
-export const decimalize = (amount: BN, decimals: number): number => {
+export const undecimalize = (amount: BN, decimals: number): number => {
   const e = new BN(10 ** decimals)
   const natural = amount.div(e).toString()
   const residue = amount.sub(amount.div(e).mul(e)).toString()
@@ -65,12 +65,12 @@ export const decimalize = (amount: BN, decimals: number): number => {
 }
 
 /**
- * Undecimalize
+ * Decimalize
  * @param amount
  * @param decimals
  * @returns
  */
-export const undecimalize = (amount: number, decimals: number): BN => {
+export const decimalize = (amount: number, decimals: number): BN => {
   const e = new BN(10 ** decimals)
   let [natural, residue] = amount.toString().split('.')
   residue = residue || ''

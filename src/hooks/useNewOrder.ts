@@ -46,7 +46,7 @@ export const useStartedAt = () => {
     [dispatch],
   )
 
-  return [startedAt, setStartedAt] as [typeof startedAt, typeof setStartedAt]
+  return { startedAt, setStartedAt }
 }
 
 /**
@@ -64,7 +64,7 @@ export const useEndedAt = () => {
     [dispatch],
   )
 
-  return [endedAt, setEndedAt] as [typeof endedAt, typeof setEndedAt]
+  return { endedAt, setEndedAt }
 }
 
 /**

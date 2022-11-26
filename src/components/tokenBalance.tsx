@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { Typography } from 'antd'
 
-import { decimalize, numeric } from 'helpers/util'
+import { undecimalize, numeric } from 'helpers/util'
 import { useMetadataByAddress } from 'hooks/useToken'
 import { useBalance } from 'hooks/useWallet'
 
@@ -16,7 +16,7 @@ const TokenBalance = ({ mintAddress }: TokenBalanceProps) => {
 
   const balance = useMemo(() => {
     if (typeof decimals !== 'number') return 0
-    return decimalize(amount, decimals)
+    return undecimalize(amount, decimals)
   }, [decimals, amount])
 
   return (

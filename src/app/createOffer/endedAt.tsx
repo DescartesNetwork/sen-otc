@@ -5,7 +5,7 @@ import { Col, DatePicker, Row, Typography } from 'antd'
 import { useEndedAt } from 'hooks/useNewOrder'
 
 const EndedAt = () => {
-  const [endedAt, setEndedAt] = useEndedAt()
+  const { endedAt, setEndedAt } = useEndedAt()
 
   return (
     <Row gutter={[8, 8]}>

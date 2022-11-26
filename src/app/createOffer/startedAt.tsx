@@ -5,7 +5,7 @@ import { Col, DatePicker, Row, Typography } from 'antd'
 import { useStartedAt } from 'hooks/useNewOrder'
 
 const StartedAt = () => {
-  const [startedAt, setStartedAt] = useStartedAt()
+  const { startedAt, setStartedAt } = useStartedAt()
 
   return (
     <Row gutter={[8, 8]}>
