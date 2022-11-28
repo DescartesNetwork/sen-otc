@@ -9,6 +9,7 @@ import Home from './home'
 import CreateOffer from './createOffer'
 import MyOffer from './myOffer'
 import History from './history'
+import TakeOffer from './takeOffer'
 
 import './index.css'
 
@@ -27,6 +28,14 @@ const App = () => {
                 <ProtectedNavigator>
                   <Home />
                 </ProtectedNavigator>
+              }
+            />
+            <Route
+              path="/offer/:orderAddress"
+              element={
+                <ProtectedRoute>
+                  <TakeOffer />
+                </ProtectedRoute>
               }
             />
             <Route

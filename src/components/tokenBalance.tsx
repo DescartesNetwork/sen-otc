@@ -8,9 +8,10 @@ import { useBalance } from 'hooks/useWallet'
 
 export type TokenBalanceProps = {
   mintAddress: string
+  onMax?: (max: number) => void
 }
 
-const TokenBalance = ({ mintAddress }: TokenBalanceProps) => {
+const TokenBalance = ({ mintAddress, onMax = () => {} }: TokenBalanceProps) => {
   const { symbol, decimals } = useMetadataByAddress(mintAddress) || {}
   const { amount } = useBalance(mintAddress)
 
@@ -20,7 +21,11 @@ const TokenBalance = ({ mintAddress }: TokenBalanceProps) => {
   }, [decimals, amount])
 
   return (
-    <Typography.Text type="secondary">
+    <Typography.Text
+      type="secondary"
+      style={{ cursor: 'pointer' }}
+      onClick={() => onMax(balance)}
+    >
       Balance: {numeric(balance).format('0,0.[000]')} {symbol}
     </Typography.Text>
   )

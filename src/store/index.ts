@@ -7,6 +7,7 @@ import filter from './filter.reducer'
 import wallet from './wallet.reducer'
 import order from './order.reducer'
 import newOrder from './newOrder.reducer'
+import takeOrder from './takeOrder.reducer'
 
 /**
  * Root types
@@ -27,6 +28,7 @@ const store = configureStore({
     wallet,
     order,
     newOrder,
+    takeOrder,
   },
 })
 

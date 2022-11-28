@@ -1,9 +1,15 @@
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties } from 'react'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Card, Select, Space } from 'antd'
 
 import { AcceptedPayment } from 'helpers/acceptedPayments'
+import { useMetadataBySymbol } from 'hooks/useToken'
+import configs from 'configs'
+
+const {
+  otc: { acceptedPayments },
+} = configs
 
 export type TokenSelectionLiteProps = {
   options: string[]
@@ -42,18 +48,17 @@ export type TokenSelectionProps = {
   value?: string
   onChange?: (value: string) => void
   style?: CSSProperties
+  disabled?: boolean
 }
 
 const TokenSelection = ({
   options,
-  value = 'SOL',
+  value = acceptedPayments[0].symbol,
   onChange = () => {},
   style = {},
+  disabled = false,
 }: TokenSelectionProps) => {
-  const token = useMemo(
-    () => options.find((token) => token.symbol === value),
-    [value, options],
-  )
+  const token = useMetadataBySymbol(value)
 
   return (
     <Card bodyStyle={{ padding: 3, ...style }}>
@@ -69,6 +74,7 @@ const TokenSelection = ({
           onChange={onChange}
           suffixIcon={<IconSax name="ArrowDown2" />}
           bordered={false}
+          disabled={disabled}
           showSearch
         />
       </Space>

@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
@@ -16,6 +17,7 @@ export type OfferCardProps = {
 }
 
 const OfferCard = ({ orderAddress }: OfferCardProps) => {
+  const navigate = useNavigate()
   const { action } = useAction()
   const { aToken, bToken } = useOrderSelector((orders) => orders[orderAddress])
   const width = useWidth()
@@ -27,6 +29,10 @@ const OfferCard = ({ orderAddress }: OfferCardProps) => {
   }, [action, aToken, bToken])
   const paymentMethod = useMetadataByAddress(paymentMethodAddress)
   const partneredToken = useMetadataByAddress(partneredTokenAddress)
+
+  const onOpen = useCallback(() => {
+    return navigate(`/offer/${orderAddress}`)
+  }, [orderAddress, navigate])
 
   return (
     <Row gutter={[12, 12]}>
@@ -61,7 +67,7 @@ const OfferCard = ({ orderAddress }: OfferCardProps) => {
               onClick={() => window.open(explorer(orderAddress), '_blank')}
             />
           </Space>
-          <Button type="primary" size="large" shape="round">
+          <Button type="primary" size="large" shape="round" onClick={onOpen}>
             <Space style={{ position: 'relative', top: -3 }}>
               <Avatar src={partneredToken?.url} size={24} />
               <Typography.Title level={5} style={{ color: '#ffffff' }}>

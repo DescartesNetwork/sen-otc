@@ -1,27 +1,26 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import IconSax from '@sentre/antd-iconsax'
-import { Button, Col, Input, Row, Segmented, Typography } from 'antd'
+import { Button, Col, Input, Row, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
+import TreasuryBalance from 'components/treasuryBalance'
 
 import configs from 'configs'
-import { useAskAmount, useAskToken } from 'hooks/useNewOrder'
+import { useReceivedAmount, useReceivedToken } from 'hooks/useTakeOrder'
+import { useRouteParam } from 'hooks/useQueryParam'
 
 const {
   otc: { acceptedPayments },
 } = configs
 let timeoutId: ReturnType<typeof setTimeout>
 
-const Ask = () => {
+const ReceivedAmount = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
-  const { askToken, setAskToken } = useAskToken('USDC')
-  const {
-    askAmount,
-    setAskAmount,
-    askAmountError,
-    clear: clearAskAmount,
-  } = useAskAmount()
+  const orderAddress = useRouteParam('orderAddress') || ''
+  const { receivedAmount, setReceivedAmount, receivedAmountError, clear } =
+    useReceivedAmount()
+  const receivedToken = useReceivedToken()
 
   const onAskAmount = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,52 +29,30 @@ const Ask = () => {
       setValue(e.target.value)
       timeoutId = setTimeout(() => {
         setLoading(false)
-        setAskAmount(e.target.value)
+        setReceivedAmount(e.target.value)
       }, 500)
     },
-    [setAskAmount],
+    [setReceivedAmount],
   )
 
   const onClear = useCallback(() => {
     setValue('')
-    clearAskAmount()
-  }, [clearAskAmount])
+    clear()
+  }, [clear])
 
   useEffect(() => {
-    setValue(askAmount)
-  }, [askAmount])
+    setValue(receivedAmount)
+  }, [receivedAmount])
 
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
         <Row gutter={[8, 8]} wrap={false} align="bottom">
           <Col flex="auto">
-            <Typography.Text type="secondary">ASK</Typography.Text>
+            <Typography.Text type="secondary">RECEIVE</Typography.Text>
           </Col>
           <Col>
-            <Segmented
-              size="small"
-              options={[
-                {
-                  label: (
-                    <Typography.Text style={{ fontSize: 12 }}>
-                      By Amount
-                    </Typography.Text>
-                  ),
-                  value: 'Amount',
-                },
-                {
-                  label: (
-                    <Typography.Text style={{ fontSize: 12 }} type="secondary">
-                      By Price
-                    </Typography.Text>
-                  ),
-                  value: 'Price',
-                },
-              ]}
-              value={'Amount'}
-              disabled
-            />
+            <TreasuryBalance type="b" orderAddress={orderAddress} />
           </Col>
         </Row>
       </Col>
@@ -84,8 +61,8 @@ const Ask = () => {
           <Col>
             <TokenSelection
               options={acceptedPayments}
-              value={askToken}
-              onChange={setAskToken}
+              value={receivedToken?.symbol}
+              disabled
             />
           </Col>
           <Col flex="auto">
@@ -93,7 +70,7 @@ const Ask = () => {
               <Col span={24}>
                 <Input
                   size="large"
-                  placeholder={`Amount of ${askToken}`}
+                  placeholder={`Amount of ${receivedToken?.symbol}`}
                   value={value}
                   onChange={onAskAmount}
                   suffix={
@@ -109,10 +86,10 @@ const Ask = () => {
                   }
                 />
               </Col>
-              {askAmountError && (
+              {receivedAmountError && (
                 <Col>
                   <Typography.Text type="danger">
-                    {askAmountError}
+                    {receivedAmountError}
                   </Typography.Text>
                 </Col>
               )}
@@ -124,4 +101,4 @@ const Ask = () => {
   )
 }
 
-export default Ask
+export default ReceivedAmount
