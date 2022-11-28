@@ -8,18 +8,21 @@ import { Infix } from 'store/ui.reducer'
 
 import './index.css'
 
-const InfoCard = () => {
-  const infix = useInfix()
-  const mobile = infix < Infix.md
+export type InfoCardProps = {
+  orderAddress: string
+}
 
-  if (mobile)
+const InfoCard = ({ orderAddress }: InfoCardProps) => {
+  const infix = useInfix()
+
+  if (infix < Infix.md)
     return (
       <Row gutter={[12, 12]}>
         <Col span={24}>
           <Carousel dots={{ className: 'carousel-dots' }} autoplay>
-            <TimeCard />
-            <InterestCard />
-            <BalanceCard />
+            <TimeCard orderAddress={orderAddress} />
+            <InterestCard orderAddress={orderAddress} />
+            <BalanceCard orderAddress={orderAddress} />
           </Carousel>
         </Col>
       </Row>
@@ -27,13 +30,13 @@ const InfoCard = () => {
   return (
     <Row gutter={[12, 12]}>
       <Col span={8}>
-        <TimeCard />
+        <TimeCard orderAddress={orderAddress} />
       </Col>
       <Col span={8}>
-        <InterestCard />
+        <InterestCard orderAddress={orderAddress} />
       </Col>
       <Col span={8}>
-        <BalanceCard />
+        <BalanceCard orderAddress={orderAddress} />
       </Col>
     </Row>
   )

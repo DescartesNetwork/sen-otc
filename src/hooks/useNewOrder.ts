@@ -22,7 +22,7 @@ export const validateMode = (mode: OtcMode) => {
 export const useMode = () => {
   const dispatch = useDispatch<AppDispatch>()
   const mode = useSelector(({ newOrder }: AppState) => newOrder.mode)
-  const modeError = useSelector(({ newOrder }: AppState) => newOrder.mode)
+  const modeError = useSelector(({ newOrder }: AppState) => newOrder.modeError)
 
   const setMode = useCallback(
     async (mode: OtcMode) => {

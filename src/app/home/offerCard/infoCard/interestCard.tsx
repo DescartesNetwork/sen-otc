@@ -1,7 +1,27 @@
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd'
+import { numeric } from 'helpers/util'
 
-const InterestCard = () => {
+import { useAction } from 'hooks/useFilter'
+import { useOfferedPrice, useOrderPartneredToken } from 'hooks/useOrder'
+import { usePrice } from 'hooks/useToken'
+import { useMemo } from 'react'
+
+export type InterestCardProps = { orderAddress: string }
+
+const InterestCard = ({ orderAddress }: InterestCardProps) => {
+  const { action } = useAction()
+  const offeredPrice = useOfferedPrice(orderAddress)
+  const { ticket } = useOrderPartneredToken(orderAddress) || { ticket: '' }
+  const { price: referencePrice } = usePrice(ticket)
+
+  const save = useMemo(() => {
+    if (!offeredPrice || !referencePrice) return 0
+    if (action === 'Buy')
+      return (offeredPrice - referencePrice) / referencePrice
+    return (referencePrice - offeredPrice) / referencePrice
+  }, [action, offeredPrice, referencePrice])
+
   return (
     <Card style={{ height: '100%' }}>
       <Row gutter={[8, 8]}>
@@ -11,7 +31,7 @@ const InterestCard = () => {
         <Col span={24}>
           <Space>
             <Typography.Title style={{ color: '#1A63FF' }} level={5}>
-              3%
+              {numeric(save).format('0,0.[000]%')}
             </Typography.Title>
             <Tooltip
               title="Compared to the reference market price on CoinGecko."
@@ -29,7 +49,12 @@ const InterestCard = () => {
         </Col>
         <Col span={24}>
           <Typography.Paragraph type="secondary">-</Typography.Paragraph>
-          <Typography.Link>View the price on CoinGecko</Typography.Link>
+          <Typography.Link
+            href={`https://www.coingecko.com/en/coins/${ticket}`}
+            target="_blank"
+          >
+            View the price on CoinGecko
+          </Typography.Link>
         </Col>
       </Row>
     </Card>

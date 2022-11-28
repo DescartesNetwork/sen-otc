@@ -29,8 +29,8 @@ const Home = () => {
         </Col>
         <Col span={24} style={{ marginTop: 12 }}>
           <Row gutter={[24, 24]}>
-            {Object.keys(orders).map((address, i) => (
-              <Col key={address} span={24}>
+            {Object.keys(orders).map((orderAddress, i) => (
+              <Col key={orderAddress} span={24}>
                 <Row gutter={[12, 12]}>
                   {i > 0 && (
                     <Col span={24}>
@@ -38,7 +38,7 @@ const Home = () => {
                     </Col>
                   )}
                   <Col span={24}>
-                    <OfferCard address={address} />
+                    <OfferCard orderAddress={orderAddress} />
                   </Col>
                 </Row>
               </Col>

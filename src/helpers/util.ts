@@ -15,6 +15,21 @@ export const asyncWait = (ms: number): Promise<void> => {
 }
 
 /**
+ * Shorten a long address
+ * @param address - The long address
+ * @param num - The number of the heading and trailing characters
+ * @param delimiter - The delimiter
+ * @returns Shortened address
+ */
+export const shortenAddress = (address: string, num = 4, delimiter = '...') => {
+  return (
+    address.substring(0, num) +
+    delimiter +
+    address.substring(address.length - num, address.length)
+  )
+}
+
+/**
  * Wrapped Numbro - https://numbrojs.com/old-format.html
  * @param value - value
  * @returns

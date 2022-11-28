@@ -33,7 +33,7 @@ const CreateOffer = () => {
   const navigate = useNavigate()
   const otc = useOtc()
   const [loading, setLoading] = useState(false)
-  const { mode } = useMode()
+  const { mode, modeError } = useMode()
   const { bidToken } = useBidToken()
   const { address: aTokenAddress, decimals: aDecimals } =
     useMetadataBySymbol(bidToken) || {}
@@ -43,8 +43,8 @@ const CreateOffer = () => {
     useMetadataBySymbol(askToken) || {}
   const { askAmount, askAmountError } = useAskAmount()
   const { askPrice, askPriceError } = useAskPrice()
-  const { startedAt } = useStartedAt()
-  const { endedAt } = useEndedAt()
+  const { startedAt, startedAtError } = useStartedAt()
+  const { endedAt, endedAtError } = useEndedAt()
 
   const aTokenAmount = useMemo(() => {
     if (bidAmountError) return ZERO
@@ -57,7 +57,6 @@ const CreateOffer = () => {
     if (bidAmountError || askPriceError || askAmountError) return ZERO
     if (typeof bDecimals !== 'number') return ZERO
     if (!askAmount && !askPrice) return ZERO
-    console.log(askAmount, askAmountError)
     const amount = Number(askAmount) || Number(bidAmount) / Number(askPrice)
     return decimalize(amount, bDecimals)
   }, [
@@ -92,7 +91,7 @@ const CreateOffer = () => {
         endDate.eq(ZERO)
       )
         return
-      const { txId, orderAddress } = await otc.makeOrder({
+      const { txId } = await otc.makeOrder({
         aTokenAddress,
         aTokenAmount,
         bTokenAddress,
@@ -100,9 +99,11 @@ const CreateOffer = () => {
         startDate,
         endDate,
       })
-      return message.info({
-        content: `A new offer has been created as the address ${orderAddress}. Click here to view in on Solscan!`,
+      return message.success({
+        content:
+          'A new offer has been created. Click here to view in on Solscan!',
         onClick: () => window.open(explorer(txId), '_blank'),
+        style: { cursor: 'pointer' },
       })
     } catch (er: any) {
       return message.error(er.message)
@@ -114,6 +115,43 @@ const CreateOffer = () => {
     aTokenAddress,
     aTokenAmount,
     bTokenAddress,
+    bTokenAmount,
+    startDate,
+    endDate,
+  ])
+
+  const disabled = useMemo(() => {
+    if (
+      Boolean(
+        modeError ||
+          bidAmountError ||
+          askAmountError ||
+          askPriceError ||
+          startedAtError ||
+          endedAtError,
+      )
+    )
+      return true
+    if (
+      !isAddress(aTokenAddress) ||
+      !isAddress(bTokenAddress) ||
+      aTokenAmount.eq(ZERO) ||
+      bTokenAmount.eq(ZERO) ||
+      startDate.eq(ZERO) ||
+      endDate.eq(ZERO)
+    )
+      return true
+    return false
+  }, [
+    modeError,
+    bidAmountError,
+    askAmountError,
+    askPriceError,
+    startedAtError,
+    endedAtError,
+    aTokenAddress,
+    bTokenAddress,
+    aTokenAmount,
     bTokenAmount,
     startDate,
     endDate,
@@ -158,6 +196,7 @@ const CreateOffer = () => {
             shape="round"
             onClick={onCreate}
             loading={loading}
+            disabled={disabled}
             block
           >
             Create
