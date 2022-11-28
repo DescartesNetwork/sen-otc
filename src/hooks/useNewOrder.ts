@@ -1,9 +1,9 @@
 import BN from 'bn.js'
 import dayjs from 'dayjs'
-import { decimalize } from 'helpers/util'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { decimalize } from 'helpers/util'
 import { AppDispatch, AppState } from 'store'
 import { updateNewOrder } from 'store/newOrder.reducer'
 import { useMetadataBySymbol } from './useToken'
@@ -21,31 +21,30 @@ export const validateMode = (mode: OtcMode) => {
 }
 export const useMode = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [error, setError] = useState('')
   const mode = useSelector(({ newOrder }: AppState) => newOrder.mode)
+  const modeError = useSelector(({ newOrder }: AppState) => newOrder.mode)
 
   const setMode = useCallback(
     async (mode: OtcMode) => {
       // Validate
-      const error = validateMode(mode)
-      setError(error)
+      const modeError = validateMode(mode)
       // Submit
-      if (!error)
-        dispatch(
-          updateNewOrder({
-            mode,
-            bidToken: '',
-            bidAmount: '',
-            askToken: '',
-            askAmount: '',
-            askPrice: '',
-          }),
-        )
+      return dispatch(
+        updateNewOrder({
+          mode,
+          modeError,
+          bidToken: '',
+          bidAmount: '',
+          askToken: '',
+          askAmount: '',
+          askPrice: '',
+        }),
+      )
     },
     [dispatch],
   )
 
-  return { mode, error, setMode }
+  return { mode, modeError, setMode }
 }
 
 /**
@@ -63,20 +62,21 @@ export const validateStartedAt = (startedAt: string) => {
 }
 export const useStartedAt = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [error, setError] = useState('')
   const startedAt = useSelector(({ newOrder }: AppState) => newOrder.startedAt)
+  const startedAtError = useSelector(
+    ({ newOrder }: AppState) => newOrder.startedAtError,
+  )
 
   const setStartedAt = useCallback(
     async (startedAt: string) => {
       // Validate
-      const error = validateStartedAt(startedAt)
-      setError(error)
+      const startedAtError = validateStartedAt(startedAt)
       // Submit
-      if (!error) dispatch(updateNewOrder({ startedAt }))
+      return dispatch(updateNewOrder({ startedAt, startedAtError }))
     },
     [dispatch],
   )
-  return { startedAt, error, setStartedAt }
+  return { startedAt, startedAtError, setStartedAt }
 }
 
 /**
@@ -97,22 +97,23 @@ export const validateEndedAt = (startedAt: string, endedAt: string) => {
 }
 export const useEndedAt = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [error, setError] = useState('')
   const { startedAt } = useStartedAt()
   const endedAt = useSelector(({ newOrder }: AppState) => newOrder.endedAt)
+  const endedAtError = useSelector(
+    ({ newOrder }: AppState) => newOrder.endedAtError,
+  )
 
   const setEndedAt = useCallback(
     async (endedAt: string) => {
       // Validate
-      const error = validateEndedAt(startedAt, endedAt)
-      setError(error)
+      const endedAtError = validateEndedAt(startedAt, endedAt)
       // Submit
-      if (!error) dispatch(updateNewOrder({ endedAt }))
+      return dispatch(updateNewOrder({ endedAt, endedAtError }))
     },
     [startedAt, dispatch],
   )
 
-  return { endedAt, error, setEndedAt }
+  return { endedAt, endedAtError, setEndedAt }
 }
 
 /**
@@ -156,8 +157,10 @@ export const validateBidAmount = (
 }
 export const useBidAmount = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [error, setError] = useState('')
   const bidAmount = useSelector(({ newOrder }: AppState) => newOrder.bidAmount)
+  const bidAmountError = useSelector(
+    ({ newOrder }: AppState) => newOrder.bidAmountError,
+  )
   const { bidToken } = useBidToken()
   const { decimals, address } = useMetadataBySymbol(bidToken) || {
     decimals: 0,
@@ -168,20 +171,18 @@ export const useBidAmount = () => {
   const setBidAmount = useCallback(
     async (bidAmount: string) => {
       // Validate
-      const error = validateBidAmount(bidAmount, decimals, amount)
-      setError(error)
+      const bidAmountError = validateBidAmount(bidAmount, decimals, amount)
       // Submit
-      if (!error) dispatch(updateNewOrder({ bidAmount }))
+      return dispatch(updateNewOrder({ bidAmount, bidAmountError }))
     },
     [dispatch, decimals, amount],
   )
 
   const clear = useCallback(() => {
-    setError('')
-    dispatch(updateNewOrder({ bidAmount: '' }))
+    dispatch(updateNewOrder({ bidAmount: '', bidAmountError: '' }))
   }, [dispatch])
 
-  return { bidAmount, setBidAmount, error, clear }
+  return { bidAmount, setBidAmount, bidAmountError, clear }
 }
 
 /**
@@ -217,26 +218,26 @@ export const validateAskAmount = (askAmount: string) => {
 }
 export const useAskAmount = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [error, setError] = useState('')
   const askAmount = useSelector(({ newOrder }: AppState) => newOrder.askAmount)
+  const askAmountError = useSelector(
+    ({ newOrder }: AppState) => newOrder.askAmountError,
+  )
 
   const setAskAmount = useCallback(
     async (askAmount: string) => {
       // Validate
-      const error = validateAskAmount(askAmount)
-      setError(error)
+      const askAmountError = validateAskAmount(askAmount)
       // Submit
-      if (!error) dispatch(updateNewOrder({ askAmount }))
+      return dispatch(updateNewOrder({ askAmount, askAmountError }))
     },
     [dispatch],
   )
 
   const clear = useCallback(() => {
-    setError('')
-    dispatch(updateNewOrder({ askAmount: '' }))
+    dispatch(updateNewOrder({ askAmount: '', askAmountError: '' }))
   }, [dispatch])
 
-  return { askAmount, setAskAmount, error, clear }
+  return { askAmount, setAskAmount, askAmountError, clear }
 }
 
 /**
@@ -250,24 +251,24 @@ export const validateAskPrice = (askPrice: string) => {
 }
 export const useAskPrice = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const [error, setError] = useState('')
   const askPrice = useSelector(({ newOrder }: AppState) => newOrder.askPrice)
+  const askPriceError = useSelector(
+    ({ newOrder }: AppState) => newOrder.askPriceError,
+  )
 
   const setAskPrice = useCallback(
     async (askPrice: string) => {
       // Validate
-      const error = validateAskPrice(askPrice)
-      setError(error)
+      const askPriceError = validateAskPrice(askPrice)
       // Submit
-      if (!error) dispatch(updateNewOrder({ askPrice }))
+      return dispatch(updateNewOrder({ askPrice, askPriceError }))
     },
     [dispatch],
   )
 
   const clear = useCallback(() => {
-    setError('')
-    dispatch(updateNewOrder({ askPrice: '' }))
+    dispatch(updateNewOrder({ askPrice: '', askPriceError: '' }))
   }, [dispatch])
 
-  return { askPrice, setAskPrice, error, clear }
+  return { askPrice, setAskPrice, askPriceError, clear }
 }

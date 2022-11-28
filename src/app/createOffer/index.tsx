@@ -37,12 +37,12 @@ const CreateOffer = () => {
   const { bidToken } = useBidToken()
   const { address: aTokenAddress, decimals: aDecimals } =
     useMetadataBySymbol(bidToken) || {}
-  const { bidAmount, error: bidAmountError } = useBidAmount()
+  const { bidAmount, bidAmountError } = useBidAmount()
   const { askToken } = useAskToken()
   const { address: bTokenAddress, decimals: bDecimals } =
     useMetadataBySymbol(askToken) || {}
-  const { askAmount, error: askAmountError } = useAskAmount()
-  const { askPrice, error: askPriceError } = useAskPrice()
+  const { askAmount, askAmountError } = useAskAmount()
+  const { askPrice, askPriceError } = useAskPrice()
   const { startedAt } = useStartedAt()
   const { endedAt } = useEndedAt()
 

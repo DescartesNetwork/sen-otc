@@ -19,7 +19,7 @@ const Ask = () => {
   const {
     askAmount,
     setAskAmount,
-    error,
+    askAmountError,
     clear: clearAskAmount,
   } = useAskAmount()
 
@@ -109,9 +109,11 @@ const Ask = () => {
                   }
                 />
               </Col>
-              {error && (
+              {askAmountError && (
                 <Col>
-                  <Typography.Text type="danger">{error}</Typography.Text>
+                  <Typography.Text type="danger">
+                    {askAmountError}
+                  </Typography.Text>
                 </Col>
               )}
             </Row>

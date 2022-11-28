@@ -6,13 +6,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export type NewOrderState = {
   mode: OtcMode
+  modeError: string
   bidToken: string
   bidAmount: string
+  bidAmountError: string
   askToken: string
   askAmount: string
+  askAmountError: string
   askPrice: string
+  askPriceError: string
   startedAt: string
+  startedAtError: string
   endedAt: string
+  endedAtError: string
 }
 
 /**
@@ -22,13 +28,19 @@ export type NewOrderState = {
 const NAME = 'newOrder'
 const initialState: NewOrderState = {
   mode: 'Buy',
+  modeError: '',
   bidToken: '',
   bidAmount: '',
+  bidAmountError: '',
   askToken: '',
   askAmount: '',
+  askAmountError: '',
   askPrice: '',
+  askPriceError: '',
   startedAt: '',
+  startedAtError: '',
   endedAt: '',
+  endedAtError: '',
 }
 
 /**

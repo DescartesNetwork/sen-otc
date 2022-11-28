@@ -18,7 +18,7 @@ const Bid = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
   const { bidToken, setBidToken } = useBidToken('USDC')
-  const { bidAmount, error, setBidAmount, clear } = useBidAmount()
+  const { bidAmount, bidAmountError, setBidAmount, clear } = useBidAmount()
   const { address } = useMetadataBySymbol(bidToken) || {}
 
   const onBidAmount = useCallback(
@@ -85,9 +85,11 @@ const Bid = () => {
                   }
                 />
               </Col>
-              {error && (
+              {bidAmountError && (
                 <Col>
-                  <Typography.Text type="danger">{error}</Typography.Text>
+                  <Typography.Text type="danger">
+                    {bidAmountError}
+                  </Typography.Text>
                 </Col>
               )}
             </Row>

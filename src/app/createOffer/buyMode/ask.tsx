@@ -21,13 +21,13 @@ const Ask = () => {
   const { askToken, setAskToken } = useAskToken('SNTR')
   const {
     askAmount,
-    error: amountError,
+    askAmountError,
     setAskAmount,
     clear: clearAskAmount,
   } = useAskAmount()
   const {
     askPrice,
-    error: priceError,
+    askPriceError,
     setAskPrice,
     clear: clearAskPrice,
   } = useAskPrice()
@@ -124,14 +124,18 @@ const Ask = () => {
                   }
                 />
               </Col>
-              {amountError && (
+              {askAmountError && (
                 <Col>
-                  <Typography.Text type="danger">{amountError}</Typography.Text>
+                  <Typography.Text type="danger">
+                    {askAmountError}
+                  </Typography.Text>
                 </Col>
               )}
-              {priceError && (
+              {askPriceError && (
                 <Col>
-                  <Typography.Text type="danger">{priceError}</Typography.Text>
+                  <Typography.Text type="danger">
+                    {askPriceError}
+                  </Typography.Text>
                 </Col>
               )}
             </Row>
