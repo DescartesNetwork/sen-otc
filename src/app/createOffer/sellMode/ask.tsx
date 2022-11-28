@@ -16,7 +16,12 @@ const Ask = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
   const { askToken, setAskToken } = useAskToken('USDC')
-  const { askAmount, setAskAmount } = useAskAmount()
+  const {
+    askAmount,
+    setAskAmount,
+    error,
+    clear: clearAskAmount,
+  } = useAskAmount()
 
   const onAskAmount = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,8 +37,9 @@ const Ask = () => {
   )
 
   const onClear = useCallback(() => {
-    setAskAmount('')
-  }, [setAskAmount])
+    setValue('')
+    clearAskAmount()
+  }, [clearAskAmount])
 
   useEffect(() => {
     setValue(askAmount)
@@ -74,7 +80,7 @@ const Ask = () => {
         </Row>
       </Col>
       <Col span={24}>
-        <Row gutter={[8, 8]} align="middle">
+        <Row gutter={[8, 8]} align="top" wrap={false}>
           <Col>
             <TokenSelection
               options={acceptedPayments}
@@ -83,23 +89,32 @@ const Ask = () => {
             />
           </Col>
           <Col flex="auto">
-            <Input
-              size="large"
-              placeholder={`Amount of ${askToken}`}
-              value={value}
-              onChange={onAskAmount}
-              suffix={
-                <Button
-                  type="text"
-                  shape="circle"
-                  size="small"
-                  icon={<IconSax name="CloseCircle" />}
-                  onClick={onClear}
-                  loading={loading}
-                  disabled={!askAmount}
+            <Row gutter={[0, 0]} justify="end">
+              <Col span={24}>
+                <Input
+                  size="large"
+                  placeholder={`Amount of ${askToken}`}
+                  value={value}
+                  onChange={onAskAmount}
+                  suffix={
+                    <Button
+                      type="text"
+                      shape="circle"
+                      size="small"
+                      icon={<IconSax name="CloseCircle" />}
+                      onClick={onClear}
+                      loading={loading}
+                      disabled={!askAmount}
+                    />
+                  }
                 />
-              }
-            />
+              </Col>
+              {error && (
+                <Col>
+                  <Typography.Text type="danger">{error}</Typography.Text>
+                </Col>
+              )}
+            </Row>
           </Col>
         </Row>
       </Col>

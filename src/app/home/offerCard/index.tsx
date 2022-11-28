@@ -12,7 +12,7 @@ export type OfferCardProps = {
 }
 
 const OfferCard = ({ address }: OfferCardProps) => {
-  const [action] = useAction()
+  const { action } = useAction()
 
   const { aToken, bToken } = useOrderSelector((orders) => orders[address])
   const { url: aUrl, symbol: aSymbol } =

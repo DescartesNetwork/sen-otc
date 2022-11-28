@@ -20,11 +20,11 @@ const {
 const SYMBOLS = acceptedPayments.map(({ symbol }) => symbol)
 
 const Filter = () => {
-  const [action, setAction] = useAction()
-  const [paymentMethod, setPaymentMethod] = usePaymentMethod()
-  const [offeredToken, setOfferedToken] = useOfferedToken()
-  const [keyword, setKeyword] = useKeyword()
-  const [sort, setSort] = useSort()
+  const { action, setAction } = useAction()
+  const { paymentMethod, setPaymentMethod } = usePaymentMethod()
+  const { offeredToken, setOfferedToken } = useOfferedToken()
+  const { keyword, setKeyword } = useKeyword()
+  const { sort, setSort } = useSort()
 
   return (
     <Row gutter={[12, 12]}>

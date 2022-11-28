@@ -9,9 +9,8 @@ import { otcActionSelector, useOrderSelector } from 'hooks/useOrder'
 import { useAction } from 'hooks/useFilter'
 
 const Home = () => {
-  const [action] = useAction()
+  const { action } = useAction()
   const orders = useOrderSelector(otcActionSelector(action))
-  console.log(orders)
 
   return (
     <MaxWidthLayout>

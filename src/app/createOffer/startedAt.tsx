@@ -5,7 +5,7 @@ import { Col, DatePicker, Row, Typography } from 'antd'
 import { useStartedAt } from 'hooks/useNewOrder'
 
 const StartedAt = () => {
-  const { startedAt, setStartedAt } = useStartedAt()
+  const { startedAt, error, setStartedAt } = useStartedAt()
 
   return (
     <Row gutter={[8, 8]}>
@@ -21,6 +21,11 @@ const StartedAt = () => {
           showTime
         />
       </Col>
+      {error && (
+        <Col span={24}>
+          <Typography.Text type="danger">{error}</Typography.Text>
+        </Col>
+      )}
     </Row>
   )
 }

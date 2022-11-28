@@ -1,70 +1,118 @@
-import { useCallback, useEffect } from 'react'
+import BN from 'bn.js'
+import dayjs from 'dayjs'
+import { decimalize } from 'helpers/util'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { AppDispatch, AppState } from 'store'
 import { updateNewOrder } from 'store/newOrder.reducer'
+import { useMetadataBySymbol } from './useToken'
+import { useBalance } from './useWallet'
 
 /**
  * Mode
  * @returns
  */
+export const validateMode = (mode: OtcMode) => {
+  if (!mode) return 'The order mode cannot be empty.'
+  if (mode !== 'Buy' && mode !== 'Sell')
+    return 'The order mode must be Buy or Sell only.'
+  return ''
+}
 export const useMode = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState('')
   const mode = useSelector(({ newOrder }: AppState) => newOrder.mode)
 
   const setMode = useCallback(
     async (mode: OtcMode) => {
-      return dispatch(
-        updateNewOrder({
-          mode,
-          bidToken: '',
-          bidAmount: '',
-          askToken: '',
-          askAmount: '',
-          askPrice: '',
-        }),
-      )
+      // Validate
+      const error = validateMode(mode)
+      setError(error)
+      // Submit
+      if (!error)
+        dispatch(
+          updateNewOrder({
+            mode,
+            bidToken: '',
+            bidAmount: '',
+            askToken: '',
+            askAmount: '',
+            askPrice: '',
+          }),
+        )
     },
     [dispatch],
   )
 
-  return { mode, setMode }
+  return { mode, error, setMode }
 }
 
 /**
  * Started at
  * @returns
  */
+export const validateStartedAt = (startedAt: string) => {
+  if (!startedAt) return 'The start date cannot be empty.'
+  const start = Number(new Date(startedAt))
+  if (Date.now() - start > 60 * 60 * 1000)
+    return 'The start date is too far in the past. It should be less than 1 hour to the current date.'
+  if (start - Date.now() > 365 * 24 * 60 * 60 * 1000)
+    return 'The start date is too far in the future. It should be less than 1 year from the current date.'
+  return ''
+}
 export const useStartedAt = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState('')
   const startedAt = useSelector(({ newOrder }: AppState) => newOrder.startedAt)
 
   const setStartedAt = useCallback(
     async (startedAt: string) => {
-      return dispatch(updateNewOrder({ startedAt }))
+      // Validate
+      const error = validateStartedAt(startedAt)
+      setError(error)
+      // Submit
+      if (!error) dispatch(updateNewOrder({ startedAt }))
     },
     [dispatch],
   )
-
-  return { startedAt, setStartedAt }
+  return { startedAt, error, setStartedAt }
 }
 
 /**
  * Ended at
  * @returns
  */
+export const validateEndedAt = (startedAt: string, endedAt: string) => {
+  if (!startedAt) return 'Please schedule the start date first.'
+  if (!endedAt) return 'The start date cannot be empty.'
+  const start = Number(new Date(startedAt))
+  const end = Number(new Date(endedAt))
+  if (Date.now() > end) return 'The start date cannot be set in the past.'
+  if (start >= end)
+    return `The end date must be greater than the start date at ${dayjs(
+      start,
+    ).format('hh:mm:ss A, DD MMM YY')}.`
+  return ''
+}
 export const useEndedAt = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState('')
+  const { startedAt } = useStartedAt()
   const endedAt = useSelector(({ newOrder }: AppState) => newOrder.endedAt)
 
   const setEndedAt = useCallback(
     async (endedAt: string) => {
-      return dispatch(updateNewOrder({ endedAt }))
+      // Validate
+      const error = validateEndedAt(startedAt, endedAt)
+      setError(error)
+      // Submit
+      if (!error) dispatch(updateNewOrder({ endedAt }))
     },
-    [dispatch],
+    [startedAt, dispatch],
   )
 
-  return { endedAt, setEndedAt }
+  return { endedAt, error, setEndedAt }
 }
 
 /**
@@ -93,18 +141,47 @@ export const useBidToken = (defaultBidToken?: string) => {
  * Bid amount state
  * @returns
  */
+export const validateBidAmount = (
+  bidAmount: string,
+  decimals: number,
+  balance: BN,
+) => {
+  if (isNaN(Number(bidAmount)) || isNaN(parseFloat(bidAmount)))
+    return 'Invalid bid amount.'
+  if (typeof decimals !== 'number' || !BN.isBN(balance))
+    return 'Please select bid token first.'
+  if (decimalize(Number(bidAmount), decimals).gt(balance))
+    return 'Not enough balance'
+  return ''
+}
 export const useBidAmount = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState('')
   const bidAmount = useSelector(({ newOrder }: AppState) => newOrder.bidAmount)
+  const { bidToken } = useBidToken()
+  const { decimals, address } = useMetadataBySymbol(bidToken) || {
+    decimals: 0,
+    address: '',
+  }
+  const { amount } = useBalance(address)
 
   const setBidAmount = useCallback(
     async (bidAmount: string) => {
-      return dispatch(updateNewOrder({ bidAmount }))
+      // Validate
+      const error = validateBidAmount(bidAmount, decimals, amount)
+      setError(error)
+      // Submit
+      if (!error) dispatch(updateNewOrder({ bidAmount }))
     },
-    [dispatch],
+    [dispatch, decimals, amount],
   )
 
-  return { bidAmount, setBidAmount }
+  const clear = useCallback(() => {
+    setError('')
+    dispatch(updateNewOrder({ bidAmount: '' }))
+  }, [dispatch])
+
+  return { bidAmount, setBidAmount, error, clear }
 }
 
 /**
@@ -133,34 +210,64 @@ export const useAskToken = (defaultAskToken?: string) => {
  * Ask amount state
  * @returns
  */
+export const validateAskAmount = (askAmount: string) => {
+  if (isNaN(Number(askAmount)) || isNaN(parseFloat(askAmount)))
+    return 'Invalid ask amount.'
+  return ''
+}
 export const useAskAmount = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState('')
   const askAmount = useSelector(({ newOrder }: AppState) => newOrder.askAmount)
 
   const setAskAmount = useCallback(
     async (askAmount: string) => {
-      return dispatch(updateNewOrder({ askAmount }))
+      // Validate
+      const error = validateAskAmount(askAmount)
+      setError(error)
+      // Submit
+      if (!error) dispatch(updateNewOrder({ askAmount }))
     },
     [dispatch],
   )
 
-  return { askAmount, setAskAmount }
+  const clear = useCallback(() => {
+    setError('')
+    dispatch(updateNewOrder({ askAmount: '' }))
+  }, [dispatch])
+
+  return { askAmount, setAskAmount, error, clear }
 }
 
 /**
  * Ask price state
  * @returns
  */
+export const validateAskPrice = (askPrice: string) => {
+  if (isNaN(Number(askPrice)) || isNaN(parseFloat(askPrice)))
+    return 'Invalid ask price.'
+  return ''
+}
 export const useAskPrice = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState('')
   const askPrice = useSelector(({ newOrder }: AppState) => newOrder.askPrice)
 
   const setAskPrice = useCallback(
     async (askPrice: string) => {
-      return dispatch(updateNewOrder({ askPrice }))
+      // Validate
+      const error = validateAskPrice(askPrice)
+      setError(error)
+      // Submit
+      if (!error) dispatch(updateNewOrder({ askPrice }))
     },
     [dispatch],
   )
 
-  return { askPrice, setAskPrice }
+  const clear = useCallback(() => {
+    setError('')
+    dispatch(updateNewOrder({ askPrice: '' }))
+  }, [dispatch])
+
+  return { askPrice, setAskPrice, error, clear }
 }

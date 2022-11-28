@@ -5,7 +5,7 @@ import { Col, DatePicker, Row, Typography } from 'antd'
 import { useEndedAt } from 'hooks/useNewOrder'
 
 const EndedAt = () => {
-  const { endedAt, setEndedAt } = useEndedAt()
+  const { endedAt, error, setEndedAt } = useEndedAt()
 
   return (
     <Row gutter={[8, 8]}>
@@ -21,6 +21,11 @@ const EndedAt = () => {
           showTime
         />
       </Col>
+      {error && (
+        <Col span={24}>
+          <Typography.Text type="danger">{error}</Typography.Text>
+        </Col>
+      )}
     </Row>
   )
 }

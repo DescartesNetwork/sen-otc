@@ -109,7 +109,7 @@ const OfferedAmount = () => {
         {numeric(offeredAmount).format('0,0.[0000]')}
       </Typography.Title>
       <Space size={0}>
-        <Typography.Text type="secondary">Estimated Amount</Typography.Text>
+        <Typography.Text type="secondary">Acquired Amount</Typography.Text>
         <Divider type="vertical" />
         <Typography.Text type="secondary">{offeredUnit}</Typography.Text>
       </Space>

@@ -11,6 +11,10 @@ import {
   SortedBy,
 } from 'store/filter.reducer'
 
+/**
+ * Action
+ * @returns
+ */
 export const useAction = () => {
   const dispatch = useDispatch<AppDispatch>()
   const action = useSelector(({ filter }: AppState) => filter.action)
@@ -18,9 +22,13 @@ export const useAction = () => {
     (value: OtcMode) => dispatch(setAction(value)),
     [dispatch],
   )
-  return [action, onAction] as [typeof action, typeof onAction]
+  return { action, setAction: onAction }
 }
 
+/**
+ * Payment method
+ * @returns
+ */
 export const usePaymentMethod = () => {
   const dispatch = useDispatch<AppDispatch>()
   const paymentMethod = useSelector(
@@ -30,12 +38,13 @@ export const usePaymentMethod = () => {
     (value: string) => dispatch(setPaymentMethod(value)),
     [dispatch],
   )
-  return [paymentMethod, onPaymentMethod] as [
-    typeof paymentMethod,
-    typeof onPaymentMethod,
-  ]
+  return { paymentMethod, setPaymentMethod: onPaymentMethod }
 }
 
+/**
+ * Offered token
+ * @returns
+ */
 export const useOfferedToken = () => {
   const dispatch = useDispatch<AppDispatch>()
   const offeredToken = useSelector(
@@ -45,12 +54,13 @@ export const useOfferedToken = () => {
     (value: string) => dispatch(setOfferedToken(value)),
     [dispatch],
   )
-  return [offeredToken, onOfferedToken] as [
-    typeof offeredToken,
-    typeof onOfferedToken,
-  ]
+  return { offeredToken, setOfferedToken: onOfferedToken }
 }
 
+/**
+ * Keyword
+ * @returns
+ */
 export const useKeyword = () => {
   const dispatch = useDispatch<AppDispatch>()
   const keyword = useSelector(({ filter }: AppState) => filter.keyword)
@@ -58,9 +68,13 @@ export const useKeyword = () => {
     (value: string) => dispatch(setKeyword(value)),
     [dispatch],
   )
-  return [keyword, onKeyword] as [typeof keyword, typeof onKeyword]
+  return { keyword, setKeyword: onKeyword }
 }
 
+/**
+ * Sort
+ * @returns
+ */
 export const useSort = () => {
   const dispatch = useDispatch<AppDispatch>()
   const sort = useSelector(({ filter }: AppState) => filter.sort)
@@ -68,5 +82,5 @@ export const useSort = () => {
     (value: SortedBy) => dispatch(setSort(value)),
     [dispatch],
   )
-  return [sort, onSort] as [typeof sort, typeof onSort]
+  return { sort, setSort: onSort }
 }

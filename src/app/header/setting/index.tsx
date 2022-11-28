@@ -17,12 +17,7 @@ const Setting = () => {
         icon={<IconSax name="Setting3" />}
         onClick={() => setOpen(true)}
       />
-      <Drawer
-        open={open}
-        onClose={() => setOpen(false)}
-        closable={false}
-        destroyOnClose
-      >
+      <Drawer open={open} onClose={() => setOpen(false)} closable={false}>
         <Row gutter={[24, 24]}>
           <Col span={24} className="kylan-dash right">
             <Row gutter={[12, 12]}>

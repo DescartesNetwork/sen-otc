@@ -52,7 +52,7 @@ const NotiCard = ({
 }
 
 const Noti = () => {
-  const [noti] = useRecentNoti()
+  const { data } = useRecentNoti()
 
   return (
     <Row gutter={[8, 8]}>
@@ -64,7 +64,7 @@ const Noti = () => {
           gutter={[8, 8]}
           style={{ height: 'calc(100vh - 381px)', overflow: 'auto' }}
         >
-          {noti?.map(({ _id, description, name, createdAt }) => (
+          {data?.map(({ _id, description, name, createdAt }) => (
             <Col key={_id} span={24}>
               <NotiCard
                 title={name}

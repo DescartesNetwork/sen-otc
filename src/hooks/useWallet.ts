@@ -94,5 +94,5 @@ export const useBalance = (mintAddress: string) => {
     [owner, spl, mintAddress, mutate],
   )
 
-  return [amount, transfer] as [typeof amount, typeof transfer]
+  return { amount, transfer }
 }

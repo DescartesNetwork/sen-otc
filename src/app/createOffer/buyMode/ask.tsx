@@ -19,8 +19,18 @@ const Ask = () => {
   const [value, setValue] = useState('')
   const [method, setMethod] = useState('Amount')
   const { askToken, setAskToken } = useAskToken('SNTR')
-  const { askAmount, setAskAmount } = useAskAmount()
-  const { askPrice, setAskPrice } = useAskPrice()
+  const {
+    askAmount,
+    error: amountError,
+    setAskAmount,
+    clear: clearAskAmount,
+  } = useAskAmount()
+  const {
+    askPrice,
+    error: priceError,
+    setAskPrice,
+    clear: clearAskPrice,
+  } = useAskPrice()
 
   const onInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,21 +40,22 @@ const Ask = () => {
       timeoutId = setTimeout(() => {
         setLoading(false)
         if (method === 'Amount') {
-          setAskPrice('')
+          clearAskPrice()
           setAskAmount(e.target.value)
         } else {
-          setAskAmount('')
+          clearAskAmount()
           setAskPrice(e.target.value)
         }
       }, 500)
     },
-    [setAskAmount, setAskPrice, method],
+    [setAskAmount, clearAskAmount, setAskPrice, clearAskPrice, method],
   )
 
   const onClear = useCallback(() => {
-    setAskAmount('')
-    setAskPrice('')
-  }, [setAskAmount, setAskPrice])
+    setValue('')
+    clearAskAmount()
+    clearAskPrice()
+  }, [clearAskAmount, clearAskPrice])
 
   const onSwitch = useCallback(
     (value: SegmentedValue) => {
@@ -84,7 +95,7 @@ const Ask = () => {
         </Row>
       </Col>
       <Col span={24}>
-        <Row gutter={[8, 8]} align="middle">
+        <Row gutter={[8, 8]} align="top" wrap={false}>
           <Col>
             <TokenSelection
               options={partneredTokens}
@@ -93,23 +104,37 @@ const Ask = () => {
             />
           </Col>
           <Col flex="auto">
-            <Input
-              size="large"
-              placeholder={`${method} of ${askToken}`}
-              value={value}
-              onChange={onInput}
-              suffix={
-                <Button
-                  type="text"
-                  shape="circle"
-                  size="small"
-                  icon={<IconSax name="CloseCircle" />}
-                  onClick={onClear}
-                  loading={loading}
-                  disabled={!askAmount && !askPrice}
+            <Row gutter={[0, 0]} justify="end">
+              <Col span={24}>
+                <Input
+                  size="large"
+                  placeholder={`${method} of ${askToken}`}
+                  value={value}
+                  onChange={onInput}
+                  suffix={
+                    <Button
+                      type="text"
+                      shape="circle"
+                      size="small"
+                      icon={<IconSax name="CloseCircle" />}
+                      onClick={onClear}
+                      loading={loading}
+                      disabled={!value}
+                    />
+                  }
                 />
-              }
-            />
+              </Col>
+              {amountError && (
+                <Col>
+                  <Typography.Text type="danger">{amountError}</Typography.Text>
+                </Col>
+              )}
+              {priceError && (
+                <Col>
+                  <Typography.Text type="danger">{priceError}</Typography.Text>
+                </Col>
+              )}
+            </Row>
           </Col>
         </Row>
       </Col>

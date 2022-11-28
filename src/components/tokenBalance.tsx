@@ -12,7 +12,7 @@ export type TokenBalanceProps = {
 
 const TokenBalance = ({ mintAddress }: TokenBalanceProps) => {
   const { symbol, decimals } = useMetadataByAddress(mintAddress) || {}
-  const [amount] = useBalance(mintAddress)
+  const { amount } = useBalance(mintAddress)
 
   const balance = useMemo(() => {
     if (typeof decimals !== 'number') return 0

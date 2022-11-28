@@ -18,7 +18,7 @@ const Bid = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
   const { bidToken, setBidToken } = useBidToken('SNTR')
-  const { bidAmount, setBidAmount } = useBidAmount()
+  const { bidAmount, setBidAmount, clear, error } = useBidAmount()
   const { address } = useMetadataBySymbol(bidToken) || {}
 
   const onBidAmount = useCallback(
@@ -35,8 +35,9 @@ const Bid = () => {
   )
 
   const onClear = useCallback(() => {
-    setBidAmount('')
-  }, [setBidAmount])
+    setValue('')
+    clear()
+  }, [clear])
 
   useEffect(() => {
     setValue(bidAmount)
@@ -55,7 +56,7 @@ const Bid = () => {
         </Row>
       </Col>
       <Col span={24}>
-        <Row gutter={[8, 8]} align="middle">
+        <Row gutter={[8, 8]} align="top" wrap={false}>
           <Col>
             <TokenSelection
               options={partneredTokens}
@@ -64,23 +65,32 @@ const Bid = () => {
             />
           </Col>
           <Col flex="auto">
-            <Input
-              size="large"
-              placeholder={`Amount of ${bidToken}`}
-              value={value}
-              onChange={onBidAmount}
-              suffix={
-                <Button
-                  type="text"
-                  shape="circle"
-                  size="small"
-                  icon={<IconSax name="CloseCircle" />}
-                  onClick={onClear}
-                  loading={loading}
-                  disabled={!bidAmount}
+            <Row gutter={[0, 0]} justify="end">
+              <Col span={24}>
+                <Input
+                  size="large"
+                  placeholder={`Amount of ${bidToken}`}
+                  value={value}
+                  onChange={onBidAmount}
+                  suffix={
+                    <Button
+                      type="text"
+                      shape="circle"
+                      size="small"
+                      icon={<IconSax name="CloseCircle" />}
+                      onClick={onClear}
+                      loading={loading}
+                      disabled={!value}
+                    />
+                  }
                 />
-              }
-            />
+              </Col>
+              {error && (
+                <Col>
+                  <Typography.Text type="danger">{error}</Typography.Text>
+                </Col>
+              )}
+            </Row>
           </Col>
         </Row>
       </Col>

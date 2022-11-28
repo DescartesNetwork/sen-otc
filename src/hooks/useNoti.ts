@@ -29,5 +29,5 @@ export const useRecentNoti = () => {
     if (error) message.error(error)
   }, [error])
 
-  return [data, refresh] as [typeof data, typeof refresh]
+  return { data, error: error?.message, refresh }
 }

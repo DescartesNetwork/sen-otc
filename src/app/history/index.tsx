@@ -17,8 +17,8 @@ const {
 
 const History = () => {
   const navigate = useNavigate()
-  const [action, setAction] = useAction()
-  const [offeredToken, setOfferedToken] = useOfferedToken()
+  const { action, setAction } = useAction()
+  const { offeredToken, setOfferedToken } = useOfferedToken()
 
   return (
     <MaxWidthLayout>
