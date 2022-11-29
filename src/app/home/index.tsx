@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { Col, Divider, Row } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Navigation from './navigation'
@@ -5,12 +7,17 @@ import Stat from './stat'
 import Filter from './filter'
 import OfferCard from './offerCard'
 
-import { otcActionSelector, useOrderSelector } from 'hooks/useOrder'
+import { useBuyingOrders, useSellingOrders } from 'hooks/useOrder'
 import { useAction } from 'hooks/useFilter'
 
 const Home = () => {
   const { action } = useAction()
-  const orders = useOrderSelector(otcActionSelector(action))
+  const buyingOrders = useBuyingOrders()
+  const sellingOrders = useSellingOrders()
+
+  const orders = useMemo(() => {
+    return action === 'Buy' ? buyingOrders : sellingOrders
+  }, [action, buyingOrders, sellingOrders])
 
   return (
     <MaxWidthLayout>

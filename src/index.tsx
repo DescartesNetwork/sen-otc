@@ -16,8 +16,8 @@ import App from 'app'
 
 import configs from 'configs'
 import store from 'store'
-import { theme } from 'static/styles/theme'
 import reportWebVitals from 'reportWebVitals'
+import { theme } from 'static/styles/theme'
 import 'static/styles/index.css'
 
 const {

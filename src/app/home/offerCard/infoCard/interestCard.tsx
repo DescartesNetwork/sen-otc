@@ -12,8 +12,10 @@ export type InterestCardProps = { orderAddress: string }
 const InterestCard = ({ orderAddress }: InterestCardProps) => {
   const { action } = useAction()
   const offeredPrice = useOfferedPrice(orderAddress)
-  const { ticket } = useOrderPartneredToken(orderAddress) || { ticket: '' }
-  const { price: referencePrice } = usePrice(ticket)
+  const { cgkTicket } = useOrderPartneredToken(orderAddress) || {
+    cgkTicket: '',
+  }
+  const { price: referencePrice } = usePrice(cgkTicket)
 
   const save = useMemo(() => {
     if (!offeredPrice || !referencePrice) return 0
@@ -50,7 +52,7 @@ const InterestCard = ({ orderAddress }: InterestCardProps) => {
         <Col span={24}>
           <Typography.Paragraph type="secondary">-</Typography.Paragraph>
           <Typography.Link
-            href={`https://www.coingecko.com/en/coins/${ticket}`}
+            href={`https://www.coingecko.com/en/coins/${cgkTicket}`}
             target="_blank"
           >
             View the price on CoinGecko

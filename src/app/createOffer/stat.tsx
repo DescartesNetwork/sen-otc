@@ -22,11 +22,14 @@ const ReferencePrice = () => {
   const { bidToken } = useBidToken()
   const { askToken } = useAskToken()
   const { mode } = useMode()
-  const { price: referencePrice } = usePrice(
-    partneredTokens.find(
-      ({ symbol }) => symbol === bidToken || symbol === askToken,
-    )?.ticket || '',
-  )
+  const { cgkTicket } = useMemo(
+    () =>
+      partneredTokens.find(
+        ({ symbol }) => symbol === bidToken || symbol === askToken,
+      ),
+    [bidToken, askToken],
+  ) || { cgkTicket: '' }
+  const { price: referencePrice } = usePrice(cgkTicket)
 
   const referenceUnit = useMemo(() => {
     if (mode === 'Buy') return askToken

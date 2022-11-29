@@ -1,15 +1,13 @@
 import {
-  AcceptedPayment,
   ACCEPTED_PAYMENTS_DEVNET,
   ACCEPTED_PAYMENTS_MAINNET,
   ACCEPTED_PAYMENTS_TESTNET,
-} from 'helpers/acceptedPayments'
+} from './acceptedPayments'
 import {
-  PartneredToken,
   PARTNERED_TOKENS_DEVNET,
   PARTNERED_TOKENS_MAINNET,
   PARTNERED_TOKENS_TESTNET,
-} from 'helpers/partneredToken'
+} from './partneredToken'
 import { Net } from './net'
 
 /**
@@ -17,8 +15,8 @@ import { Net } from './net'
  */
 
 type Conf = {
-  partneredTokens: PartneredToken
-  acceptedPayments: AcceptedPayment
+  partneredTokens: TokenMetadata[]
+  acceptedPayments: TokenMetadata[]
 }
 
 const conf: Record<Net, Conf> = {

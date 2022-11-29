@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import configs from 'configs'
 import { AppState } from 'store'
 import { OrderState } from 'store/order.reducer'
-import { AcceptedPaymentMetadata } from 'helpers/acceptedPayments'
 import { useMetadataByAddress } from './useToken'
 import { undecimalize } from 'helpers/util'
 
@@ -12,12 +11,7 @@ const {
   otc: { acceptedPayments },
 } = configs
 
-/**
- * Buy/Sell filter
- * @param action
- * @returns
- */
-export const otcActionSelector = (action: OtcMode = 'Buy') => {
+const otcActionSelector = (action: OtcMode = 'Buy') => {
   const key = action === 'Buy' ? 'aToken' : 'bToken'
   return (orders: OrderState) => {
     let filteredOrders: OrderState = {}
@@ -25,8 +19,7 @@ export const otcActionSelector = (action: OtcMode = 'Buy') => {
       const { [key]: token } = orders[orderAddress]
       if (
         acceptedPayments.findIndex(
-          ({ address }: AcceptedPaymentMetadata) =>
-            address === token.toBase58(),
+          ({ address }: TokenMetadata) => address === token.toBase58(),
         ) >= 0
       ) {
         filteredOrders[orderAddress] = orders[orderAddress]
@@ -55,14 +48,32 @@ export const useOrderSelector = <T>(selector: (orders: OrderState) => T): T => {
 }
 
 /**
+ * Get all buying orders
+ * @returns
+ */
+export const useBuyingOrders = () => {
+  const buyingOrders = useOrderSelector(otcActionSelector('Buy'))
+  return buyingOrders
+}
+
+/**
+ * Get all selling orders
+ * @returns
+ */
+export const useSellingOrders = () => {
+  const sellingOrders = useOrderSelector(otcActionSelector('Sell'))
+  return sellingOrders
+}
+
+/**
  * Derive order mode
  * @param orderAddress
  */
 export const useOrderMode = (orderAddress: string): OtcMode | undefined => {
-  const buyOrders = useOrderSelector(otcActionSelector('Buy'))
-  const sellOrders = useOrderSelector(otcActionSelector('Sell'))
-  if (Object.keys(buyOrders).includes(orderAddress)) return 'Buy'
-  if (Object.keys(sellOrders).includes(orderAddress)) return 'Sell'
+  const buyingOrders = useBuyingOrders()
+  const sellingOrders = useSellingOrders()
+  if (Object.keys(buyingOrders).includes(orderAddress)) return 'Buy'
+  if (Object.keys(sellingOrders).includes(orderAddress)) return 'Sell'
   return undefined
 }
 
@@ -76,10 +87,9 @@ export const useOrderPaymentMethod = (orderAddress: string) => {
   const { aToken, bToken } =
     useOrderSelector((orders) => orders[orderAddress]) || {}
   const paymentMethodAddress = useMemo(() => {
-    if (!aToken || !bToken) return ''
+    if (!aToken || !bToken || !mode) return ''
     if (mode === 'Buy') return aToken.toBase58()
-    else if (mode === 'Sell') return bToken.toBase58()
-    else return ''
+    return bToken.toBase58()
   }, [mode, aToken, bToken])
   const paymentMethod = useMetadataByAddress(paymentMethodAddress)
 
@@ -96,10 +106,9 @@ export const useOrderPartneredToken = (orderAddress: string) => {
   const { aToken, bToken } =
     useOrderSelector((orders) => orders[orderAddress]) || {}
   const partneredTokenAddress = useMemo(() => {
-    if (!aToken || !bToken) return ''
+    if (!aToken || !bToken || !mode) return ''
     if (mode === 'Buy') return bToken.toBase58()
-    else if (mode === 'Sell') return aToken.toBase58()
-    else return ''
+    return aToken.toBase58()
   }, [mode, aToken, bToken])
   const partneredToken = useMetadataByAddress(partneredTokenAddress)
 
@@ -119,10 +128,9 @@ export const useOfferedPrice = (orderAddress: string) => {
   const partneredToken = useOrderPartneredToken(orderAddress)
 
   const [paymentMethodAmount, partneredTokenAmount] = useMemo(() => {
-    if (!a || !b) return []
+    if (!a || !b || !mode) return []
     if (mode === 'Buy') return [a, b]
-    else if (mode === 'Sell') return [b, a]
-    else return []
+    return [b, a]
   }, [mode, a, b])
 
   const price = useMemo(() => {

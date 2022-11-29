@@ -1,7 +1,6 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import IconSax from '@sentre/antd-iconsax'
-import { Button, Col, Input, Row, Typography } from 'antd'
+import { Col, Input, Row, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
 import TreasuryBalance from 'components/treasuryBalance'
 
@@ -12,33 +11,12 @@ import { useRouteParam } from 'hooks/useQueryParam'
 const {
   otc: { acceptedPayments },
 } = configs
-let timeoutId: ReturnType<typeof setTimeout>
 
 const ReceivedAmount = () => {
-  const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
   const orderAddress = useRouteParam('orderAddress') || ''
-  const { receivedAmount, setReceivedAmount, receivedAmountError, clear } =
-    useReceivedAmount()
+  const { receivedAmount, receivedAmountError } = useReceivedAmount()
   const receivedToken = useReceivedToken()
-
-  const onAskAmount = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      clearTimeout(timeoutId)
-      setLoading(true)
-      setValue(e.target.value)
-      timeoutId = setTimeout(() => {
-        setLoading(false)
-        setReceivedAmount(e.target.value)
-      }, 500)
-    },
-    [setReceivedAmount],
-  )
-
-  const onClear = useCallback(() => {
-    setValue('')
-    clear()
-  }, [clear])
 
   useEffect(() => {
     setValue(receivedAmount)
@@ -72,18 +50,7 @@ const ReceivedAmount = () => {
                   size="large"
                   placeholder={`Amount of ${receivedToken?.symbol}`}
                   value={value}
-                  onChange={onAskAmount}
-                  suffix={
-                    <Button
-                      type="text"
-                      shape="circle"
-                      size="small"
-                      icon={<IconSax name="CloseCircle" />}
-                      onClick={onClear}
-                      loading={loading}
-                      disabled={!value}
-                    />
-                  }
+                  readOnly
                 />
               </Col>
               {receivedAmountError && (

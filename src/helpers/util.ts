@@ -75,7 +75,8 @@ export const explorer = (addressOrTxId: string): string => {
 export const undecimalize = (amount: BN, decimals: number): number => {
   const e = new BN(10 ** decimals)
   const natural = amount.div(e).toString()
-  const residue = amount.sub(amount.div(e).mul(e)).toString()
+  let residue = amount.sub(amount.div(e).mul(e)).toString()
+  while (residue.length < decimals) residue = '0' + residue
   return parseFloat(`${natural}.${residue}`)
 }
 

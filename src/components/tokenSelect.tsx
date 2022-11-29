@@ -3,7 +3,6 @@ import { CSSProperties } from 'react'
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Card, Select, Space } from 'antd'
 
-import { AcceptedPayment } from 'helpers/acceptedPayments'
 import { useMetadataBySymbol } from 'hooks/useToken'
 import configs from 'configs'
 
@@ -44,7 +43,7 @@ export const TokenSelectionLite = ({
 }
 
 export type TokenSelectionProps = {
-  options: AcceptedPayment
+  options: TokenMetadata[]
   value?: string
   onChange?: (value: string) => void
   style?: CSSProperties

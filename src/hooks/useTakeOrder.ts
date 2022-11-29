@@ -1,35 +1,32 @@
 import BN from 'bn.js'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { OrderData } from '@sentre/otc'
 
-import { decimalize } from 'helpers/util'
+import { decimalize, undecimalize } from 'helpers/util'
 import { AppDispatch, AppState } from 'store'
 import { updateTakeOrder } from 'store/takeOrder.reducer'
 import { useBalance } from './useWallet'
-import {
-  useOrderMode,
-  useOrderPaymentMethod,
-  useOrderPartneredToken,
-} from './useOrder'
+import { useOrderSelector } from './useOrder'
 import { useRouteParam } from './useQueryParam'
+import { useMetadataByAddress } from './useToken'
+
+/**
+ * Get order data by order address which is parsed from the query param
+ */
+export const useCurrentOrder = (): OrderData | undefined => {
+  const orderAddress = useRouteParam('orderAddress') || ''
+  const order = useOrderSelector((orders) => orders[orderAddress])
+  return order
+}
 
 /**
  * Derive paid token metadata
  * @returns
  */
 export const usePaidToken = () => {
-  const orderAddress = useRouteParam('orderAddress') || ''
-  const mode = useOrderMode(orderAddress)
-  const paymentMethod = useOrderPaymentMethod(orderAddress)
-  const partneredToken = useOrderPartneredToken(orderAddress)
-
-  const paidToken = useMemo(() => {
-    if (!mode || !paymentMethod || !partneredToken) return undefined
-    if (mode === 'Buy') return paymentMethod
-    else if (mode === 'Sell') return partneredToken
-    return undefined
-  }, [mode, paymentMethod, partneredToken])
-
+  const { bToken } = useCurrentOrder() || {}
+  const paidToken = useMetadataByAddress(bToken?.toBase58() || '')
   return paidToken
 }
 
@@ -39,8 +36,8 @@ export const usePaidToken = () => {
  */
 export const validatePaidAmount = (
   paidAmount: string,
-  decimals: number,
-  balance: BN,
+  decimals: number | undefined,
+  balance: BN | undefined,
 ) => {
   if (isNaN(Number(paidAmount)) || isNaN(parseFloat(paidAmount)))
     return 'Invalid paid amount.'
@@ -58,22 +55,46 @@ export const usePaidAmount = () => {
   const paidAmountError = useSelector(
     ({ takeOrder }: AppState) => takeOrder.paidAmountError,
   )
-  const { decimals, address } = usePaidToken() || { decimals: 0, address: '' }
-  const { amount } = useBalance(address)
+  const { decimals: paidDecimals, address: paidTokenAddress } =
+    usePaidToken() || { address: '' }
+  const { decimals: receivedDecimals } = useReceivedToken() || {}
+  const { amount } = useBalance(paidTokenAddress)
+  const { a, b } = useCurrentOrder() || {}
+  const { setReceivedAmount, clear: clearReceivedAmount } = useReceivedAmount()
 
   const setPaidAmount = useCallback(
     async (paidAmount: string) => {
       // Validate
-      const paidAmountError = validatePaidAmount(paidAmount, decimals, amount)
+      const paidAmountError = validatePaidAmount(
+        paidAmount,
+        paidDecimals,
+        amount,
+      )
+      // Compute the received amount
+      if (
+        paidAmountError ||
+        !a ||
+        !b ||
+        typeof paidDecimals !== 'number' ||
+        typeof receivedDecimals !== 'number'
+      ) {
+        await setReceivedAmount('')
+      } else {
+        const paidAmountBN = decimalize(Number(paidAmount), paidDecimals)
+        const receivedAmountBN = paidAmountBN.mul(a).div(b)
+        const receivedAmount = undecimalize(receivedAmountBN, receivedDecimals)
+        await setReceivedAmount(receivedAmount.toString())
+      }
       // Submit
       return dispatch(updateTakeOrder({ paidAmount, paidAmountError }))
     },
-    [dispatch, decimals, amount],
+    [dispatch, amount, setReceivedAmount, a, b, paidDecimals, receivedDecimals],
   )
 
-  const clear = useCallback(() => {
-    dispatch(updateTakeOrder({ paidAmount: '', paidAmountError: '' }))
-  }, [dispatch])
+  const clear = useCallback(async () => {
+    await clearReceivedAmount()
+    return dispatch(updateTakeOrder({ paidAmount: '', paidAmountError: '' }))
+  }, [dispatch, clearReceivedAmount])
 
   return { paidAmount, setPaidAmount, paidAmountError, clear }
 }
@@ -83,18 +104,8 @@ export const usePaidAmount = () => {
  * @returns
  */
 export const useReceivedToken = () => {
-  const orderAddress = useRouteParam('orderAddress') || ''
-  const mode = useOrderMode(orderAddress)
-  const paymentMethod = useOrderPaymentMethod(orderAddress)
-  const partneredToken = useOrderPartneredToken(orderAddress)
-
-  const receivedToken = useMemo(() => {
-    if (!mode || !paymentMethod || !partneredToken) return undefined
-    if (mode === 'Buy') return partneredToken
-    else if (mode === 'Sell') return paymentMethod
-    return undefined
-  }, [mode, paymentMethod, partneredToken])
-
+  const { aToken } = useCurrentOrder() || {}
+  const receivedToken = useMetadataByAddress(aToken?.toBase58() || '')
   return receivedToken
 }
 
@@ -126,8 +137,10 @@ export const useReceivedAmount = () => {
     [dispatch],
   )
 
-  const clear = useCallback(() => {
-    dispatch(updateTakeOrder({ receivedAmount: '', receivedAmountError: '' }))
+  const clear = useCallback(async () => {
+    return dispatch(
+      updateTakeOrder({ receivedAmount: '', receivedAmountError: '' }),
+    )
   }, [dispatch])
 
   return { receivedAmount, setReceivedAmount, receivedAmountError, clear }
