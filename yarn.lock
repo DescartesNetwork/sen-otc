@@ -2235,10 +2235,10 @@
   dependencies:
     iconsax-react "^0.0.8"
 
-"@sentre/otc@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@sentre/otc/-/otc-1.0.3.tgz#36c2eeb4c226e8a963c5b8324f596bfb691f640b"
-  integrity sha512-ITO0AHYFQcn+IgS0Rprq0FHAaG8kmvWwKTWD1HGVbwsj9rQSa0H4vsmhoOPoZvAeySa5EK2Q1WDjGczPb56TWA==
+"@sentre/otc@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@sentre/otc/-/otc-1.0.5.tgz#b3c154b6737a8dc609aed771fce5e50b245a546e"
+  integrity sha512-Y3Tpltju26yXWBqpFzGBTYZ49yy7blxL+eCenQyJsfFEe5gBPodp7iKh8An33C3RnAnsA/0OKmCJTwWhs06P+w==
   dependencies:
     "@project-serum/anchor" "^0.24.2"
     bs58 "^5.0.0"

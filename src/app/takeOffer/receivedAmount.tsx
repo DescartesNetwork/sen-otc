@@ -30,7 +30,7 @@ const ReceivedAmount = () => {
             <Typography.Text type="secondary">RECEIVE</Typography.Text>
           </Col>
           <Col>
-            <TreasuryBalance type="b" orderAddress={orderAddress} />
+            <TreasuryBalance type="a" orderAddress={orderAddress} />
           </Col>
         </Row>
       </Col>

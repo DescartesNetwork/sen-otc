@@ -17,15 +17,17 @@ const TreasuryBalance = ({
   orderAddress,
   onMax = () => {},
 }: TreasuryBalanceProps) => {
-  const { [type]: amount, [`${type}Token` as 'aToken' | 'bToken']: publicKey } =
-    useOrderSelector((orders) => orders[orderAddress]) || {}
+  const {
+    remainingAmount,
+    [`${type}Token` as 'aToken' | 'bToken']: publicKey,
+  } = useOrderSelector((orders) => orders[orderAddress]) || {}
   const address = useMemo(() => publicKey?.toBase58() || '', [publicKey])
   const { symbol, decimals } = useMetadataByAddress(address) || {}
 
   const balance = useMemo(() => {
-    if (typeof decimals !== 'number' || !amount) return 0
-    return undecimalize(amount, decimals)
-  }, [decimals, amount])
+    if (typeof decimals !== 'number' || !remainingAmount) return 0
+    return undecimalize(remainingAmount, decimals)
+  }, [decimals, remainingAmount])
 
   return (
     <Typography.Text type="secondary" onClick={() => onMax(balance)}>

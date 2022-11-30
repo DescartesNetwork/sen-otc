@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import IconSax from '@sentre/antd-iconsax'
@@ -7,8 +7,11 @@ import InfoCard from './infoCard'
 
 import { explorer, numeric, shortenAddress } from 'helpers/util'
 import { useAction } from 'hooks/useFilter'
-import { useOfferedPrice, useOrderSelector } from 'hooks/useOrder'
-import { useMetadataByAddress } from 'hooks/useToken'
+import {
+  useOfferedPrice,
+  useOrderPartneredToken,
+  useOrderPaymentMethod,
+} from 'hooks/useOrder'
 import { useWidth } from 'hooks/useUi'
 import { Infix } from 'store/ui.reducer'
 
@@ -18,17 +21,11 @@ export type OfferCardProps = {
 
 const OfferCard = ({ orderAddress }: OfferCardProps) => {
   const navigate = useNavigate()
-  const { action } = useAction()
-  const { aToken, bToken } = useOrderSelector((orders) => orders[orderAddress])
   const width = useWidth()
+  const { action } = useAction()
   const offeredPrice = useOfferedPrice(orderAddress)
-
-  const [paymentMethodAddress, partneredTokenAddress] = useMemo(() => {
-    if (action === 'Buy') return [aToken.toBase58(), bToken.toBase58()]
-    else return [bToken.toBase58(), aToken.toBase58()]
-  }, [action, aToken, bToken])
-  const paymentMethod = useMetadataByAddress(paymentMethodAddress)
-  const partneredToken = useMetadataByAddress(partneredTokenAddress)
+  const paymentMethod = useOrderPaymentMethod(orderAddress)
+  const partneredToken = useOrderPartneredToken(orderAddress)
 
   const onOpen = useCallback(() => {
     return navigate(`/offer/${orderAddress}`)

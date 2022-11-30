@@ -12,7 +12,7 @@ const {
 } = configs
 
 const otcActionSelector = (action: OtcMode = 'Buy') => {
-  const key = action === 'Buy' ? 'aToken' : 'bToken'
+  const key = action === 'Buy' ? 'bToken' : 'aToken'
   return (orders: OrderState) => {
     let filteredOrders: OrderState = {}
     Object.keys(orders).forEach((orderAddress) => {
@@ -88,8 +88,8 @@ export const useOrderPaymentMethod = (orderAddress: string) => {
     useOrderSelector((orders) => orders[orderAddress]) || {}
   const paymentMethodAddress = useMemo(() => {
     if (!aToken || !bToken || !mode) return ''
-    if (mode === 'Buy') return aToken.toBase58()
-    return bToken.toBase58()
+    if (mode === 'Buy') return bToken.toBase58()
+    return aToken.toBase58()
   }, [mode, aToken, bToken])
   const paymentMethod = useMetadataByAddress(paymentMethodAddress)
 
@@ -107,8 +107,8 @@ export const useOrderPartneredToken = (orderAddress: string) => {
     useOrderSelector((orders) => orders[orderAddress]) || {}
   const partneredTokenAddress = useMemo(() => {
     if (!aToken || !bToken || !mode) return ''
-    if (mode === 'Buy') return bToken.toBase58()
-    return aToken.toBase58()
+    if (mode === 'Buy') return aToken.toBase58()
+    return bToken.toBase58()
   }, [mode, aToken, bToken])
   const partneredToken = useMetadataByAddress(partneredTokenAddress)
 
@@ -129,8 +129,8 @@ export const useOfferedPrice = (orderAddress: string) => {
 
   const [paymentMethodAmount, partneredTokenAmount] = useMemo(() => {
     if (!a || !b || !mode) return []
-    if (mode === 'Buy') return [a, b]
-    return [b, a]
+    if (mode === 'Buy') return [b, a]
+    return [a, b]
   }, [mode, a, b])
 
   const price = useMemo(() => {

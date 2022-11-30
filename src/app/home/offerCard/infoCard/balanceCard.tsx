@@ -11,13 +11,15 @@ export type BalanceCardProps = {
 }
 
 const BalanceCard = ({ orderAddress }: BalanceCardProps) => {
-  const { aToken, a } = useOrderSelector((orders) => orders[orderAddress])
+  const { aToken, remainingAmount } = useOrderSelector(
+    (orders) => orders[orderAddress],
+  )
   const { url, symbol, decimals } =
     useMetadataByAddress(aToken.toBase58()) || {}
   const amount = useMemo(() => {
     if (typeof decimals !== 'number') return 0
-    return undecimalize(a, decimals)
-  }, [a, decimals])
+    return undecimalize(remainingAmount, decimals)
+  }, [remainingAmount, decimals])
 
   return (
     <Card style={{ height: '100%' }}>

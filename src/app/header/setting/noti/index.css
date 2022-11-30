@@ -1,7 +1,8 @@
 .kylan-noti {
   border-radius: 12px;
   padding: 12px;
-  transition: ease-in-out;
+  transition: 300ms;
+  transition-timing-function: ease-in-out;
   cursor: pointer;
 }
 

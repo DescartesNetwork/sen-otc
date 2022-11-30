@@ -20,7 +20,7 @@ const Stat = () => {
 
   const actualReceivedAmount = useMemo(() => {
     if (receivedAmountError || !receivedAmount) return '--'
-    return numeric(Number(receivedAmount) * 0.98).format('0,0.[000]')
+    return numeric(Number(receivedAmount) * 0.98).format('0,0.[000000]')
   }, [receivedAmount, receivedAmountError])
 
   return (
@@ -35,7 +35,7 @@ const Stat = () => {
             </Col>
             <Col>
               <Typography.Text>
-                {`${numeric(offeredPrice).format('0,0.[0000]')} ${
+                {`${numeric(1 / offeredPrice).format('0,0.[000000]')} ${
                   partneredToken?.symbol
                 } = 1 ${paymentMethod?.symbol}`}
               </Typography.Text>

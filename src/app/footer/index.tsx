@@ -1,4 +1,4 @@
-import { TwitterOutlined } from '@ant-design/icons'
+import { GithubOutlined, TwitterOutlined } from '@ant-design/icons'
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Row, Space, Typography } from 'antd'
 import Kylan from 'components/kylan'
@@ -23,7 +23,17 @@ const SOCIALS = [
   {
     title: 'Docs',
     url: 'https://docs.kylan.so',
-    icon: <IconSax name="Document" variant="Bold" />,
+    icon: <IconSax name="Book" variant="Bold" />,
+  },
+  {
+    title: 'SDK',
+    url: 'https://sdk.kylan.so',
+    icon: <IconSax name="Box" variant="Bold" />,
+  },
+  {
+    title: 'GitHub',
+    url: 'https://github.com/DescartesNetwork/sen-otc',
+    icon: <GithubOutlined />,
   },
 ]
 
@@ -40,7 +50,7 @@ const Footer = () => {
           <Kylan size={16} onClick={() => window.scrollTo(0, 0)} />
         </Col>
         <Col span={24} style={{ textAlign: 'end' }}>
-          <Space size={0}>
+          <Space size={4} wrap={true} style={{ justifyContent: 'end' }}>
             {SOCIALS.map(({ title, url, icon }) => (
               <Button
                 key={title}
