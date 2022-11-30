@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { isAddress } from '@sentre/otc'
 import { BN } from 'bn.js'
 
-import { Button, Col, message, Row, Typography } from 'antd'
+import { Button, Col, message, Row, Space, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Mode from './mode'
 import BuyMode from './buyMode'
@@ -26,6 +26,7 @@ import {
 import { useOtc } from 'hooks/useProvider'
 import { useMetadataBySymbol } from 'hooks/useToken'
 import { decimalize, explorer } from 'helpers/util'
+import IconSax from '@sentre/antd-iconsax'
 
 const ZERO = new BN(0)
 
@@ -161,7 +162,16 @@ const CreateOffer = () => {
     <MaxWidthLayout level={3}>
       <Row gutter={[12, 24]}>
         <Col span={24}>
-          <Typography.Title level={2}>Create an Offer</Typography.Title>
+          <Space>
+            <Button
+              size="large"
+              type="text"
+              icon={<IconSax name="ArrowLeft2" />}
+              onClick={() => navigate('/home')}
+              style={{ marginLeft: -8 }}
+            />
+            <Typography.Title level={2}>Create an Offer</Typography.Title>
+          </Space>
         </Col>
         <Col span={24} style={{ textAlign: 'end' }}>
           <Mode />
@@ -183,7 +193,7 @@ const CreateOffer = () => {
           <Button
             size="large"
             shape="round"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/home')}
             block
           >
             Cancel

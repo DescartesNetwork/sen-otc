@@ -24,15 +24,14 @@ const History = () => {
     <MaxWidthLayout>
       <Row gutter={[24, 24]}>
         <Col span={24}>
-          <Space direction="vertical">
+          <Space>
             <Button
+              size="large"
               type="text"
-              icon={<IconSax name="ArrowLeft" />}
-              onClick={() => navigate('/')}
-              style={{ fontWeight: 700 }}
-            >
-              Back
-            </Button>
+              icon={<IconSax name="ArrowLeft2" />}
+              onClick={() => navigate('/home')}
+              style={{ marginLeft: -8 }}
+            />
             <Typography.Title level={2}>Transaction History</Typography.Title>
           </Space>
         </Col>
