@@ -3,7 +3,7 @@ import moment from 'moment'
 import { Card, Col, Progress, Row, Space, Typography } from 'antd'
 import {
   ActiveOfferTag,
-  EndedOfferTag,
+  CompleteOfferTag,
   UpcomingOfferTag,
 } from 'components/offerTag'
 
@@ -40,10 +40,10 @@ const TimeCard = ({ orderAddress }: TimeCardProps) => {
   const tag = useMemo(() => {
     if (startIn > 0) return <UpcomingOfferTag />
     if (endIn > 0) return <ActiveOfferTag />
-    return <EndedOfferTag />
+    return <CompleteOfferTag />
   }, [startIn, endIn])
 
-  const [counter] = useCountdown(time)
+  const { counter } = useCountdown(time)
   const duration = moment.duration(counter, 'seconds')
 
   return (

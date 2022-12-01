@@ -26,5 +26,5 @@ export const useCountdown = (seconds: number) => {
 
   const refresh = useCallback(() => setRefreshing(true), [])
 
-  return [counter, refresh] as [typeof counter, typeof refresh]
+  return { counter, refresh }
 }

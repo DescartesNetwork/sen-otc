@@ -11,13 +11,20 @@ export enum SortedBy {
   AscendingPrice = 'AscendingPrice',
   DescendingPrice = 'DescendingPrice',
 }
+export enum OrderStatus {
+  All = 'All',
+  Upcomming = 'Upcoming',
+  Active = 'Active',
+  Complete = 'Complete',
+}
 
 export type FilterState = {
   action: OtcMode
   paymentMethod: string
-  offeredToken: string
+  partneredToken: string
   keyword: string
   sort: SortedBy
+  status: OrderStatus
 }
 
 /**
@@ -28,47 +35,20 @@ const NAME = 'filter'
 const initialState: FilterState = {
   action: 'Buy',
   paymentMethod: 'USDC',
-  offeredToken: 'USDC',
+  partneredToken: 'All',
   keyword: '',
   sort: SortedBy.AscendingSave,
+  status: OrderStatus.Active,
 }
 
 /**
  * Actions
  */
 
-export const setAction = createAsyncThunk(
-  `${NAME}/setAction`,
-  async (action: OtcMode) => {
-    return { action }
-  },
-)
-
-export const setPaymentMethod = createAsyncThunk(
-  `${NAME}/setPaymentMethod`,
-  async (paymentMethod: string) => {
-    return { paymentMethod }
-  },
-)
-
-export const setOfferedToken = createAsyncThunk(
-  `${NAME}/setOfferedToken`,
-  async (offeredToken: string) => {
-    return { offeredToken }
-  },
-)
-
-export const setKeyword = createAsyncThunk(
-  `${NAME}/setKeyword`,
-  async (keyword: string) => {
-    return { keyword }
-  },
-)
-
-export const setSort = createAsyncThunk(
-  `${NAME}/setSort`,
-  async (sort: SortedBy) => {
-    return { sort }
+export const updateFilter = createAsyncThunk(
+  `${NAME}/updateFilter`,
+  async (filter: Partial<FilterState>) => {
+    return { ...filter }
   },
 )
 
@@ -81,27 +61,10 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    void builder
-      .addCase(
-        setAction.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
-      .addCase(
-        setPaymentMethod.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
-      .addCase(
-        setKeyword.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
-      .addCase(
-        setOfferedToken.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
-      .addCase(
-        setSort.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      ),
+    void builder.addCase(
+      updateFilter.fulfilled,
+      (state, { payload }) => void Object.assign(state, payload),
+    ),
 })
 
 export default slice.reducer

@@ -9,16 +9,16 @@ import HistoryTable from './historyTable'
 import Portfolio from './portfolio'
 
 import configs from 'configs'
-import { useAction, useOfferedToken } from 'hooks/useFilter'
+import { useAction, usePartneredToken } from 'hooks/useFilter'
 
 const {
-  otc: { acceptedPayments },
+  otc: { partneredTokens },
 } = configs
 
 const History = () => {
   const navigate = useNavigate()
   const { action, setAction } = useAction()
-  const { offeredToken, setOfferedToken } = useOfferedToken()
+  const { partneredToken, setPartneredToken } = usePartneredToken()
 
   return (
     <MaxWidthLayout>
@@ -53,10 +53,10 @@ const History = () => {
                 <TokenSelectionLite
                   options={[
                     'All',
-                    ...acceptedPayments.map(({ symbol }) => symbol),
+                    ...partneredTokens.map(({ symbol }) => symbol),
                   ]}
-                  value={offeredToken}
-                  onChange={setOfferedToken}
+                  value={partneredToken}
+                  onChange={setPartneredToken}
                   style={{ margin: 4 }}
                 />
               </Space>

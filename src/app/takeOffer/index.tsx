@@ -11,7 +11,7 @@ import ReceivedAmount from './receivedAmount'
 import Stat from './stat'
 
 import { useOrderMode, useOrderPartneredToken } from 'hooks/useOrder'
-import { useRouteParam } from 'hooks/useQueryParam'
+import { useRouteParam } from 'hooks/useParam'
 import {
   usePaidAmount,
   usePaidToken,

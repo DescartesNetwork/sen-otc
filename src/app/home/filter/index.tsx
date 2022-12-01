@@ -1,28 +1,27 @@
 import { Badge, Button, Col, Row, Space } from 'antd'
 import Search from './search'
-
-import {
-  useAction,
-  useKeyword,
-  useOfferedToken,
-  usePaymentMethod,
-  useSort,
-} from 'hooks/useFilter'
 import Sort from './sort'
 import BuySellFilter from 'components/filters/buySellFilter'
 import { TokenSelectionLite } from 'components/tokenSelect'
+import StatusFilter from './statusFilter'
 
 import configs from 'configs'
+import {
+  useAction,
+  useKeyword,
+  usePartneredToken,
+  usePaymentMethod,
+  useSort,
+} from 'hooks/useFilter'
 
 const {
-  otc: { acceptedPayments },
+  otc: { acceptedPayments, partneredTokens },
 } = configs
-const SYMBOLS = acceptedPayments.map(({ symbol }) => symbol)
 
 const Filter = () => {
   const { action, setAction } = useAction()
   const { paymentMethod, setPaymentMethod } = usePaymentMethod()
-  const { offeredToken, setOfferedToken } = useOfferedToken()
+  const { partneredToken, setPartneredToken } = usePartneredToken()
   const { keyword, setKeyword } = useKeyword()
   const { sort, setSort } = useSort()
 
@@ -35,18 +34,23 @@ const Filter = () => {
           </Col>
           <Col flex="auto">
             <Space size={0} style={{ width: '100%', overflow: 'auto' }}>
-              {SYMBOLS.map((symbol) => (
-                <Badge
-                  key={symbol}
-                  color="black"
-                  offset={[-8, 8]}
-                  dot={paymentMethod === symbol}
-                >
-                  <Button type="text" onClick={() => setPaymentMethod(symbol)}>
-                    {symbol}
-                  </Button>
-                </Badge>
-              ))}
+              {['All', ...partneredTokens.map(({ symbol }) => symbol)].map(
+                (symbol) => (
+                  <Badge
+                    key={symbol}
+                    color="black"
+                    offset={[-8, 8]}
+                    dot={partneredToken === symbol}
+                  >
+                    <Button
+                      type="text"
+                      onClick={() => setPartneredToken(symbol)}
+                    >
+                      {symbol}
+                    </Button>
+                  </Badge>
+                ),
+              )}
             </Space>
           </Col>
         </Row>
@@ -58,19 +62,15 @@ const Filter = () => {
           </Col>
           <Col>
             <TokenSelectionLite
-              options={SYMBOLS}
-              value={offeredToken}
-              onChange={setOfferedToken}
+              options={acceptedPayments.map(({ symbol }) => symbol)}
+              value={paymentMethod}
+              onChange={setPaymentMethod}
               prefix="By:"
               style={{ width: 116 }}
             />
           </Col>
           <Col>
-            <TokenSelectionLite
-              options={SYMBOLS}
-              value={offeredToken}
-              onChange={setOfferedToken}
-            />
+            <StatusFilter />
           </Col>
           <Col>
             <Sort sort={sort} onSort={setSort} />

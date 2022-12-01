@@ -6,7 +6,7 @@ import {
   useOrderPartneredToken,
   useOrderPaymentMethod,
 } from 'hooks/useOrder'
-import { useRouteParam } from 'hooks/useQueryParam'
+import { useRouteParam } from 'hooks/useParam'
 import { useReceivedAmount, useReceivedToken } from 'hooks/useTakeOrder'
 import { useMemo } from 'react'
 

@@ -6,7 +6,7 @@ import TreasuryBalance from 'components/treasuryBalance'
 
 import configs from 'configs'
 import { useReceivedAmount, useReceivedToken } from 'hooks/useTakeOrder'
-import { useRouteParam } from 'hooks/useQueryParam'
+import { useRouteParam } from 'hooks/useParam'
 
 const {
   otc: { acceptedPayments },

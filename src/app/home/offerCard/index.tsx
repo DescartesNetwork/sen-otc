@@ -40,7 +40,7 @@ const OfferCard = ({ orderAddress }: OfferCardProps) => {
             <Avatar src={paymentMethod?.url} size={40} />
             <Space direction="vertical" size={0}>
               <Typography.Title level={4}>
-                {numeric(offeredPrice).format('0,0.[000]')}
+                {numeric(offeredPrice).format('0,0.[000000]')}
               </Typography.Title>
               <Typography.Text type="secondary">
                 {paymentMethod?.symbol}/{partneredToken?.symbol}

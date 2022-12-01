@@ -8,7 +8,7 @@ import { AppDispatch, AppState } from 'store'
 import { updateTakeOrder } from 'store/takeOrder.reducer'
 import { useBalance } from './useWallet'
 import { useOrderSelector } from './useOrder'
-import { useRouteParam } from './useQueryParam'
+import { useRouteParam } from './useParam'
 import { useMetadataByAddress } from './useToken'
 
 /**
