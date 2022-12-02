@@ -32,7 +32,10 @@ const InterestCard = ({ orderAddress }: InterestCardProps) => {
         </Col>
         <Col span={24}>
           <Space>
-            <Typography.Title style={{ color: '#1A63FF' }} level={5}>
+            <Typography.Title
+              style={{ color: save >= 0 ? '#1A63FF' : '#E52E3A' }}
+              level={5}
+            >
               {numeric(save).format('0,0.[000]%')}
             </Typography.Title>
             <Tooltip

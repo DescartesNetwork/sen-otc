@@ -9,6 +9,8 @@ import {
   Coin98WalletAdapter,
   PhantomWalletAdapter,
 } from '@solana/wallet-adapter-wallets'
+import dayjs from 'dayjs'
+import durationPlugin from 'dayjs/plugin/duration'
 
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { ConfigProvider } from 'antd'
@@ -23,6 +25,8 @@ import 'static/styles/index.css'
 const {
   sol: { endpoint },
 } = configs
+
+dayjs.extend(durationPlugin)
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>

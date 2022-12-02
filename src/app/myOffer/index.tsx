@@ -3,14 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Row, Space, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
-
-import { useMyOrders } from 'hooks/useOrder'
+import MyOrdersTable from './myOrdersTable'
 
 const MyOffer = () => {
   const navigate = useNavigate()
-  const orders = useMyOrders()
-
-  console.log(orders)
 
   return (
     <MaxWidthLayout>
@@ -27,7 +23,9 @@ const MyOffer = () => {
             <Typography.Title level={2}>My Offer</Typography.Title>
           </Space>
         </Col>
-        <Col span={24}></Col>
+        <Col span={24}>
+          <MyOrdersTable />
+        </Col>
       </Row>
     </MaxWidthLayout>
   )

@@ -1,4 +1,5 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
+import { useMemo } from 'react'
 
 import { Card, Col, Progress, Row, Space, Typography } from 'antd'
 import {
@@ -9,7 +10,6 @@ import {
 
 import { useCountdown } from 'hooks/useCountdown'
 import { useOrderSelector } from 'hooks/useOrder'
-import { useMemo } from 'react'
 
 export type TimeCardProps = { orderAddress: string }
 
@@ -44,7 +44,7 @@ const TimeCard = ({ orderAddress }: TimeCardProps) => {
   }, [startIn, endIn])
 
   const { counter } = useCountdown(time)
-  const duration = moment.duration(counter, 'seconds')
+  const dura = dayjs.duration(counter, 'seconds')
 
   return (
     <Card style={{ height: '100%' }}>
@@ -55,11 +55,11 @@ const TimeCard = ({ orderAddress }: TimeCardProps) => {
         <Col span={24}>
           <Space>
             <Typography.Title style={{ color: '#1A63FF' }} level={5}>
-              {`${duration.days()}d : ${duration.hours()}h : ${duration.minutes()}m`}
+              {`${dura.days()}d : ${dura.hours()}h : ${dura.minutes()}m`}
             </Typography.Title>
             <Progress
               type="circle"
-              percent={100 - duration.seconds() / 0.6}
+              percent={100 - dura.seconds() / 0.6}
               width={14}
             />
           </Space>

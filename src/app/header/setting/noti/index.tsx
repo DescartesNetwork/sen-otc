@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Col, Row, Space, Typography } from 'antd'
@@ -42,7 +42,7 @@ const NotiCard = ({
           </Col>
           <Col>
             <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-              {moment(createdAt).format('DD/MM/YYYY, h:mm A')}
+              {dayjs(createdAt).format('DD/MM/YYYY, h:mm A')}
             </Typography.Text>
           </Col>
         </Row>
