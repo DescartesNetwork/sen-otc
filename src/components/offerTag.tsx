@@ -31,3 +31,7 @@ export const UpcomingOfferTag = () => {
 export const CompleteOfferTag = () => {
   return <OfferTag title="Complete" color="#52C41A" />
 }
+
+export const PausedOfferTag = () => {
+  return <OfferTag title="Paused" color="#E52E3A" />
+}

@@ -13,6 +13,7 @@ export enum SortedBy {
 }
 export enum OrderStatus {
   All = 'All',
+  Paused = 'Paused',
   Upcomming = 'Upcoming',
   Active = 'Active',
   Complete = 'Complete',

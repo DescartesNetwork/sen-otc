@@ -5,16 +5,19 @@ import { Card, Col, Progress, Row, Space, Typography } from 'antd'
 import {
   ActiveOfferTag,
   CompleteOfferTag,
+  PausedOfferTag,
   UpcomingOfferTag,
 } from 'components/offerTag'
 
 import { useCountdown } from 'hooks/useCountdown'
 import { useOrderSelector } from 'hooks/useOrder'
+import isEqual from 'react-fast-compare'
+import { OrderStates } from '@sentre/otc'
 
 export type TimeCardProps = { orderAddress: string }
 
 const TimeCard = ({ orderAddress }: TimeCardProps) => {
-  const { startDate, endDate } = useOrderSelector(
+  const { state, startDate, endDate } = useOrderSelector(
     (orders) => orders[orderAddress],
   )
 
@@ -38,10 +41,11 @@ const TimeCard = ({ orderAddress }: TimeCardProps) => {
     return 0
   }, [startIn, endIn])
   const tag = useMemo(() => {
+    if (isEqual(state, OrderStates.Paused)) return <PausedOfferTag />
     if (startIn > 0) return <UpcomingOfferTag />
     if (endIn > 0) return <ActiveOfferTag />
     return <CompleteOfferTag />
-  }, [startIn, endIn])
+  }, [state, startIn, endIn])
 
   const { counter } = useCountdown(time)
   const dura = dayjs.duration(counter, 'seconds')
