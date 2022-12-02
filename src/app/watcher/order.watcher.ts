@@ -6,11 +6,11 @@ import { SenOtcEvents } from '@sentre/otc'
 import { AppDispatch } from 'store'
 import { OrderState, updateOrder } from 'store/order.reducer'
 import { useOtc } from 'hooks/useProvider'
-// import configs from 'configs'
+import configs from 'configs'
 
-// const {
-//   otc: { acceptedPayments },
-// } = configs
+const {
+  otc: { acceptedPayments, partneredTokens },
+} = configs
 
 const FILTERS: GetProgramAccountsFilter[] = [
   // {
@@ -36,9 +36,23 @@ const OrderWatcher = () => {
   const fetchData = useCallback(async () => {
     const data = await otc.program.account.order.all(FILTERS)
     let orders: OrderState = {}
-    data.forEach(
-      ({ account, publicKey }) => (orders[publicKey.toBase58()] = account),
-    )
+    data.forEach(({ account, publicKey }) => {
+      if (
+        (acceptedPayments.findIndex(
+          ({ address }) => address === account.aToken.toBase58(),
+        ) >= 0 &&
+          partneredTokens.findIndex(
+            ({ address }) => address === account.bToken.toBase58(),
+          ) >= 0) ||
+        (acceptedPayments.findIndex(
+          ({ address }) => address === account.bToken.toBase58(),
+        ) >= 0 &&
+          partneredTokens.findIndex(
+            ({ address }) => address === account.aToken.toBase58(),
+          ) >= 0)
+      )
+        orders[publicKey.toBase58()] = account
+    })
     return dispatch(updateOrder(orders))
   }, [dispatch, otc])
 
