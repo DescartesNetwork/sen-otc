@@ -5,10 +5,10 @@ import Stat from './stat'
 import Filter from './filter'
 import OfferCard from './offerCard'
 
-import { useFilteredOrder } from 'hooks/useFilter'
+import { useFilteredOrders } from 'hooks/useFilter'
 
 const Home = () => {
-  const orders = useFilteredOrder()
+  const orders = useFilteredOrders()
 
   return (
     <MaxWidthLayout>

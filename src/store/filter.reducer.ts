@@ -4,12 +4,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
  * Interface & Utility
  */
 
-export const SORTING_TYPES = ['Save', 'Price']
+export const SORTING_TYPES = ['Price', 'Recent']
 export enum SortedBy {
-  AscendingSave = 'AscendingSave',
-  DescendingSave = 'DescendingSave',
   AscendingPrice = 'AscendingPrice',
   DescendingPrice = 'DescendingPrice',
+  AscendingRecent = 'AscendingRecent',
+  DescendingRecent = 'DescendingRecent',
 }
 export enum OrderStatus {
   All = 'All',
@@ -37,7 +37,7 @@ const initialState: FilterState = {
   paymentMethod: 'USDC',
   partneredToken: 'All',
   keyword: '',
-  sort: SortedBy.AscendingSave,
+  sort: SortedBy.AscendingPrice,
   status: OrderStatus.Active,
 }
 
