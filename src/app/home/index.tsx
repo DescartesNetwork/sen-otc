@@ -1,4 +1,4 @@
-import { Col, Divider, Row } from 'antd'
+import { Col, Divider, Empty, Row } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
 import Navigation from './navigation'
 import Stat from './stat'
@@ -26,7 +26,12 @@ const Home = () => {
           <Filter />
         </Col>
         <Col span={24} style={{ marginTop: 12 }}>
-          <Row gutter={[24, 24]}>
+          <Row gutter={[24, 24]} justify="center">
+            {!Object.keys(orders).length && (
+              <Col>
+                <Empty />
+              </Col>
+            )}
             {Object.keys(orders).map((orderAddress, i) => (
               <Col key={orderAddress} span={24}>
                 <Row gutter={[12, 12]}>

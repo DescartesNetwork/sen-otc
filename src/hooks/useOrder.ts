@@ -1,33 +1,12 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { useWallet } from '@solana/wallet-adapter-react'
 
-import configs from 'configs'
 import { AppState } from 'store'
 import { OrderState } from 'store/order.reducer'
 import { useMetadataByAddress } from './useToken'
 import { undecimalize } from 'helpers/util'
-
-const {
-  otc: { acceptedPayments },
-} = configs
-
-const otcActionSelector = (action: OtcMode = 'Buy') => {
-  const key = action === 'Buy' ? 'bToken' : 'aToken'
-  return (orders: OrderState) => {
-    let filteredOrders: OrderState = {}
-    Object.keys(orders).forEach((orderAddress) => {
-      const { [key]: token } = orders[orderAddress]
-      if (
-        acceptedPayments.findIndex(
-          ({ address }: TokenMetadata) => address === token.toBase58(),
-        ) >= 0
-      ) {
-        filteredOrders[orderAddress] = orders[orderAddress]
-      }
-    })
-    return filteredOrders
-  }
-}
+import { filterByAction } from './useFilter'
 
 /**
  * Get all orders/offers
@@ -52,7 +31,7 @@ export const useOrderSelector = <T>(selector: (orders: OrderState) => T): T => {
  * @returns
  */
 export const useBuyingOrders = () => {
-  const buyingOrders = useOrderSelector(otcActionSelector('Buy'))
+  const buyingOrders = useOrderSelector(filterByAction('Buy'))
   return buyingOrders
 }
 
@@ -61,7 +40,7 @@ export const useBuyingOrders = () => {
  * @returns
  */
 export const useSellingOrders = () => {
-  const sellingOrders = useOrderSelector(otcActionSelector('Sell'))
+  const sellingOrders = useOrderSelector(filterByAction('Sell'))
   return sellingOrders
 }
 
@@ -147,4 +126,20 @@ export const useOfferedPrice = (orderAddress: string) => {
   }, [paymentMethod, partneredToken, paymentMethodAmount, partneredTokenAmount])
 
   return price
+}
+
+/**
+ * My orders
+ * @returns
+ */
+export const useMyOrders = () => {
+  const { publicKey } = useWallet()
+  const orders = useOrderSelector((orders) =>
+    Object.keys(orders)
+      .filter(
+        (address) => publicKey && publicKey.equals(orders[address].authority),
+      )
+      .map((address) => orders[address]),
+  )
+  return orders
 }
