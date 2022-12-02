@@ -1,5 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import isEqual from 'react-fast-compare'
+import { OrderStates } from '@sentre/otc'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
@@ -15,8 +17,6 @@ import {
 } from 'hooks/useOrder'
 import { useWidth } from 'hooks/useUi'
 import { Infix } from 'store/ui.reducer'
-import isEqual from 'react-fast-compare'
-import { OrderStates } from '@sentre/otc'
 
 export type OfferCardProps = {
   orderAddress: string
