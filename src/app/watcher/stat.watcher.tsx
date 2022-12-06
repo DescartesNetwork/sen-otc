@@ -5,15 +5,7 @@ import {
   ParsedInstruction,
 } from '@solana/web3.js'
 import BN from 'bn.js'
-import {
-  forwardRef,
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { utils } from '@project-serum/anchor'
 
@@ -35,39 +27,32 @@ const TOKENS = [...acceptedPayments, ...partneredTokens].map(
 type VolumeProps = {
   mint: PublicKey
   amount: BN
+  onChange: (value: number) => void
 }
 
-const Volume = forwardRef<HTMLInputElement, VolumeProps>(
-  ({ mint, amount }, ref) => {
-    const [tvl, setTvl] = useState(0)
-    const { decimals, cgkTicket } = useMetadataByAddress(mint.toBase58()) || {
-      decimals: 0,
-      cgkTicket: '',
-    }
-    const { price } = usePrice(cgkTicket)
-    useEffect(() => {
-      const tvl = price * undecimalize(amount, decimals)
-      setTvl(tvl)
-    }, [price, amount, decimals])
-    return <input style={{ display: 'none' }} value={tvl} ref={ref} readOnly />
-  },
-)
+const Volume = ({ mint, amount, onChange }: VolumeProps) => {
+  const { decimals, cgkTicket } = useMetadataByAddress(mint.toBase58()) || {
+    decimals: 0,
+    cgkTicket: '',
+  }
+  const { price } = usePrice(cgkTicket)
+  useEffect(() => {
+    onChange(price * undecimalize(amount, decimals))
+  }, [price, amount, decimals, onChange])
+  return null
+}
 
 const TvlStatWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const refs = useRef<Array<HTMLInputElement | null>>([])
+  const [refs, setRefs] = useState<Array<number | undefined>>([])
   const orders = useOrders()
 
-  const tvl = useMemo(() => {
-    if (Object.keys(orders).length) return 0
-    return refs.current
-      .map((ref) => Number(ref?.value) || 0)
-      .reduce((a, b) => a + b, 0)
-  }, [orders])
-
   useEffect(() => {
+    const tvl = refs
+      .filter((ref): ref is number => !!ref)
+      .reduce((a, b) => a + b, 0)
     dispatch(updateTvl(tvl))
-  }, [dispatch, tvl])
+  }, [dispatch, refs])
 
   return (
     <Fragment>
@@ -76,7 +61,13 @@ const TvlStatWatcher = () => {
           key={i}
           mint={aToken}
           amount={a}
-          ref={(el) => (refs.current[i] = el)}
+          onChange={(value) =>
+            setRefs((prev) => {
+              if (prev[i] === value) return prev
+              prev[i] = value
+              return [...prev]
+            })
+          }
         />
       ))}
     </Fragment>
@@ -85,7 +76,7 @@ const TvlStatWatcher = () => {
 
 const VolumeStatWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const refs = useRef<Array<HTMLInputElement | null>>([])
+  const [refs, setRefs] = useState<Array<number | undefined>>([])
   const txs = useTransactions()
   const [volume, setVolume] = useState<VolumeProps[]>([])
 
@@ -142,16 +133,12 @@ const VolumeStatWatcher = () => {
     onVolume()
   }, [onVolume])
 
-  const volume24h = useMemo(() => {
-    if (!volume.length) return 0
-    return refs.current
-      .map((ref) => Number(ref?.value) || 0)
-      .reduce((a, b) => a + b, 0)
-  }, [volume])
-
   useEffect(() => {
+    const volume24h = refs
+      .filter((ref): ref is number => !!ref)
+      .reduce((a, b) => a + b, 0)
     dispatch(updateVolume24h(volume24h))
-  }, [dispatch, volume24h])
+  }, [dispatch, refs])
 
   return (
     <Fragment>
@@ -160,7 +147,13 @@ const VolumeStatWatcher = () => {
           key={i}
           mint={mint}
           amount={amount}
-          ref={(el) => (refs.current[i] = el)}
+          onChange={(value) =>
+            setRefs((prev) => {
+              if (prev[i] === value) return prev
+              prev[i] = value
+              return [...prev]
+            })
+          }
         />
       ))}
     </Fragment>
