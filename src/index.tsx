@@ -15,6 +15,8 @@ import durationPlugin from 'dayjs/plugin/duration'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { ConfigProvider } from 'antd'
 import App from 'app'
+import TvlProvider from 'providers/tvl.provider'
+import VolumeProvider from 'providers/volume.provider'
 
 import configs from 'configs'
 import store from 'store'
@@ -38,7 +40,11 @@ createRoot(document.getElementById('root') as HTMLElement).render(
             autoConnect
           >
             <WalletModalProvider>
-              <App />
+              <TvlProvider>
+                <VolumeProvider>
+                  <App />
+                </VolumeProvider>
+              </TvlProvider>
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>

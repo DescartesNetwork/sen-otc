@@ -20,7 +20,7 @@ const MyOffer = () => {
               onClick={() => navigate('/home')}
               style={{ marginLeft: -8 }}
             />
-            <Typography.Title level={2}>My Offer</Typography.Title>
+            <Typography.Title level={2}>My Offers</Typography.Title>
           </Space>
         </Col>
         <Col span={24}>

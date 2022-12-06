@@ -52,7 +52,6 @@ const TakeOffer = () => {
         style: { cursor: 'pointer' },
       })
     } catch (er: any) {
-      console.log(er.logs)
       return message.error(er.message)
     } finally {
       return setLoading(false)

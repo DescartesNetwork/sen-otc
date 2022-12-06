@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { isAddress } from '@sentre/otc'
+import { isAddress, OrderStates } from '@sentre/otc'
+import isEqual from 'react-fast-compare'
 
 import configs from 'configs'
 import { AppDispatch, AppState } from 'store'
@@ -177,11 +178,12 @@ export const filterByStatus = (action: OrderStatus = OrderStatus.All) => {
     if (action === OrderStatus.All) return orders
     let filteredOrders: OrderState = {}
     Object.keys(orders).forEach((orderAddress) => {
-      const { startDate, endDate } = orders[orderAddress]
+      const { startDate, endDate, state } = orders[orderAddress]
       const current = Math.ceil(Date.now() / 1000)
       const start = startDate.toNumber()
       const end = endDate.toNumber()
       if (
+        (action === OrderStatus.Paused && isEqual(state, OrderStates.Paused)) ||
         (action === OrderStatus.Upcomming && current < start) ||
         (action === OrderStatus.Active && current >= start && current < end) ||
         (action === OrderStatus.Complete && current >= end)
