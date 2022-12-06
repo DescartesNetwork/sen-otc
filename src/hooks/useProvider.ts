@@ -12,6 +12,15 @@ const {
 } = configs
 
 /**
+ * Connection
+ * @returns
+ */
+export const useConnection = () => {
+  const connection = new Connection(endpoint, 'confirmed')
+  return connection
+}
+
+/**
  * Safely generate an anchor wallet instance
  * @returns
  */
@@ -56,15 +65,15 @@ export const useOtc = () => {
  */
 export const useSpl = (): Program<SplToken> => {
   const wallet = useAnchorWallet()
+  const connection = useConnection()
 
   const spl = useMemo(() => {
-    const connection = new Connection(endpoint, 'confirmed')
     const provider = new AnchorProvider(connection, wallet, {
       skipPreflight: true,
       commitment: 'confirmed',
     })
     return Spl.token(provider)
-  }, [wallet])
+  }, [wallet, connection])
 
   return spl
 }

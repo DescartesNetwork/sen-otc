@@ -9,3 +9,10 @@ type TokenMetadata = {
   decimals: number
   url: string
 }
+
+type SplTokenTransferTransaction = {
+  amount: string
+  authority: string
+  source: string
+  destination: string
+}

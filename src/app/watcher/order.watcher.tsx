@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { GetProgramAccountsFilter, PublicKey } from '@solana/web3.js'
+import { PublicKey } from '@solana/web3.js'
 import { SenOtcEvents } from '@sentre/otc'
 
 import { AppDispatch } from 'store'
@@ -11,15 +11,6 @@ import configs from 'configs'
 const {
   otc: { acceptedPayments, partneredTokens },
 } = configs
-
-const FILTERS: GetProgramAccountsFilter[] = [
-  // {
-  //   memcmp: {
-  //     bytes: acceptedPayments[0].address,
-  //     offset: 40,
-  //   },
-  // },
-]
 
 const EVENTS: Array<keyof SenOtcEvents> = [
   'MakeOrderEvent',
@@ -34,7 +25,7 @@ const OrderWatcher = () => {
   const otc = useOtc()
 
   const fetchData = useCallback(async () => {
-    const data = await otc.program.account.order.all(FILTERS)
+    const data = await otc.program.account.order.all()
     let orders: OrderState = {}
     data.forEach(({ account, publicKey }) => {
       if (

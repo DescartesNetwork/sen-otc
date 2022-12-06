@@ -8,6 +8,8 @@ import wallet from './wallet.reducer'
 import order from './order.reducer'
 import newOrder from './newOrder.reducer'
 import takeOrder from './takeOrder.reducer'
+import transaction from './transaction.reducer'
+import stat from './stat.reducer'
 
 /**
  * Root types
@@ -29,6 +31,8 @@ const store = configureStore({
     order,
     newOrder,
     takeOrder,
+    transaction,
+    stat,
   },
 })
 
