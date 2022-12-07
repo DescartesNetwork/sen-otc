@@ -7,18 +7,24 @@ import TokenBalance from 'components/tokenBalance'
 
 import configs from 'configs'
 import { useMetadataBySymbol } from 'hooks/useToken'
-import { useBidAmount, useBidToken } from 'hooks/useNewOrder'
+import { useBid } from 'providers/bid.provider'
 
 const {
-  otc: { partneredTokens },
+  otc: { acceptedPayments },
 } = configs
 let timeoutId: ReturnType<typeof setTimeout>
 
 const Bid = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
-  const { bidToken, setBidToken } = useBidToken('SNTR')
-  const { bidAmount, setBidAmount, clear, bidAmountError } = useBidAmount()
+  const {
+    bidToken,
+    setBidToken,
+    bidAmount,
+    bidAmountError,
+    setBidAmount,
+    resetBidAmount,
+  } = useBid()
   const { address } = useMetadataBySymbol(bidToken) || {}
 
   const onBidAmount = useCallback(
@@ -36,12 +42,16 @@ const Bid = () => {
 
   const onClear = useCallback(() => {
     setValue('')
-    clear()
-  }, [clear])
+    resetBidAmount()
+  }, [resetBidAmount])
 
   useEffect(() => {
     setValue(bidAmount)
   }, [bidAmount])
+
+  useEffect(() => {
+    setBidToken('USDC')
+  })
 
   return (
     <Row gutter={[8, 8]}>
@@ -59,7 +69,7 @@ const Bid = () => {
         <Row gutter={[8, 8]} align="top" wrap={false}>
           <Col>
             <TokenSelection
-              options={partneredTokens}
+              options={acceptedPayments}
               value={bidToken}
               onChange={setBidToken}
             />

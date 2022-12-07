@@ -1,15 +1,15 @@
 import { Space, Typography } from 'antd'
 import BuySellFilter from 'components/filters/buySellFilter'
 
-import { useMode } from 'hooks/useNewOrder'
+import { useAction } from 'providers/action.provider'
 
 const Mode = () => {
-  const { mode, setMode } = useMode()
+  const { action, setAction } = useAction()
 
   return (
     <Space>
       <Typography.Title level={4}>🤔 I want to</Typography.Title>
-      <BuySellFilter value={mode} onChange={setMode} />
+      <BuySellFilter value={action} onChange={setAction} />
       <Typography.Title level={4}>tokens.</Typography.Title>
     </Space>
   )

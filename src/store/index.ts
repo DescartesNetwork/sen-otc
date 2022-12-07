@@ -5,7 +5,6 @@ import { devTools, serializationMiddleware } from './devTools'
 import ui from './ui.reducer'
 import wallet from './wallet.reducer'
 import order from './order.reducer'
-import newOrder from './newOrder.reducer'
 import takeOrder from './takeOrder.reducer'
 import transaction from './transaction.reducer'
 import stat from './stat.reducer'
@@ -27,7 +26,6 @@ const store = configureStore({
     ui,
     wallet,
     order,
-    newOrder,
     takeOrder,
     transaction,
     stat,

@@ -2,10 +2,10 @@ import dayjs from 'dayjs'
 
 import { Col, DatePicker, Row, Typography } from 'antd'
 
-import { useEndedAt } from 'hooks/useNewOrder'
+import { useDatetime } from 'providers/datetime.provider'
 
 const EndedAt = () => {
-  const { endedAt, endedAtError, setEndedAt } = useEndedAt()
+  const { endedAt, endedAtError, setEndedAt } = useDatetime()
 
   return (
     <Row gutter={[8, 8]}>

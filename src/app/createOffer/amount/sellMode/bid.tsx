@@ -1,81 +1,67 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import IconSax from '@sentre/antd-iconsax'
-import { Button, Col, Input, Row, Segmented, Typography } from 'antd'
+import { Button, Col, Input, Row, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
+import TokenBalance from 'components/tokenBalance'
 
 import configs from 'configs'
-import { useAskAmount, useAskToken } from 'hooks/useNewOrder'
+import { useMetadataBySymbol } from 'hooks/useToken'
+import { useBid } from 'providers/bid.provider'
 
 const {
-  otc: { acceptedPayments },
+  otc: { partneredTokens },
 } = configs
 let timeoutId: ReturnType<typeof setTimeout>
 
-const Ask = () => {
+const Bid = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
-  const { askToken, setAskToken } = useAskToken('USDC')
   const {
-    askAmount,
-    setAskAmount,
-    askAmountError,
-    clear: clearAskAmount,
-  } = useAskAmount()
+    bidToken,
+    setBidToken,
+    bidAmount,
+    setBidAmount,
+    bidAmountError,
+    resetBidAmount,
+  } = useBid()
+  const { address } = useMetadataBySymbol(bidToken) || {}
 
-  const onAskAmount = useCallback(
+  const onBidAmount = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       clearTimeout(timeoutId)
       setLoading(true)
       setValue(e.target.value)
       timeoutId = setTimeout(() => {
         setLoading(false)
-        setAskAmount(e.target.value)
+        return setBidAmount(e.target.value)
       }, 500)
     },
-    [setAskAmount],
+    [setBidAmount],
   )
 
   const onClear = useCallback(() => {
     setValue('')
-    clearAskAmount()
-  }, [clearAskAmount])
+    resetBidAmount()
+  }, [resetBidAmount])
 
   useEffect(() => {
-    setValue(askAmount)
-  }, [askAmount])
+    setValue(bidAmount)
+  }, [bidAmount])
+
+  useEffect(() => {
+    setBidToken('SNTR')
+  })
 
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
-        <Row gutter={[8, 8]} wrap={false} align="bottom">
+        <Row gutter={[8, 8]}>
           <Col flex="auto">
-            <Typography.Text type="secondary">ASK</Typography.Text>
+            <Typography.Text type="secondary">BID</Typography.Text>
           </Col>
           <Col>
-            <Segmented
-              size="small"
-              options={[
-                {
-                  label: (
-                    <Typography.Text style={{ fontSize: 12 }}>
-                      By Amount
-                    </Typography.Text>
-                  ),
-                  value: 'Amount',
-                },
-                {
-                  label: (
-                    <Typography.Text style={{ fontSize: 12 }} type="secondary">
-                      By Price
-                    </Typography.Text>
-                  ),
-                  value: 'Price',
-                },
-              ]}
-              value={'Amount'}
-              disabled
-            />
+            <TokenBalance mintAddress={address || ''} />
           </Col>
         </Row>
       </Col>
@@ -83,9 +69,9 @@ const Ask = () => {
         <Row gutter={[8, 8]} align="top" wrap={false}>
           <Col>
             <TokenSelection
-              options={acceptedPayments}
-              value={askToken}
-              onChange={setAskToken}
+              options={partneredTokens}
+              value={bidToken}
+              onChange={setBidToken}
             />
           </Col>
           <Col flex="auto">
@@ -93,9 +79,9 @@ const Ask = () => {
               <Col span={24}>
                 <Input
                   size="large"
-                  placeholder={`Amount of ${askToken}`}
+                  placeholder={`Amount of ${bidToken}`}
                   value={value}
-                  onChange={onAskAmount}
+                  onChange={onBidAmount}
                   suffix={
                     <Button
                       type="text"
@@ -109,10 +95,10 @@ const Ask = () => {
                   }
                 />
               </Col>
-              {askAmountError && (
+              {bidAmountError && (
                 <Col>
                   <Typography.Text type="danger">
-                    {askAmountError}
+                    {bidAmountError}
                   </Typography.Text>
                 </Col>
               )}
@@ -124,4 +110,4 @@ const Ask = () => {
   )
 }
 
-export default Ask
+export default Bid

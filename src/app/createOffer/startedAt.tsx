@@ -2,10 +2,10 @@ import dayjs from 'dayjs'
 
 import { Col, DatePicker, Row, Typography } from 'antd'
 
-import { useStartedAt } from 'hooks/useNewOrder'
+import { useDatetime } from 'providers/datetime.provider'
 
 const StartedAt = () => {
-  const { startedAt, startedAtError, setStartedAt } = useStartedAt()
+  const { startedAt, startedAtError, setStartedAt } = useDatetime()
 
   return (
     <Row gutter={[8, 8]}>

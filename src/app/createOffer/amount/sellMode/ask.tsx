@@ -1,74 +1,54 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { SegmentedValue } from 'antd/es/segmented'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Input, Row, Segmented, Typography } from 'antd'
 import TokenSelection from 'components/tokenSelect'
 
 import configs from 'configs'
-import { useAskAmount, useAskPrice, useAskToken } from 'hooks/useNewOrder'
+import { useAsk } from 'providers/ask.provider'
 
 const {
-  otc: { partneredTokens },
+  otc: { acceptedPayments },
 } = configs
-const METHOD = ['Amount', 'Price']
 let timeoutId: ReturnType<typeof setTimeout>
 
 const Ask = () => {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState('')
-  const [method, setMethod] = useState('Amount')
-  const { askToken, setAskToken } = useAskToken('SNTR')
   const {
+    askToken,
+    setAskToken,
     askAmount,
-    askAmountError,
     setAskAmount,
-    clear: clearAskAmount,
-  } = useAskAmount()
-  const {
-    askPrice,
-    askPriceError,
-    setAskPrice,
-    clear: clearAskPrice,
-  } = useAskPrice()
+    askAmountError,
+    resetAskAmount,
+  } = useAsk()
 
-  const onInput = useCallback(
+  const onAskAmount = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       clearTimeout(timeoutId)
       setLoading(true)
       setValue(e.target.value)
       timeoutId = setTimeout(() => {
         setLoading(false)
-        if (method === 'Amount') {
-          clearAskPrice()
-          setAskAmount(e.target.value)
-        } else {
-          clearAskAmount()
-          setAskPrice(e.target.value)
-        }
+        setAskAmount(e.target.value)
       }, 500)
     },
-    [setAskAmount, clearAskAmount, setAskPrice, clearAskPrice, method],
+    [setAskAmount],
   )
 
   const onClear = useCallback(() => {
     setValue('')
-    clearAskAmount()
-    clearAskPrice()
-  }, [clearAskAmount, clearAskPrice])
-
-  const onSwitch = useCallback(
-    (value: SegmentedValue) => {
-      setMethod(value.toString())
-      return onClear()
-    },
-    [onClear],
-  )
+    resetAskAmount()
+  }, [resetAskAmount])
 
   useEffect(() => {
-    if (method === 'Amount') setValue(askAmount)
-    else setValue(askPrice)
-  }, [method, askAmount, askPrice])
+    setValue(askAmount)
+  }, [askAmount])
+
+  useEffect(() => {
+    setAskToken('USDC')
+  })
 
   return (
     <Row gutter={[8, 8]}>
@@ -80,16 +60,26 @@ const Ask = () => {
           <Col>
             <Segmented
               size="small"
-              options={METHOD.map((value) => ({
-                label: (
-                  <Typography.Text style={{ fontSize: 12 }}>
-                    {`By ${value}`}
-                  </Typography.Text>
-                ),
-                value,
-              }))}
-              value={method}
-              onChange={onSwitch}
+              options={[
+                {
+                  label: (
+                    <Typography.Text style={{ fontSize: 12 }}>
+                      By Amount
+                    </Typography.Text>
+                  ),
+                  value: 'Amount',
+                },
+                {
+                  label: (
+                    <Typography.Text style={{ fontSize: 12 }} type="secondary">
+                      By Price
+                    </Typography.Text>
+                  ),
+                  value: 'Price',
+                },
+              ]}
+              value={'Amount'}
+              disabled
             />
           </Col>
         </Row>
@@ -98,7 +88,7 @@ const Ask = () => {
         <Row gutter={[8, 8]} align="top" wrap={false}>
           <Col>
             <TokenSelection
-              options={partneredTokens}
+              options={acceptedPayments}
               value={askToken}
               onChange={setAskToken}
             />
@@ -108,9 +98,9 @@ const Ask = () => {
               <Col span={24}>
                 <Input
                   size="large"
-                  placeholder={`${method} of ${askToken}`}
+                  placeholder={`Amount of ${askToken}`}
                   value={value}
-                  onChange={onInput}
+                  onChange={onAskAmount}
                   suffix={
                     <Button
                       type="text"
@@ -128,13 +118,6 @@ const Ask = () => {
                 <Col>
                   <Typography.Text type="danger">
                     {askAmountError}
-                  </Typography.Text>
-                </Col>
-              )}
-              {askPriceError && (
-                <Col>
-                  <Typography.Text type="danger">
-                    {askPriceError}
                   </Typography.Text>
                 </Col>
               )}

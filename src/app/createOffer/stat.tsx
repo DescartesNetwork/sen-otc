@@ -5,23 +5,18 @@ import { Card, Col, Divider, Row, Space, Typography } from 'antd'
 import configs from 'configs'
 import { numeric } from 'helpers/util'
 import { usePrice } from 'hooks/useToken'
-import {
-  useAskAmount,
-  useAskPrice,
-  useAskToken,
-  useBidAmount,
-  useBidToken,
-  useMode,
-} from 'hooks/useNewOrder'
+import { useAction } from 'providers/action.provider'
+import { useBid } from 'providers/bid.provider'
+import { useAsk } from 'providers/ask.provider'
 
 const {
   otc: { partneredTokens },
 } = configs
 
 const ReferencePrice = () => {
-  const { bidToken } = useBidToken()
-  const { askToken } = useAskToken()
-  const { mode } = useMode()
+  const { bidToken } = useBid()
+  const { askToken } = useAsk()
+  const { action } = useAction()
   const { cgkTicket } = useMemo(
     () =>
       partneredTokens.find(
@@ -32,9 +27,9 @@ const ReferencePrice = () => {
   const { price: referencePrice } = usePrice(cgkTicket)
 
   const referenceUnit = useMemo(() => {
-    if (mode === 'Buy') return askToken
+    if (action === 'Buy') return askToken
     else return bidToken
-  }, [mode, bidToken, askToken])
+  }, [action, bidToken, askToken])
 
   return (
     <Space direction="vertical">
@@ -51,25 +46,22 @@ const ReferencePrice = () => {
 }
 
 const OfferedPrice = () => {
-  const { bidToken } = useBidToken()
-  const { askToken } = useAskToken()
-  const { askPrice } = useAskPrice()
-  const { bidAmount } = useBidAmount()
-  const { askAmount } = useAskAmount()
-  const { mode } = useMode()
+  const { bidToken, bidAmount } = useBid()
+  const { askToken, askPrice, askAmount } = useAsk()
+  const { action } = useAction()
 
   const offeredPrice = useMemo(() => {
     if (askPrice) return Number(askPrice)
     if (!bidAmount || !Number(bidAmount) || !askAmount || !Number(askAmount))
       return 0
-    if (mode === 'Buy') return Number(bidAmount) / Number(askAmount)
+    if (action === 'Buy') return Number(bidAmount) / Number(askAmount)
     return Number(askAmount) / Number(bidAmount)
-  }, [askPrice, mode, bidAmount, askAmount])
+  }, [askPrice, action, bidAmount, askAmount])
 
   const offeredUnit = useMemo(() => {
-    if (mode === 'Buy') return askToken
+    if (action === 'Buy') return askToken
     else return bidToken
-  }, [mode, bidToken, askToken])
+  }, [action, bidToken, askToken])
 
   return (
     <Space direction="vertical">
@@ -86,25 +78,22 @@ const OfferedPrice = () => {
 }
 
 const OfferedAmount = () => {
-  const { bidToken } = useBidToken()
-  const { askToken } = useAskToken()
-  const { askPrice } = useAskPrice()
-  const { bidAmount } = useBidAmount()
-  const { askAmount } = useAskAmount()
-  const { mode } = useMode()
+  const { bidToken, bidAmount } = useBid()
+  const { askToken, askPrice, askAmount } = useAsk()
+  const { action } = useAction()
 
   const offeredAmount = useMemo(() => {
     if (askAmount) return Number(askAmount)
     if (!askPrice || !Number(askPrice) || !bidAmount || !Number(bidAmount))
       return 0
-    if (mode === 'Buy') return Number(bidAmount) / Number(askPrice)
+    if (action === 'Buy') return Number(bidAmount) / Number(askPrice)
     return Number(askPrice) * Number(bidAmount)
-  }, [askPrice, mode, bidAmount, askAmount])
+  }, [askPrice, action, bidAmount, askAmount])
 
   const offeredUnit = useMemo(() => {
-    if (mode === 'Buy') return askToken
+    if (action === 'Buy') return askToken
     else return bidToken
-  }, [mode, bidToken, askToken])
+  }, [action, bidToken, askToken])
 
   return (
     <Space direction="vertical">
