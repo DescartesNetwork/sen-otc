@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Col, Row, Typography, Card } from 'antd'
 import CountUp from 'react-countup'
@@ -24,6 +24,11 @@ const StatCard = ({
     setEntries(([_, end]) => [end, value])
   }, [value])
 
+  const formattingFn = useCallback(
+    (value: number) => numeric(value).format(formatter),
+    [formatter],
+  )
+
   return (
     <Card>
       <Row gutter={[12, 12]}>
@@ -40,7 +45,7 @@ const StatCard = ({
             <CountUp
               start={entries[0]}
               end={entries[1]}
-              formattingFn={(value) => numeric(value).format(formatter)}
+              formattingFn={formattingFn}
             />
           </Typography.Title>
         </Col>

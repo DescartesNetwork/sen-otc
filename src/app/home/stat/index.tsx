@@ -16,7 +16,7 @@ const Stat = () => {
           title="Total Value Locked"
           value={tvl}
           icon={<IconSax name="DollarCircle" />}
-          formatter={'$0,0.[0]'}
+          formatter="$0,0.[0]"
         />
       </Col>
       <Col xs={24} sm={12} md={8}>
@@ -24,7 +24,7 @@ const Stat = () => {
           title="Volume 24h"
           value={volume24h}
           icon={<IconSax name="Chart" />}
-          formatter={'$0,0.[0]'}
+          formatter="$0,0.[0]"
         />
       </Col>
       <Col xs={24} sm={12} md={8}>
