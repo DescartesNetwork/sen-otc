@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from 'react'
 import { OrderData, OrderState, OrderStates } from '@sentre/otc'
 import type { ColumnsType } from 'antd/es/table'
 import BN from 'bn.js'
@@ -13,7 +14,6 @@ import { OfferedPrice } from 'components/table/price'
 import { Status } from 'components/table/status'
 
 import { useOrderSelector } from 'hooks/useOrder'
-import { useCallback, useState } from 'react'
 import { useOtc } from 'hooks/useProvider'
 import { Infix } from 'store/ui.reducer'
 import { filterAction, useAction } from 'providers/action.provider'
@@ -23,6 +23,7 @@ import {
   filterPaymentMethod,
   useSymbol,
 } from 'providers/symbol.provider'
+import { sortRecent, useSort } from 'providers/sort.provider'
 
 const columns: ColumnsType<OrderData & { key: string }> = [
   {
@@ -146,17 +147,24 @@ const Action = ({
 }
 
 const MyOrdersTable = () => {
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
   const { action } = useAction()
   const { status } = useStatus()
   const { paymentMethod, partneredToken } = useSymbol()
-
+  const { sort } = useSort()
   const orders = useOrderSelector((orders) => {
     orders = filterAction(action)(orders)
     orders = filterStatus(status)(orders)
     orders = filterPaymentMethod(action, paymentMethod)(orders)
     orders = filterPartneredToken(action, partneredToken)(orders)
+    orders = sortRecent(sort)(orders)
     return orders
   })
+
+  useEffect(() => {
+    const [key] = Object.keys(orders)
+    setExpandedRowKeys(key ? [key] : [])
+  }, [orders])
 
   return (
     <Table
@@ -171,7 +179,9 @@ const MyOrdersTable = () => {
         ),
         expandRowByClick: true,
         showExpandColumn: false,
-        defaultExpandedRowKeys: [Object.keys(orders)[0]],
+        expandedRowKeys,
+        onExpand: (expanded, { key }) =>
+          setExpandedRowKeys(!expanded ? [] : [key]),
       }}
       scroll={{ x: Infix.md }}
     />

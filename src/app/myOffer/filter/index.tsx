@@ -1,12 +1,15 @@
 import { Col, Row, Space, Typography } from 'antd'
 import BuySellFilter from 'components/filters/buySellFilter'
 import StatusFilter from 'components/filters/statusFilter'
+import SortButton from 'components/sortButton'
 import { TokenSelectionLite } from 'components/tokenSelect'
 
 import configs from 'configs'
 import { useAction } from 'providers/action.provider'
+import { SortedBy, useSort } from 'providers/sort.provider'
 import { useStatus } from 'providers/status.provider'
 import { useSymbol } from 'providers/symbol.provider'
+import { useEffect } from 'react'
 
 const {
   otc: { acceptedPayments, partneredTokens },
@@ -17,6 +20,11 @@ const Filter = () => {
   const { status, setStatus } = useStatus()
   const { paymentMethod, setPaymentMethod, partneredToken, setPartneredToken } =
     useSymbol()
+  const { sort, setSort } = useSort()
+
+  useEffect(() => {
+    setSort(SortedBy.AscendingRecent)
+  }, [setSort])
 
   return (
     <Row gutter={[12, 12]} align="top">
@@ -56,6 +64,18 @@ const Filter = () => {
             onChange={setPaymentMethod}
             prefix="By:"
             style={{ width: 116, marginTop: 4 }}
+          />
+        </Space>
+      </Col>
+      <Col>
+        <Space direction="vertical">
+          <Typography.Text type="secondary">Sorted By</Typography.Text>
+          <SortButton
+            title="Recent"
+            value={sort}
+            onChange={setSort}
+            style={{ marginTop: 4 }}
+            size="large"
           />
         </Space>
       </Col>

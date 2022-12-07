@@ -71,7 +71,7 @@ const Ask = () => {
 
   useEffect(() => {
     setAskToken('SNTR')
-  })
+  }, [setAskToken])
 
   return (
     <Row gutter={[8, 8]}>

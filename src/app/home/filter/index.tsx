@@ -28,7 +28,7 @@ const Filter = () => {
 
   useEffect(() => {
     setStatus(OrderStatus.Active)
-  })
+  }, [setStatus])
 
   return (
     <Row gutter={[12, 12]}>

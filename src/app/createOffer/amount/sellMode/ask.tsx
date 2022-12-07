@@ -48,7 +48,7 @@ const Ask = () => {
 
   useEffect(() => {
     setAskToken('USDC')
-  })
+  }, [setAskToken])
 
   return (
     <Row gutter={[8, 8]}>

@@ -51,7 +51,7 @@ const Bid = () => {
 
   useEffect(() => {
     setBidToken('USDC')
-  })
+  }, [setBidToken])
 
   return (
     <Row gutter={[8, 8]}>
