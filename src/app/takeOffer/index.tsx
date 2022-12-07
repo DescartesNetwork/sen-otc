@@ -47,7 +47,7 @@ const TakeOffer = () => {
       const { txId } = await otc.takeOrder({ orderAddress, amount })
       return message.success({
         content:
-          'You have match the offer successfully. Click here to view in on Solscan!',
+          'You have match the offer successfully. Click here to view it on Solscan!',
         onClick: () => window.open(explorer(txId), '_blank'),
         style: { cursor: 'pointer' },
       })

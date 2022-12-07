@@ -57,7 +57,7 @@ const History = () => {
                   ]}
                   value={partneredToken}
                   onChange={setPartneredToken}
-                  style={{ margin: 4 }}
+                  style={{ marginTop: 4 }}
                 />
               </Space>
             </Col>

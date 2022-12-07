@@ -1,15 +1,18 @@
+import { useEffect } from 'react'
+
 import { Badge, Button, Col, Row, Space } from 'antd'
 import BuySellFilter from 'components/filters/buySellFilter'
 import { TokenSelectionLite } from 'components/tokenSelect'
+import StatusFilter from 'components/filters/statusFilter'
 import Search from './search'
 import Sort from './sort'
-import StatusFilter from './statusFilter'
 
 import configs from 'configs'
 import { useAction } from 'providers/action.provider'
 import { useSymbol } from 'providers/symbol.provider'
 import { useSearch } from 'providers/search.provider'
 import { useSort } from 'providers/sort.provider'
+import { OrderStatus, useStatus } from 'providers/status.provider'
 
 const {
   otc: { acceptedPayments, partneredTokens },
@@ -21,6 +24,11 @@ const Filter = () => {
     useSymbol()
   const { keyword, setKeyword } = useSearch()
   const { sort, setSort } = useSort()
+  const { status, setStatus } = useStatus()
+
+  useEffect(() => {
+    setStatus(OrderStatus.Active)
+  })
 
   return (
     <Row gutter={[12, 12]}>
@@ -67,7 +75,7 @@ const Filter = () => {
             />
           </Col>
           <Col>
-            <StatusFilter />
+            <StatusFilter value={status} onChange={setStatus} />
           </Col>
           <Col>
             <Sort sort={sort} onSort={setSort} />

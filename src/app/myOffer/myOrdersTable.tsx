@@ -4,7 +4,7 @@ import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
 import isEqual from 'react-fast-compare'
 
-import { Button, Col, message, Row, Table } from 'antd'
+import { Badge, Button, Col, message, Row, Space, Table } from 'antd'
 import { Address } from 'components/table/address'
 import { Title } from 'components/table/title'
 import { Token } from 'components/table/token'
@@ -12,9 +12,17 @@ import { Datetime } from 'components/table/datetime'
 import { OfferedPrice } from 'components/table/price'
 import { Status } from 'components/table/status'
 
-import { useOrders } from 'hooks/useOrder'
+import { useOrderSelector } from 'hooks/useOrder'
 import { useCallback, useState } from 'react'
 import { useOtc } from 'hooks/useProvider'
+import { Infix } from 'store/ui.reducer'
+import { filterAction, useAction } from 'providers/action.provider'
+import { filterStatus, useStatus } from 'providers/status.provider'
+import {
+  filterPartneredToken,
+  filterPaymentMethod,
+  useSymbol,
+} from 'providers/symbol.provider'
 
 const columns: ColumnsType<OrderData & { key: string }> = [
   {
@@ -24,18 +32,23 @@ const columns: ColumnsType<OrderData & { key: string }> = [
     render: (key: string) => <Address address={key} />,
   },
   {
-    title: <Title title="STARTED AT" />,
+    title: <Title title="DATETIME" />,
     dataIndex: 'startDate',
     key: 'startDate',
-    render: (startDate: BN) => (
-      <Datetime timestamp={startDate.toNumber() * 1000} />
-    ),
-  },
-  {
-    title: <Title title="ENDED AT" />,
-    dataIndex: 'endDate',
-    key: 'endDate',
-    render: (endDate: BN) => <Datetime timestamp={endDate.toNumber() * 1000} />,
+    render: (startDate: BN, { endDate }: OrderData & { key: string }) => {
+      return (
+        <Space direction="vertical" size={0}>
+          <Space>
+            <Badge status="error" />
+            <Datetime timestamp={endDate.toNumber() * 1000} />
+          </Space>
+          <Space>
+            <Badge status="success" />
+            <Datetime timestamp={startDate.toNumber() * 1000} />
+          </Space>
+        </Space>
+      )
+    },
   },
   {
     title: <Title title="STATUS" />,
@@ -133,7 +146,17 @@ const Action = ({
 }
 
 const MyOrdersTable = () => {
-  const orders = useOrders()
+  const { action } = useAction()
+  const { status } = useStatus()
+  const { paymentMethod, partneredToken } = useSymbol()
+
+  const orders = useOrderSelector((orders) => {
+    orders = filterAction(action)(orders)
+    orders = filterStatus(status)(orders)
+    orders = filterPaymentMethod(action, paymentMethod)(orders)
+    orders = filterPartneredToken(action, partneredToken)(orders)
+    return orders
+  })
 
   return (
     <Table
@@ -148,8 +171,9 @@ const MyOrdersTable = () => {
         ),
         expandRowByClick: true,
         showExpandColumn: false,
-        defaultExpandedRowKeys: ['0'],
+        defaultExpandedRowKeys: [Object.keys(orders)[0]],
       }}
+      scroll={{ x: Infix.md }}
     />
   )
 }

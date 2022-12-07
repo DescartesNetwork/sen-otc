@@ -21,7 +21,7 @@ export type StatusContext = {
  * Context
  */
 const Context = createContext<StatusContext>({
-  status: OrderStatus.Active,
+  status: OrderStatus.All,
   setStatus: () => {},
 })
 
@@ -29,7 +29,7 @@ const Context = createContext<StatusContext>({
  * Provider
  */
 export const StatusProvider = ({ children }: { children: ReactNode }) => {
-  const [status, setStatus] = useState<OrderStatus>(OrderStatus.Active)
+  const [status, setStatus] = useState<OrderStatus>(OrderStatus.All)
   const value = useMemo(() => ({ status, setStatus }), [status])
   return <Context.Provider value={value}>{children}</Context.Provider>
 }

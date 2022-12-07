@@ -80,7 +80,7 @@ const CreateButton = () => {
       })
       return message.success({
         content:
-          'A new offer has been created. Click here to view in on Solscan!',
+          'A new offer has been created. Click here to view it on Solscan!',
         onClick: () => window.open(explorer(txId), '_blank'),
         style: { cursor: 'pointer' },
       })
