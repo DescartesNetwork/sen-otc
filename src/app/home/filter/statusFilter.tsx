@@ -1,11 +1,10 @@
 import IconSax from '@sentre/antd-iconsax'
 import { Select } from 'antd'
 
-import { useOrderStatus } from 'hooks/useFilter'
-import { OrderStatus } from 'store/filter.reducer'
+import { OrderStatus, useStatus } from 'providers/status.provider'
 
 const StatusFilter = () => {
-  const { status, setStatus } = useOrderStatus()
+  const { status, setStatus } = useStatus()
 
   return (
     <Select

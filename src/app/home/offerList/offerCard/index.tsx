@@ -8,7 +8,6 @@ import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
 import InfoCard from './infoCard'
 
 import { explorer, numeric, shortenAddress } from 'helpers/util'
-import { useAction } from 'hooks/useFilter'
 import {
   useOfferedPrice,
   useOrderPartneredToken,
@@ -17,6 +16,7 @@ import {
 } from 'hooks/useOrder'
 import { useWidth } from 'hooks/useUi'
 import { Infix } from 'store/ui.reducer'
+import { useAction } from 'providers/action.provider'
 
 export type OfferCardProps = {
   orderAddress: string

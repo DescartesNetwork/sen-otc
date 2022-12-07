@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Space, Typography } from 'antd'
-
-import { SortedBy, SORTING_TYPES } from 'store/filter.reducer'
+import { SortedBy, SORTING_TYPES } from 'providers/sort.provider'
 
 export const parseDirection = (type: string, sort: SortedBy) => {
   if (!sort.endsWith(type)) return ''

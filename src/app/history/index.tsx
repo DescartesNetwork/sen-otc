@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import IconSax from '@sentre/antd-iconsax'
@@ -9,7 +10,6 @@ import HistoryTable from './historyTable'
 import Portfolio from './portfolio'
 
 import configs from 'configs'
-import { useAction, usePartneredToken } from 'hooks/useFilter'
 
 const {
   otc: { partneredTokens },
@@ -17,8 +17,8 @@ const {
 
 const History = () => {
   const navigate = useNavigate()
-  const { action, setAction } = useAction()
-  const { partneredToken, setPartneredToken } = usePartneredToken()
+  const [action, setAction] = useState<OtcMode>('Buy')
+  const [partneredToken, setPartneredToken] = useState('All')
 
   return (
     <MaxWidthLayout>

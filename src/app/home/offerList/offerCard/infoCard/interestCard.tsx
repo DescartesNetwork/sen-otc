@@ -1,11 +1,12 @@
+import { useMemo } from 'react'
+
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd'
 import { numeric } from 'helpers/util'
 
-import { useAction } from 'hooks/useFilter'
 import { useOfferedPrice, useOrderPartneredToken } from 'hooks/useOrder'
 import { usePrice } from 'hooks/useToken'
-import { useMemo } from 'react'
+import { useAction } from 'providers/action.provider'
 
 export type InterestCardProps = { orderAddress: string }
 

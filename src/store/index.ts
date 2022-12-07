@@ -3,7 +3,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import { devTools, serializationMiddleware } from './devTools'
 
 import ui from './ui.reducer'
-import filter from './filter.reducer'
 import wallet from './wallet.reducer'
 import order from './order.reducer'
 import newOrder from './newOrder.reducer'
@@ -26,7 +25,6 @@ const store = configureStore({
   devTools: devTools('kylan'),
   reducer: {
     ui,
-    filter,
     wallet,
     order,
     newOrder,

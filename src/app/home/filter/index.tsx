@@ -1,18 +1,15 @@
 import { Badge, Button, Col, Row, Space } from 'antd'
-import Search from './search'
-import Sort from './sort'
 import BuySellFilter from 'components/filters/buySellFilter'
 import { TokenSelectionLite } from 'components/tokenSelect'
+import Search from './search'
+import Sort from './sort'
 import StatusFilter from './statusFilter'
 
 import configs from 'configs'
-import {
-  useAction,
-  useKeyword,
-  usePartneredToken,
-  usePaymentMethod,
-  useSort,
-} from 'hooks/useFilter'
+import { useAction } from 'providers/action.provider'
+import { useSymbol } from 'providers/symbol.provider'
+import { useSearch } from 'providers/search.provider'
+import { useSort } from 'providers/sort.provider'
 
 const {
   otc: { acceptedPayments, partneredTokens },
@@ -20,9 +17,9 @@ const {
 
 const Filter = () => {
   const { action, setAction } = useAction()
-  const { paymentMethod, setPaymentMethod } = usePaymentMethod()
-  const { partneredToken, setPartneredToken } = usePartneredToken()
-  const { keyword, setKeyword } = useKeyword()
+  const { paymentMethod, setPaymentMethod, partneredToken, setPartneredToken } =
+    useSymbol()
+  const { keyword, setKeyword } = useSearch()
   const { sort, setSort } = useSort()
 
   return (

@@ -6,7 +6,7 @@ import { AppState } from 'store'
 import { OrderState } from 'store/order.reducer'
 import { useMetadataByAddress } from './useToken'
 import { undecimalize } from 'helpers/util'
-import { filterByAction } from './useFilter'
+import { filterByAction } from 'providers/action.provider'
 
 /**
  * Get all orders/offers
