@@ -9,6 +9,7 @@ const SOCIALS = [
     title: 'Home',
     url: 'https://kylan.so',
     icon: <IconSax name="Home2" variant="Bold" />,
+    disabled: true,
   },
   {
     title: 'Twitter',
@@ -19,11 +20,13 @@ const SOCIALS = [
     title: 'Telegram',
     url: 'https://t.me/KylanHQ',
     icon: <IconSax name="Send2" variant="Bold" />,
+    disabled: true,
   },
   {
     title: 'Docs',
     url: 'https://docs.kylan.so',
     icon: <IconSax name="Book" variant="Bold" />,
+    disabled: true,
   },
   {
     title: 'SDK',
@@ -51,13 +54,14 @@ const Footer = () => {
         </Col>
         <Col span={24} style={{ textAlign: 'end' }}>
           <Space size={4} wrap={true} style={{ justifyContent: 'end' }}>
-            {SOCIALS.map(({ title, url, icon }) => (
+            {SOCIALS.map(({ title, url, icon, disabled }) => (
               <Button
                 key={title}
                 type="text"
                 size="small"
                 onClick={() => window.open(url, '_blank')}
                 icon={icon}
+                disabled={disabled}
               >
                 {title}
               </Button>
