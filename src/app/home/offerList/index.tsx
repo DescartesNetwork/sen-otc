@@ -1,10 +1,31 @@
 import { Col, Divider, Empty, Row } from 'antd'
 import OfferCard from './offerCard'
 
-import { useFilteredOrders } from 'hooks/useFilter'
+import { filterAction, useAction } from 'providers/action.provider'
+import { filterStatus, useStatus } from 'providers/status.provider'
+import {
+  filterPartneredToken,
+  filterPaymentMethod,
+  useSymbol,
+} from 'providers/symbol.provider'
+import { sortPrice, sortRecent, useSort } from 'providers/sort.provider'
+import { useOrderSelector } from 'hooks/useOrder'
 
 const OfferList = () => {
-  const orders = useFilteredOrders()
+  const { action } = useAction()
+  const { status } = useStatus()
+  const { paymentMethod, partneredToken } = useSymbol()
+  const { sort } = useSort()
+
+  const orders = useOrderSelector((orders) => {
+    orders = filterAction(action)(orders)
+    orders = filterStatus(status)(orders)
+    orders = filterPaymentMethod(action, paymentMethod)(orders)
+    orders = filterPartneredToken(action, partneredToken)(orders)
+    orders = sortPrice(action, sort)(orders)
+    orders = sortRecent(sort)(orders)
+    return orders
+  })
 
   return (
     <Row gutter={[24, 24]} justify="center">

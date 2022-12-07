@@ -41,7 +41,7 @@ export const useSort = () => {
 /**
  * Utility
  */
-export const sortByPrice = (action: OtcMode = 'Buy', sort?: SortedBy) => {
+export const sortPrice = (action: OtcMode = 'Buy', sort?: SortedBy) => {
   return (orders: OrderState) => {
     let filteredOrders: OrderState = {}
     const orderAddresses = Object.keys(orders).sort((i, j) => {
@@ -62,7 +62,7 @@ export const sortByPrice = (action: OtcMode = 'Buy', sort?: SortedBy) => {
     return filteredOrders
   }
 }
-export const sortByRecent = (sort?: SortedBy) => {
+export const sortRecent = (sort?: SortedBy) => {
   return (orders: OrderState) => {
     let filteredOrders: OrderState = {}
     const orderAddresses = Object.keys(orders).sort((i, j) => {

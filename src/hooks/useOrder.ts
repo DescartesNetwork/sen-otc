@@ -6,7 +6,7 @@ import { AppState } from 'store'
 import { OrderState } from 'store/order.reducer'
 import { useMetadataByAddress } from './useToken'
 import { undecimalize } from 'helpers/util'
-import { filterByAction } from 'providers/action.provider'
+import { filterAction } from 'providers/action.provider'
 
 /**
  * Get all orders/offers
@@ -31,7 +31,7 @@ export const useOrderSelector = <T>(selector: (orders: OrderState) => T): T => {
  * @returns
  */
 export const useBuyingOrders = () => {
-  const buyingOrders = useOrderSelector(filterByAction('Buy'))
+  const buyingOrders = useOrderSelector(filterAction('Buy'))
   return buyingOrders
 }
 
@@ -40,7 +40,7 @@ export const useBuyingOrders = () => {
  * @returns
  */
 export const useSellingOrders = () => {
-  const sellingOrders = useOrderSelector(filterByAction('Sell'))
+  const sellingOrders = useOrderSelector(filterAction('Sell'))
   return sellingOrders
 }
 

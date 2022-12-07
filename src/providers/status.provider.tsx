@@ -44,7 +44,7 @@ export const useStatus = () => {
 /**
  * Utility
  */
-export const filterByStatus = (action: OrderStatus = OrderStatus.All) => {
+export const filterStatus = (action: OrderStatus = OrderStatus.All) => {
   return (orders: OrderState) => {
     if (action === OrderStatus.All) return orders
     let filteredOrders: OrderState = {}

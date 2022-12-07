@@ -39,7 +39,7 @@ export const useAction = () => {
 /**
  * Utility
  */
-export const filterByAction = (action: OtcMode = 'Buy') => {
+export const filterAction = (action: OtcMode = 'Buy') => {
   const key = action === 'Buy' ? 'bToken' : 'aToken'
   return (orders: OrderState) => {
     let filteredOrders: OrderState = {}
