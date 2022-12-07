@@ -71,9 +71,9 @@ export const sortRecent = (sort?: SortedBy) => {
       const u = m.startDate
       const v = n.startDate
       if (sort === SortedBy.AscendingRecent) {
-        return u.gt(v) ? 1 : -1
-      } else if (sort === SortedBy.DescendingRecent) {
         return u.gt(v) ? -1 : 1
+      } else if (sort === SortedBy.DescendingRecent) {
+        return u.gt(v) ? 1 : -1
       } else {
         return 0
       }
