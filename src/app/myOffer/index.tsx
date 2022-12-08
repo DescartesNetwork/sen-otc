@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import IconSax from '@sentre/antd-iconsax'
 import { Button, Col, Row, Space, Typography } from 'antd'
 import MaxWidthLayout from 'components/maxWidthLayout'
-import MyOrdersTable from './myOrdersTable'
-import { ActionProvider } from 'providers/action.provider'
 import Filter from './filter'
+import OffersTable from './offersTable'
+
+import { ActionProvider } from 'providers/action.provider'
 import { StatusProvider } from 'providers/status.provider'
 import { SymbolProvider } from 'providers/symbol.provider'
 import { SortProvider } from 'providers/sort.provider'
@@ -36,7 +37,7 @@ const MyOffer = () => {
                   <Filter />
                 </Col>
                 <Col span={24}>
-                  <MyOrdersTable />
+                  <OffersTable />
                 </Col>
               </Row>
             </MaxWidthLayout>

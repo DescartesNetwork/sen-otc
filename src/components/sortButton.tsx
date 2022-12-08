@@ -1,10 +1,10 @@
 import { CSSProperties, useMemo } from 'react'
+import { SizeType } from 'antd/es/config-provider/SizeContext'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Button } from 'antd'
 
 import { SortedBy } from 'providers/sort.provider'
-import { SizeType } from 'antd/es/config-provider/SizeContext'
 
 export const parseDirection = (type: string, sort: SortedBy) => {
   if (!sort.endsWith(type)) return ''

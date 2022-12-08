@@ -14,8 +14,8 @@ const BuySellFilter = ({
       size="large"
       options={['Buy', 'Sell']}
       value={value}
-      style={{ padding: 6 }}
-      onChange={(e: any) => onChange(e)}
+      style={{ padding: 2 }}
+      onChange={(e: any) => onChange(e as OtcMode)}
     />
   )
 }

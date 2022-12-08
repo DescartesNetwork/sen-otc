@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import {
   ConfirmedSignatureInfo,
   ParsedTransactionWithMeta,
@@ -16,6 +17,7 @@ import { updateTransaction } from 'store/transaction.reducer'
 const TransactionWatcher = () => {
   const dispatch = useDispatch<AppDispatch>()
   const connection = useConnection()
+  const { pathname } = useLocation()
 
   const fetchData = useCallback(async () => {
     const oneDayAgo = Math.floor(Date.now() / 1000) - 365 * 24 * 60 * 60
@@ -28,7 +30,7 @@ const TransactionWatcher = () => {
           { before, limit },
         )
       ).filter((tx) => (tx.blockTime || 0) >= oneDayAgo)
-      // Aync updates
+      // Async updates
       try {
         const txIds = txs.map(({ signature }) => signature)
         const data = await connection.getParsedTransactions(txIds)
@@ -47,8 +49,8 @@ const TransactionWatcher = () => {
   }, [dispatch, connection])
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    if (pathname.startsWith('/home')) fetchData()
+  }, [pathname, fetchData])
 
   return null
 }

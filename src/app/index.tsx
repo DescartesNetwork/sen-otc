@@ -54,7 +54,14 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/history" element={<History />} />
+            <Route
+              path="/history"
+              element={
+                <ProtectedRoute>
+                  <History />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
         </Col>

@@ -8,6 +8,7 @@ import order from './order.reducer'
 import takeOrder from './takeOrder.reducer'
 import transaction from './transaction.reducer'
 import stat from './stat.reducer'
+import history from './history.reducer'
 
 /**
  * Root types
@@ -29,6 +30,7 @@ const store = configureStore({
     takeOrder,
     transaction,
     stat,
+    history,
   },
 })
 

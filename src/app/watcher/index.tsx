@@ -5,6 +5,7 @@ import UIWatcher from './ui.watcher'
 import WalletWatcher from './wallet.watcher'
 import TransactionWatcher from './transaction.watcher'
 import StatWatcher from './stat.watcher'
+import HistoryWatcher from './history.watcher'
 
 const Watcher = () => {
   return (
@@ -14,6 +15,7 @@ const Watcher = () => {
       <OrderWatcher />
       <TransactionWatcher />
       <StatWatcher />
+      <HistoryWatcher />
     </Fragment>
   )
 }
