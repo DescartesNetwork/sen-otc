@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -13,7 +13,11 @@ import { isAddress } from '@sentre/otc'
 
 const {
   sol: { connection },
+  otc: { acceptedPayments, partneredTokens },
 } = configs
+const TOKENS = [...acceptedPayments, ...partneredTokens].map(
+  ({ address }) => new PublicKey(address),
+)
 
 /**
  * Get sol balance
@@ -95,4 +99,32 @@ export const useBalance = (mintAddress: string) => {
   )
 
   return { amount, transfer }
+}
+
+/**
+ * Derive a mapping from token accounts to mints
+ * @returns
+ */
+export const useTokenAccountMappingMint = () => {
+  const { publicKey: owner } = useWallet()
+  const [mapping, setMapping] = useState<Record<string, string>>({})
+
+  const derive = useCallback(async () => {
+    if (!owner) return setMapping({})
+    const tokenAccounts = await Promise.all(
+      TOKENS.map((mint) => utils.token.associatedAddress({ mint, owner })),
+    )
+    let mapping: Record<string, string> = {}
+    tokenAccounts.map(
+      (tokenAccount, i) =>
+        (mapping[tokenAccount.toBase58()] = TOKENS[i].toBase58()),
+    )
+    return setMapping(mapping)
+  }, [owner])
+
+  useEffect(() => {
+    derive()
+  }, [derive])
+
+  return mapping
 }

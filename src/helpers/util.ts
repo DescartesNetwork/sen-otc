@@ -73,11 +73,17 @@ export const explorer = (addressOrTxId: string): string => {
  * @returns
  */
 export const undecimalize = (amount: BN, decimals: number): number => {
+  if (decimals < 0) throw new Error('Not accept a negative decimals')
+  let sign = '+'
+  if (amount.lt(new BN(0))) {
+    sign = '-'
+    amount = amount.mul(new BN(-1))
+  }
   const e = new BN(10 ** decimals)
   const natural = amount.div(e).toString()
   let residue = amount.sub(amount.div(e).mul(e)).toString()
   while (residue.length < decimals) residue = '0' + residue
-  return parseFloat(`${natural}.${residue}`)
+  return parseFloat(`${sign}${natural}.${residue}`)
 }
 
 /**

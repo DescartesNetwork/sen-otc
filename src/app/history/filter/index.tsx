@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
 
 import { Col, Row, Space, Typography } from 'antd'
-import BuySellFilter from 'components/filters/buySellFilter'
 import SortButton from 'components/sortButton'
 import { TokenSelectionLite } from 'components/tokenSelect'
 
 import configs from 'configs'
-import { useAction } from 'providers/action.provider'
 import { SortedBy, useSort } from 'providers/sort.provider'
 import { useSymbol } from 'providers/symbol.provider'
 
@@ -15,7 +13,6 @@ const {
 } = configs
 
 const Filter = () => {
-  const { action, setAction } = useAction()
   const { partneredToken, setPartneredToken } = useSymbol()
   const { sort, setSort } = useSort()
 
@@ -25,12 +22,6 @@ const Filter = () => {
 
   return (
     <Row gutter={[12, 12]} align="top">
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Action</Typography.Text>
-          <BuySellFilter value={action} onChange={setAction} />
-        </Space>
-      </Col>
       <Col>
         <Space direction="vertical">
           <Typography.Text type="secondary">Token</Typography.Text>

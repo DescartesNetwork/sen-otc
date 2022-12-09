@@ -11,7 +11,7 @@ import { Datetime } from 'components/table/datetime'
 import { OfferedPrice } from 'components/table/price'
 import { Status } from 'components/table/status'
 
-const OfferColumns: ColumnsType<OrderData & { key: string }> = [
+const OfferColumn: ColumnsType<OrderData & { key: string }> = [
   {
     title: <Title title="ADDRESS" />,
     dataIndex: 'key',
@@ -63,4 +63,4 @@ const OfferColumns: ColumnsType<OrderData & { key: string }> = [
   },
 ]
 
-export default OfferColumns
+export default OfferColumn

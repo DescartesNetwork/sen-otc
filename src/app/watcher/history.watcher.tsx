@@ -1,3 +1,4 @@
+import { decode } from 'bs58'
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
@@ -12,6 +13,14 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { AppDispatch } from 'store'
 import { useConnection } from 'hooks/useProvider'
 import { updateHistory } from 'store/history.reducer'
+
+const isTakeOrder = (data: string) => {
+  const discriminator = [163, 208, 20, 172, 223, 65, 255, 228]
+  const bytescode = decode(data)
+  for (let i = 0; i < 8; i++)
+    if (bytescode[i] !== discriminator[i]) return false
+  return true
+}
 
 const getAllConfirmedSignaturesForAddress = async (
   address: PublicKey,
@@ -67,9 +76,15 @@ const HistoryWatcher = () => {
     const txIds = allMyTxIds.filter((txId) => allOtcTxIds.includes(txId))
     const parsedTxs = await getAllParsedTransactions(txIds, connection)
     const payload: Record<string, ParsedTransactionWithMeta> = {}
-    parsedTxs.forEach(
-      (parsedTx) => (payload[parsedTx.transaction.signatures[0]] = parsedTx),
-    )
+    parsedTxs.forEach((parsedTx) => {
+      const {
+        signatures: [txId],
+        message: {
+          instructions: [ix],
+        },
+      } = parsedTx.transaction
+      if ('data' in ix && isTakeOrder(ix.data)) payload[txId] = parsedTx
+    })
     return dispatch(updateHistory(payload))
   }, [dispatch, connection, publicKey])
 

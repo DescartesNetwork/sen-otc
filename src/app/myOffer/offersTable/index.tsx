@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Table } from 'antd'
-import OfferColumns from './offerColumn'
+import OfferColumn from './offerColumn'
 import OfferAction from './offerAction'
 
 import { useOrderSelector } from 'hooks/useOrder'
@@ -37,7 +37,7 @@ const OffersTable = () => {
 
   return (
     <Table
-      columns={OfferColumns}
+      columns={OfferColumn}
       dataSource={Object.keys(orders).map((address) => ({
         key: address,
         ...orders[address],

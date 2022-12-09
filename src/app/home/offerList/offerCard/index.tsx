@@ -17,6 +17,7 @@ import {
 import { useWidth } from 'hooks/useUi'
 import { Infix } from 'store/ui.reducer'
 import { useAction } from 'providers/action.provider'
+import { MintAvatar } from 'components/mint'
 
 export type OfferCardProps = {
   orderAddress: string
@@ -49,7 +50,7 @@ const OfferCard = ({ orderAddress }: OfferCardProps) => {
         <Space direction="vertical">
           <Typography.Text type="secondary">Offer Price</Typography.Text>
           <Space>
-            <Avatar src={paymentMethod?.url} size={40} />
+            <MintAvatar mintAddress={paymentMethod?.address} />
             <Space direction="vertical" size={0}>
               <Typography.Title level={4}>
                 {numeric(offeredPrice).format('0,0.[000000]')}
