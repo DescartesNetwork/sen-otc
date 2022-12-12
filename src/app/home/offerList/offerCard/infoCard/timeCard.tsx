@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
+import { OrderStates } from '@sentre/otc'
+import isEqual from 'react-fast-compare'
 
 import { Card, Col, Progress, Row, Space, Typography } from 'antd'
 import {
@@ -11,14 +13,13 @@ import {
 
 import { useCountdown } from 'hooks/useCountdown'
 import { useOrderSelector } from 'hooks/useOrder'
-import isEqual from 'react-fast-compare'
-import { OrderStates } from '@sentre/otc'
+import { OrderState } from 'store/order.reducer'
 
 export type TimeCardProps = { orderAddress: string }
 
 const TimeCard = ({ orderAddress }: TimeCardProps) => {
   const { state, startDate, endDate } = useOrderSelector(
-    (orders) => orders[orderAddress],
+    (orders: OrderState) => orders[orderAddress],
   )
 
   const startIn = useMemo(

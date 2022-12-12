@@ -10,13 +10,14 @@ import { useBalance } from './useWallet'
 import { useOrderSelector } from './useOrder'
 import { useRouteParam } from './useParam'
 import { useMetadataByAddress } from './useToken'
+import { OrderState } from 'store/order.reducer'
 
 /**
  * Get order data by order address which is parsed from the query param
  */
 export const useCurrentOrder = (): OrderData | undefined => {
   const orderAddress = useRouteParam('orderAddress') || ''
-  const order = useOrderSelector((orders) => orders[orderAddress])
+  const order = useOrderSelector((orders: OrderState) => orders[orderAddress])
   return order
 }
 

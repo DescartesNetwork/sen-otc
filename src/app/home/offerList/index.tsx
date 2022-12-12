@@ -10,14 +10,14 @@ import {
 } from 'providers/symbol.provider'
 import { sortPrice, sortRecent, useSort } from 'providers/sort.provider'
 import { useOrderSelector } from 'hooks/useOrder'
+import { OrderState } from 'store/order.reducer'
 
 const OfferList = () => {
   const { action } = useAction()
   const { status } = useStatus()
   const { paymentMethod, partneredToken } = useSymbol()
   const { sort } = useSort()
-
-  const orders = useOrderSelector((orders) => {
+  const orders = useOrderSelector((orders: OrderState) => {
     orders = filterAction(action)(orders)
     orders = filterStatus(status)(orders)
     orders = filterPaymentMethod(action, paymentMethod)(orders)

@@ -23,7 +23,6 @@ export const switchNetwork = (value: Net) => {
   const { origin, pathname, search } = window.location
   const params = new URLSearchParams(search)
   params.delete('network')
-  console.log(origin, pathname, params.toString())
   if (!params.toString()) window.location.href = `${origin}${pathname}`
   else window.location.href = `${origin}${pathname}?${params.toString()}`
 }

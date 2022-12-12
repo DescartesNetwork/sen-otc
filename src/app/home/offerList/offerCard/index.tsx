@@ -5,6 +5,7 @@ import { OrderStates } from '@sentre/otc'
 
 import IconSax from '@sentre/antd-iconsax'
 import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
+import { MintAvatar } from 'components/mint'
 import InfoCard from './infoCard'
 
 import { explorer, numeric, shortenAddress } from 'helpers/util'
@@ -17,7 +18,7 @@ import {
 import { useWidth } from 'hooks/useUi'
 import { Infix } from 'store/ui.reducer'
 import { useAction } from 'providers/action.provider'
-import { MintAvatar } from 'components/mint'
+import { OrderState } from 'store/order.reducer'
 
 export type OfferCardProps = {
   orderAddress: string
@@ -31,7 +32,7 @@ const OfferCard = ({ orderAddress }: OfferCardProps) => {
   const paymentMethod = useOrderPaymentMethod(orderAddress)
   const partneredToken = useOrderPartneredToken(orderAddress)
   const { endDate, state } =
-    useOrderSelector((orders) => orders[orderAddress]) || {}
+    useOrderSelector((orders: OrderState) => orders[orderAddress]) || {}
 
   const inactive = useMemo(() => {
     if (!endDate || !state) return true

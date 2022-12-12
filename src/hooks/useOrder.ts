@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useWallet } from '@solana/wallet-adapter-react'
+import isEqual from 'react-fast-compare'
 
 import { AppState } from 'store'
 import { OrderState } from 'store/order.reducer'
@@ -13,7 +14,7 @@ import { filterAction } from 'providers/action.provider'
  * @returns
  */
 export const useOrders = () => {
-  const orders = useSelector(({ order }: AppState) => order)
+  const orders = useSelector(({ order }: AppState) => order, isEqual)
   return orders
 }
 
@@ -22,7 +23,7 @@ export const useOrders = () => {
  * @returns
  */
 export const useOrderSelector = <T>(selector: (orders: OrderState) => T): T => {
-  const orders = useSelector(({ order }: AppState) => selector(order))
+  const orders = useSelector(({ order }: AppState) => selector(order), isEqual)
   return orders
 }
 
@@ -64,7 +65,7 @@ export const useOrderMode = (orderAddress: string): OtcMode | undefined => {
 export const useOrderPaymentMethod = (orderAddress: string) => {
   const mode = useOrderMode(orderAddress)
   const { aToken, bToken } =
-    useOrderSelector((orders) => orders[orderAddress]) || {}
+    useOrderSelector((orders: OrderState) => orders[orderAddress]) || {}
   const paymentMethodAddress = useMemo(() => {
     if (!aToken || !bToken || !mode) return ''
     if (mode === 'Buy') return bToken.toBase58()
@@ -83,7 +84,7 @@ export const useOrderPaymentMethod = (orderAddress: string) => {
 export const useOrderPartneredToken = (orderAddress: string) => {
   const mode = useOrderMode(orderAddress)
   const { aToken, bToken } =
-    useOrderSelector((orders) => orders[orderAddress]) || {}
+    useOrderSelector((orders: OrderState) => orders[orderAddress]) || {}
   const partneredTokenAddress = useMemo(() => {
     if (!aToken || !bToken || !mode) return ''
     if (mode === 'Buy') return aToken.toBase58()
@@ -101,9 +102,10 @@ export const useOrderPartneredToken = (orderAddress: string) => {
  */
 export const useOfferedPrice = (orderAddress: string) => {
   const mode = useOrderMode(orderAddress)
-  const { a, b } = useOrderSelector((orders) => orders[orderAddress]) || {}
+  const { a, b } =
+    useOrderSelector((orders: OrderState) => orders[orderAddress]) || {}
 
-  const paymentMethod = useOrderPartneredToken(orderAddress)
+  const paymentMethod = useOrderPaymentMethod(orderAddress)
   const partneredToken = useOrderPartneredToken(orderAddress)
 
   const [paymentMethodAmount, partneredTokenAmount] = useMemo(() => {
@@ -134,7 +136,7 @@ export const useOfferedPrice = (orderAddress: string) => {
  */
 export const useMyOrders = () => {
   const { publicKey } = useWallet()
-  const orders = useOrderSelector((orders) =>
+  const orders = useOrderSelector((orders: OrderState) =>
     Object.keys(orders)
       .filter(
         (address) => publicKey && publicKey.equals(orders[address].authority),

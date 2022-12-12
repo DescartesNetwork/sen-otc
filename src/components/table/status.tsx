@@ -9,6 +9,7 @@ import {
 } from 'components/offerTag'
 
 import { useOrderSelector } from 'hooks/useOrder'
+import { OrderState } from 'store/order.reducer'
 
 export type StatusProps = {
   orderAddress: string
@@ -16,7 +17,7 @@ export type StatusProps = {
 
 export const Status = ({ orderAddress }: StatusProps) => {
   const { startDate, endDate, state } = useOrderSelector(
-    (orders) => orders[orderAddress],
+    (orders: OrderState) => orders[orderAddress],
   )
   const current = Date.now()
   const start = startDate.toNumber() * 1000

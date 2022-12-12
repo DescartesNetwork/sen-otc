@@ -5,6 +5,7 @@ import { Avatar, Card, Col, Row, Space, Typography } from 'antd'
 import { explorer, numeric, undecimalize } from 'helpers/util'
 import { useOrderSelector } from 'hooks/useOrder'
 import { useMetadataByAddress } from 'hooks/useToken'
+import { OrderState } from 'store/order.reducer'
 
 export type BalanceCardProps = {
   orderAddress: string
@@ -12,7 +13,7 @@ export type BalanceCardProps = {
 
 const BalanceCard = ({ orderAddress }: BalanceCardProps) => {
   const { aToken, remainingAmount } = useOrderSelector(
-    (orders) => orders[orderAddress],
+    (orders: OrderState) => orders[orderAddress],
   )
   const { url, symbol, decimals } =
     useMetadataByAddress(aToken.toBase58()) || {}

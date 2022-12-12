@@ -6,6 +6,7 @@ import OfferAction from './offerAction'
 
 import { useOrderSelector } from 'hooks/useOrder'
 import { Infix } from 'store/ui.reducer'
+import { OrderState as ReduxOrderState } from 'store/order.reducer'
 import { filterAction, useAction } from 'providers/action.provider'
 import { filterStatus, useStatus } from 'providers/status.provider'
 import {
@@ -16,12 +17,12 @@ import {
 import { sortRecent, useSort } from 'providers/sort.provider'
 
 const OffersTable = () => {
-  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>()
   const { action } = useAction()
   const { status } = useStatus()
   const { paymentMethod, partneredToken } = useSymbol()
   const { sort } = useSort()
-  const orders = useOrderSelector((orders) => {
+  const orders = useOrderSelector((orders: ReduxOrderState) => {
     orders = filterAction(action)(orders)
     orders = filterStatus(status)(orders)
     orders = filterPaymentMethod(action, paymentMethod)(orders)

@@ -2,6 +2,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { ParsedInstruction } from '@solana/web3.js'
 import BN from 'bn.js'
 import { useMemo } from 'react'
+import isEqual from 'react-fast-compare'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'store'
@@ -13,7 +14,7 @@ import { useTokenAccountMappingMint } from './useWallet'
  * @returns
  */
 export const useHistory = () => {
-  const history = useSelector(({ history }: AppState) => history)
+  const history = useSelector(({ history }: AppState) => history, isEqual)
   return history
 }
 
@@ -25,7 +26,10 @@ export const useHistory = () => {
 export const useHistorySelector = <T>(
   selector: (orders: HistoryState) => T,
 ): T => {
-  const history = useSelector(({ history }: AppState) => selector(history))
+  const history = useSelector(
+    ({ history }: AppState) => selector(history),
+    isEqual,
+  )
   return history
 }
 

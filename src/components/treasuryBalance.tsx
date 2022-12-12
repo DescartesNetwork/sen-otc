@@ -5,6 +5,7 @@ import { Typography } from 'antd'
 import { undecimalize, numeric } from 'helpers/util'
 import { useMetadataByAddress } from 'hooks/useToken'
 import { useOrderSelector } from 'hooks/useOrder'
+import { OrderState } from 'store/order.reducer'
 
 export type TreasuryBalanceProps = {
   type: 'a' | 'b'
@@ -20,7 +21,7 @@ const TreasuryBalance = ({
   const {
     remainingAmount,
     [`${type}Token` as 'aToken' | 'bToken']: publicKey,
-  } = useOrderSelector((orders) => orders[orderAddress]) || {}
+  } = useOrderSelector((orders: OrderState) => orders[orderAddress]) || {}
   const address = useMemo(() => publicKey?.toBase58() || '', [publicKey])
   const { symbol, decimals } = useMetadataByAddress(address) || {}
 

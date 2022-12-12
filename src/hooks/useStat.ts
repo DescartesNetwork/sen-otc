@@ -1,9 +1,10 @@
+import isEqual from 'react-fast-compare'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'store'
 
 export const useTransactions = () => {
-  const txs = useSelector(({ transaction }: AppState) => transaction)
+  const txs = useSelector(({ transaction }: AppState) => transaction, isEqual)
   return txs
 }
 
