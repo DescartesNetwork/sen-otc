@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Col, Layout, Row } from 'antd'
@@ -11,9 +12,24 @@ import MyOffer from './myOffer'
 import History from './history'
 import TakeOffer from './takeOffer'
 
+import { useQueryParam } from 'hooks/useParam'
+import { Net, net, switchNetwork } from 'configs/net'
+
 import './index.css'
 
 const App = () => {
+  const network = useQueryParam<Net>('network')
+
+  useEffect(() => {
+    if (
+      network &&
+      ['devnet', 'testnet', 'mainnet'].includes(network) &&
+      net !== network
+    ) {
+      switchNetwork(network)
+    }
+  }, [network])
+
   return (
     <Layout className="layout">
       <Row gutter={[24, 64]}>

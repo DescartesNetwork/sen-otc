@@ -5,11 +5,11 @@ import { useLocation, useParams } from 'react-router-dom'
  * @param key
  * @returns
  */
-export const useQueryParam = (key: string) => {
+export const useQueryParam = <T extends string>(key: string) => {
   const { search } = useLocation()
   const params = new URLSearchParams(search)
   const value = params.get(key)
-  return value
+  return value as T
 }
 
 /**
