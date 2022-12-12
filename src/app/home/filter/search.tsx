@@ -59,6 +59,7 @@ const Search = ({ keyword = '', onKeyword = () => {} }: SearchProps) => {
       }
       value={value}
       onChange={onChange}
+      disabled
     />
   )
 }

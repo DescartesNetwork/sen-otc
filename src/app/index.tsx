@@ -25,9 +25,8 @@ const App = () => {
       network &&
       ['devnet', 'testnet', 'mainnet'].includes(network) &&
       net !== network
-    ) {
+    )
       switchNetwork(network)
-    }
   }, [network])
 
   return (
