@@ -8,10 +8,11 @@ import Network from './network'
 import { useLamports } from 'hooks/useWallet'
 import { numeric, explorer } from 'helpers/util'
 import { usePrice, use24hChange } from 'hooks/useToken'
+import Send from './send'
 
 const Balance = () => {
   const { publicKey } = useWallet()
-  const [lamports] = useLamports()
+  const { lamports } = useLamports()
   const { price, refresh: refreshPrice } = usePrice('solana')
   const { change, refresh: refreshChange } = use24hChange('solana')
 
@@ -43,14 +44,7 @@ const Balance = () => {
             </Tooltip>
           </Col>
           <Col>
-            <Tooltip title="Send SOL">
-              <Button
-                type="text"
-                size="small"
-                icon={<IconSax name="Send" />}
-                disabled={!publicKey}
-              />
-            </Tooltip>
+            <Send />
           </Col>
           <Col>
             <Tooltip title="Refresh">

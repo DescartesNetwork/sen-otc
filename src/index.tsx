@@ -9,6 +9,7 @@ import {
   Coin98WalletAdapter,
   PhantomWalletAdapter,
 } from '@solana/wallet-adapter-wallets'
+import { DesigWalletAdapter } from './desig.adapter'
 import dayjs from 'dayjs'
 import durationPlugin from 'dayjs/plugin/duration'
 
@@ -34,7 +35,11 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <ConfigProvider theme={theme}>
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider
-            wallets={[new PhantomWalletAdapter(), new Coin98WalletAdapter()]}
+            wallets={[
+              new PhantomWalletAdapter(),
+              new Coin98WalletAdapter(),
+              new DesigWalletAdapter(),
+            ]}
             autoConnect
           >
             <WalletModalProvider>

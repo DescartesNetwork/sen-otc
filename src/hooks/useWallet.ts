@@ -44,16 +44,17 @@ export const useLamports = () => {
       const signature = await sendTransaction(tx, connection, {
         minContextSlot,
       })
-      return connection.confirmTransaction({
+      await connection.confirmTransaction({
         blockhash,
         lastValidBlockHeight,
         signature,
       })
+      return signature
     },
     [fromPubkey, sendTransaction],
   )
 
-  return [lamports, transfer] as [typeof lamports, typeof transfer]
+  return { lamports, transfer }
 }
 
 /**
